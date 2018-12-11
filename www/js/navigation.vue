@@ -1,7 +1,7 @@
 <template>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" id="nav">
         <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
+            <div  class="mdl-layout__header-row">
                 <span class="mdl-layout-title">{{currentPage}}</span>
                 <div class="mdl-layout-spacer"></div>
                 <nav class="mdl-navigation"></nav>
@@ -29,7 +29,7 @@
 
   export default {
       props: [
-          'currentPage'
+          'currentPage',
       ],
       methods: {
         deleteAccount: function() {

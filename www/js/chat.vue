@@ -28,7 +28,6 @@
 
 <script>
   import _ from 'underscore';
-  import back from './back.vue';
   import message from './message.vue';
   import firebase from 'firebase';
 
@@ -77,7 +76,6 @@
     },
     components: {
       message,
-      back
     },
     data: function() {
       return {

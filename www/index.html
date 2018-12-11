@@ -15,14 +15,20 @@
 
 <body>
     <div id="vue-app">
+                <back-header
+					v-bind:current-page="this.currentPage"
+					v-show="this.backNav"
+                >
+                </back-header>
 				<navigation
 					v-bind:current-page="this.currentPage"
+					v-show="!this.backNav"
 				></navigation>
         <div class="app">
             <router-view></router-view>
         </div>
     </div>
-    <script type="text/javascript" src="dist/index.js"></script>s
+    <script type="text/javascript" src="dist/index.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
     </script>

@@ -31,22 +31,16 @@
         v-bind:message="this.error.message"
       ></errorBox>
     </div>
-    <back 
-      v-bind:to="'/signin'"
-      v-bind:icon="'forward'"
-    ></back>
   </div>
 </template>
 
 <script>
   import _ from 'underscore';
   import firebase from 'firebase';
-  import back from './back.vue';
   import errorBox from './error-box.vue';
 
   export default {
     components: {
-      back,
       errorBox
     },
     methods: {

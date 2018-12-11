@@ -3,12 +3,14 @@ import VueRouter from 'vue-router';
 import firebase from 'firebase';
 
 import Navigation from './navigation.vue';
+import BackHeader from './backHeader.vue';
 import Home from './home.vue';
 import Signin from './signin.vue';
 import Signup from './signup.vue';
 import Feed from './feed.vue';
+import Create from './create.vue';
 import Chat from './chat.vue';
-import Back from './back.vue';
+import Fab from './fab.vue';
 
 import navigationElem from './navigationElements.js'
 
@@ -18,6 +20,7 @@ const routes = [
   { path: '/signin', component: Signin },
   { path: '/signup', component: Signup },
   { path: '/feed', component: Feed, meta: { requiresAuth: true } },
+  { path: '/create', component: Create, meta: { requiresAuth: true } },
   { path: '/chat', component: Chat, meta: { requiresAuth: true } },
   { path: '*', redirect: '/signin' }
 ]
@@ -72,23 +75,29 @@ const app = new Vue({
       Signin,
       Signup,
       Feed,
+      Create,
       Chat,
       Navigation,
-      Back,
+      BackHeader,
+      Fab,
     },
     methods: {
       updateCurrentPage: function(page) {
-        this.currentPage = page;
+        console.log(page)
+        this.currentPage = page.label;
+        this.backNav = page.backNav ? true : false;
+        console.log(this.backNav)
       }
     },
     data: function() {
       return {
-        currentPage: 'Sign In'
+        currentPage: 'Sign In',
+        backNav: false
       }
     }
 }).$mount('#vue-app')
 
 router.afterEach((to, from, next) => {
   navigationElem.filter(el => el.url == to.fullPath);
-  app.updateCurrentPage(navigationElem.filter(el => el.url == to.fullPath)[0].label)
+  app.updateCurrentPage(navigationElem.filter(el => el.url == to.fullPath)[0])
 })

@@ -18,6 +18,13 @@ export default [
     auth: true
   },
   {
+    label: 'Create',
+    icon: 'add',
+    url: '/create',
+    auth: true,
+    backNav: true
+  },
+  {
     label: 'Chat',
     icon: 'home',
     url: '/chat',
