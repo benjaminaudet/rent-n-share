@@ -11,7 +11,6 @@
         ></message>
         <p
           v-for="message in messages">
-          {{message.message}} a été envoyé par {{message.name}}
         </p>
       </ul>
       <form action="#">
