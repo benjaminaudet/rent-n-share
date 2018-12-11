@@ -117,6 +117,23 @@ div.button {
     color:white !important;
 }
 
+.demo-card-wide.mdl-card {
+  width: 512px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: center / cover;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+.mdl-card__supporting-text {
+    text-align: left;
+    width: 300px;
+}
+
 .actions {
     margin-right: -110px;
 }
@@ -131,9 +148,9 @@ div.button {
     transform: translate(-50%, 0);
     overflow-y: scroll; /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch;
-    height: 300px;       /* Just for the demo          */
+    height: 500px;       /* Just for the demo          */
     overflow-y: auto;    /* Trigger vertical scroll    */
-    overflow-x: auto;  /* Hide the horizontal scroll */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
 }
 
 .mdl-list__item--three-line .mdl-list__item-text-body,
