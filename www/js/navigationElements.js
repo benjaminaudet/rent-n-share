@@ -12,6 +12,12 @@ export default [
     auth: false
   },
   {
+    label: 'Feed',
+    icon: 'feed',
+    url: '/feed',
+    auth: true
+  },
+  {
     label: 'Chat',
     icon: 'home',
     url: '/chat',

@@ -6,6 +6,7 @@ import Navigation from './navigation.vue';
 import Home from './home.vue';
 import Signin from './signin.vue';
 import Signup from './signup.vue';
+import Feed from './feed.vue';
 import Chat from './chat.vue';
 import Back from './back.vue';
 
@@ -16,6 +17,7 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/signin', component: Signin },
   { path: '/signup', component: Signup },
+  { path: '/feed', component: Feed, meta: { requiresAuth: true } },
   { path: '/chat', component: Chat, meta: { requiresAuth: true } },
   { path: '*', redirect: '/signin' }
 ]
@@ -50,7 +52,7 @@ firestore.settings(settings);
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    router.push('chat');
+    router.push('feed');
   } else {
     router.push('signin');
   }
@@ -69,6 +71,7 @@ const app = new Vue({
       Home,
       Signin,
       Signup,
+      Feed,
       Chat,
       Navigation,
       Back,
