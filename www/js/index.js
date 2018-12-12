@@ -83,10 +83,8 @@ const app = new Vue({
     },
     methods: {
       updateCurrentPage: function(page) {
-        console.log(page)
         this.currentPage = page.label;
         this.backNav = page.backNav ? true : false;
-        console.log(this.backNav)
       }
     },
     data: function() {
