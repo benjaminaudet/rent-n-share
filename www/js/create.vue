@@ -30,11 +30,11 @@
           </div>
           <div class="mdl-textfield mdl-js-textfield">
             <span class="input-label">Meeting location</span>
-            <input class="mdl-textfield__input" type="text" v-model="location" id="location">
+            <input class="mdl-textfield__input" type="text" v-model="meetingLocation" id="location">
           </div>
         </form>
         <div class="button">
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          <button v-on:click="postAnnounce" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
             Post
           </button>
         </div>
@@ -81,7 +81,27 @@
           }, this); 
           FR.readAsDataURL(files[0]);
         }
-        
+      },
+      postAnnounce: function() {
+        const db = firebase.firestore();
+        db.collection('announces').add({
+          author: firebase.auth().currentUser.email,
+          cover: this.cover,
+          created_at: new Date(),
+          description: this.description,
+          from: this.fromDate,
+          meetingLocation: this.meetingLocation,
+          price: this.price,
+          title: this.title,
+          to: this.toDate,
+        })
+        .then(_.bind(function() {
+          console.log('message sent')
+          this.$router.go(-1);
+        }, this))
+        .catch(function(error) {
+          console.error(error)
+        })
       }
     },
     computed: {
@@ -128,7 +148,7 @@
         cover: '',
         toDate: new Date(),
         price: '',
-        location: '',
+        meetingLocation: '',
 
       }
     }
