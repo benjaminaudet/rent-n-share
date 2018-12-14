@@ -12,6 +12,26 @@ export default [
     auth: false
   },
   {
+    label: 'Onboarding',
+    icon: 'onboarding',
+    url: '/onboarding',
+    auth: false,
+    nav: 'none'
+  },
+  {
+    label: 'Feed',
+    icon: 'feed',
+    url: '/feed',
+    auth: true
+  },
+  {
+    label: 'Create',
+    icon: 'add',
+    url: '/create',
+    auth: true,
+    nav: 'back'
+  },
+  {
     label: 'Chat',
     icon: 'home',
     url: '/chat',

@@ -9,6 +9,9 @@
           v-bind:message="message.message"
           v-bind:id="message.id"
         ></message>
+        <p
+          v-for="message in messages">
+        </p>
       </ul>
       <form action="#">
         <div class="mdl-textfield mdl-js-textfield">
@@ -25,7 +28,6 @@
 
 <script>
   import _ from 'underscore';
-  import back from './back.vue';
   import message from './message.vue';
   import firebase from 'firebase';
 
@@ -74,7 +76,6 @@
     },
     components: {
       message,
-      back
     },
     data: function() {
       return {

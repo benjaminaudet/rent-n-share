@@ -34,6 +34,111 @@ body {
     width:100%;
 }
 
+#onboarding {
+    color:white;
+    margin-top: -80px;
+}
+
+#already-signed-up {
+    margin-top: 20px;
+}
+
+#already-signed-up a {
+    color:white;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+#swipe {
+    width: 200px;
+    height: 200px;
+    margin-top: 120px;
+}
+
+#swipe:before {
+    content: "";
+    background: #fff;
+    height: 1px;
+    width: 70px;
+    margin-top: -13px;
+    transform: rotate(45deg);
+    margin-left: -17px;
+    position: absolute;
+    border-radius: 4px;
+}
+
+#swipe::after {
+    content: "";
+    background: #fff;
+    height: 1px;
+    width: 70px;
+    margin-top: 36px;
+    transform: rotate(-45deg);
+    margin-left: -17px;
+    position: absolute;
+    border-radius: 4px;
+}
+
+#state {
+    position: fixed;
+    bottom: 3%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.ball {
+    border-radius: 100%;
+    background: #000;
+    opacity: 0.5;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.ball.current {
+    opacity: 1;
+}
+
+#onboarding p {
+    font-size: 20px;
+    letter-spacing: 0;
+    margin: 0 0 16px;
+    margin-top: 60px;
+    line-height: 21pt;
+    width: 360px;
+    text-align: center;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#onboarding h1 {
+    font-weight: bold;
+    font-family: 'Roboto Slab', serif;
+}
+
+.small {
+    font-weight: normal !important;
+}
+
+.input-label {
+    float: left;
+    margin-bottom: 5px;
+}
+
+#create img {
+    max-width: 250px;
+    max-height: 340px;
+}
+
+.mdl-textfield__input {
+    border-bottom: 1px solid rgb(255, 152, 0);
+}
+
+.mdl-layout__header {
+    color: #fff;
+}
+
 h1 {
     font-size: 34px;
 }
@@ -61,7 +166,8 @@ div.button {
     margin-bottom: 5px;
 }
     
-#back {
+#fab {
+    color: #fff;
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -117,6 +223,23 @@ div.button {
     color:white !important;
 }
 
+.demo-card-wide.mdl-card {
+  width: 512px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: center / cover;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+.mdl-card__supporting-text {
+    text-align: left;
+    width: 300px;
+}
+
 .actions {
     margin-right: -110px;
 }
@@ -131,9 +254,9 @@ div.button {
     transform: translate(-50%, 0);
     overflow-y: scroll; /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch;
-    height: 300px;       /* Just for the demo          */
+    height: 500px;       /* Just for the demo          */
     overflow-y: auto;    /* Trigger vertical scroll    */
-    overflow-x: auto;  /* Hide the horizontal scroll */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
 }
 
 .mdl-list__item--three-line .mdl-list__item-text-body,

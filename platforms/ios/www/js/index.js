@@ -3,11 +3,15 @@ import VueRouter from 'vue-router';
 import firebase from 'firebase';
 
 import Navigation from './navigation.vue';
+import BackHeader from './backHeader.vue';
 import Home from './home.vue';
 import Signin from './signin.vue';
 import Signup from './signup.vue';
+import Onboarding from './onboarding.vue';
+import Feed from './feed.vue';
+import Create from './create.vue';
 import Chat from './chat.vue';
-import Back from './back.vue';
+import Fab from './fab.vue';
 
 import navigationElem from './navigationElements.js'
 
@@ -16,6 +20,9 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/signin', component: Signin },
   { path: '/signup', component: Signup },
+  { path: '/onboarding', component: Onboarding },
+  { path: '/feed', component: Feed, meta: { requiresAuth: true } },
+  { path: '/create', component: Create, meta: { requiresAuth: true } },
   { path: '/chat', component: Chat, meta: { requiresAuth: true } },
   { path: '*', redirect: '/signin' }
 ]
@@ -50,9 +57,17 @@ firestore.settings(settings);
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    router.push('chat');
+    router.push('feed');
   } else {
-    router.push('signin');
+    if (localStorage.getItem('onboardingDone')) {
+      if (localStorage.getItem('signedUp')) {
+        router.push('signin');
+      } else {
+        router.push('signup');
+      }
+    } else {
+      router.push('onboarding');
+    }
   }
 });
 
@@ -62,30 +77,35 @@ Vue.filter('capitalize', function (value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
 })
 
-
 const app = new Vue({
     router,
     components: { 
       Home,
       Signin,
       Signup,
+      Onboarding,
+      Feed,
+      Create,
       Chat,
       Navigation,
-      Back,
+      BackHeader,
+      Fab,
     },
     methods: {
       updateCurrentPage: function(page) {
-        this.currentPage = page;
+        this.currentPage = page.label;
+        this.nav = page.nav ? page.nav : 'nav';
       }
     },
     data: function() {
       return {
-        currentPage: 'Sign In'
+        currentPage: localStorage.getItem('signedUp') ? 'Sign In' : 'Sign Up',
+        nav: localStorage.getItem('onboardingDone') ? 'nav' : 'none'
       }
     }
 }).$mount('#vue-app')
 
 router.afterEach((to, from, next) => {
   navigationElem.filter(el => el.url == to.fullPath);
-  app.updateCurrentPage(navigationElem.filter(el => el.url == to.fullPath)[0].label)
+  app.updateCurrentPage(navigationElem.filter(el => el.url == to.fullPath)[0])
 })

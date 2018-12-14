@@ -12,6 +12,13 @@ export default [
     auth: false
   },
   {
+    label: 'Onboarding',
+    icon: 'onboarding',
+    url: '/onboarding',
+    auth: false,
+    nav: 'none'
+  },
+  {
     label: 'Feed',
     icon: 'feed',
     url: '/feed',
@@ -22,7 +29,7 @@ export default [
     icon: 'add',
     url: '/create',
     auth: true,
-    backNav: true
+    nav: 'back'
   },
   {
     label: 'Chat',

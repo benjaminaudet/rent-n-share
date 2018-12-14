@@ -11,18 +11,19 @@
     <link rel="stylesheet" href="css/libs/material.orange-amber.min.css">
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script src="js/libs/material.min.js"></script>
+    <script src="js/libs/hammer.js"></script>
 </head>
 
 <body>
     <div id="vue-app">
                 <back-header
 					v-bind:current-page="this.currentPage"
-					v-show="this.backNav"
+					v-show="this.nav == 'back'"
                 >
                 </back-header>
 				<navigation
 					v-bind:current-page="this.currentPage"
-					v-show="!this.backNav"
+					v-show="this.nav == 'nav'"
 				></navigation>
         <div class="app">
             <router-view></router-view>

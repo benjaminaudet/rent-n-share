@@ -23,22 +23,16 @@
         v-bind:message="this.state.message"
       ></errorBox>
     </div>
-    <back 
-      v-bind:to="'/signup'"
-      v-bind:icon="'save_alt'"
-    ></back>
   </div>
 </template>
 
 <script>
   import _ from 'underscore';
   import firebase from 'firebase';
-  import back from './back.vue';  
   import errorBox from './error-box.vue';
 
   export default {
     components: {
-      back,
       errorBox
     },
     methods: {

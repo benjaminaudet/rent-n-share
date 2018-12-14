@@ -15,6 +15,10 @@
             <input class="mdl-textfield__input" v-model="password" type="password" id="password">
             <label class="mdl-textfield__label" for="password">Password</label>
           </div>
+          <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" v-model="confirmPassword" type="password" id="confirm-password">
+            <label class="mdl-textfield__label" for="password">Confirm Password</label>
+          </div>
         </form>
         <div class="button">
           <button v-on:click="signUp" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
@@ -27,33 +31,36 @@
         v-bind:message="this.error.message"
       ></errorBox>
     </div>
-    <back 
-      v-bind:to="'/signin'"
-      v-bind:icon="'forward'"
-    ></back>
   </div>
 </template>
 
 <script>
   import _ from 'underscore';
   import firebase from 'firebase';
-  import back from './back.vue';
   import errorBox from './error-box.vue';
 
   export default {
     components: {
-      back,
       errorBox
     },
     methods: {
       signUp: function() {
+        if (this.password != this.confirmPassword) {
+          this.error.active = true;
+          this.error.message = "Both password fields must match";
+          this.password = this.confirmPassword = '';
+          setTimeout(_.bind(() => {
+            this.error.active = false;
+          }, this), 3000);
+          return;
+        }
         firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
           user => {
             user = firebase.auth().currentUser;
             user.updateProfile({
               displayName: this.username,
             }).then(function() {
-              
+              localStorage.setItem('signedUp', true);
             }).catch(function(error) {
               console.error('error on display name updating')
             });
@@ -76,7 +83,8 @@
         },
         username: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
       }
     }
   }

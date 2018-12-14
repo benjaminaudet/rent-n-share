@@ -7,6 +7,7 @@ import BackHeader from './backHeader.vue';
 import Home from './home.vue';
 import Signin from './signin.vue';
 import Signup from './signup.vue';
+import Onboarding from './onboarding.vue';
 import Feed from './feed.vue';
 import Create from './create.vue';
 import Chat from './chat.vue';
@@ -19,6 +20,7 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/signin', component: Signin },
   { path: '/signup', component: Signup },
+  { path: '/onboarding', component: Onboarding },
   { path: '/feed', component: Feed, meta: { requiresAuth: true } },
   { path: '/create', component: Create, meta: { requiresAuth: true } },
   { path: '/chat', component: Chat, meta: { requiresAuth: true } },
@@ -57,7 +59,15 @@ firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     router.push('feed');
   } else {
-    router.push('signin');
+    if (localStorage.getItem('onboardingDone')) {
+      if (localStorage.getItem('signedUp')) {
+        router.push('signin');
+      } else {
+        router.push('signup');
+      }
+    } else {
+      router.push('onboarding');
+    }
   }
 });
 
@@ -67,13 +77,13 @@ Vue.filter('capitalize', function (value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
 })
 
-
 const app = new Vue({
     router,
     components: { 
       Home,
       Signin,
       Signup,
+      Onboarding,
       Feed,
       Create,
       Chat,
@@ -84,13 +94,13 @@ const app = new Vue({
     methods: {
       updateCurrentPage: function(page) {
         this.currentPage = page.label;
-        this.backNav = page.backNav ? true : false;
+        this.nav = page.nav ? page.nav : 'nav';
       }
     },
     data: function() {
       return {
-        currentPage: 'Sign In',
-        backNav: false
+        currentPage: localStorage.getItem('signedUp') ? 'Sign In' : 'Sign Up',
+        nav: localStorage.getItem('onboardingDone') ? 'nav' : 'none'
       }
     }
 }).$mount('#vue-app')

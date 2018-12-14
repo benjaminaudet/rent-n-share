@@ -60,7 +60,7 @@
             user.updateProfile({
               displayName: this.username,
             }).then(function() {
-              
+              localStorage.setItem('signedUp', true);
             }).catch(function(error) {
               console.error('error on display name updating')
             });
