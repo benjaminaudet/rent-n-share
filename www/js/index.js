@@ -9,6 +9,9 @@ import Signin from './signin.vue';
 import Signup from './signup.vue';
 import Onboarding from './onboarding.vue';
 import Feed from './feed.vue';
+import Order from './order.vue';
+import OrderOwner from './order-owner.vue';
+import ScanOrder from './scan-order.vue';
 import Create from './create.vue';
 import Chat from './chat.vue';
 import Fab from './fab.vue';
@@ -17,11 +20,16 @@ import navigationElem from './navigationElements.js'
 
 Vue.use(VueRouter);
 
+localStorage.clear();
+
 const routes = [
   { path: '/signin', component: Signin },
   { path: '/signup', component: Signup },
   { path: '/onboarding', component: Onboarding },
   { path: '/feed', component: Feed, meta: { requiresAuth: true } },
+  { name: 'order', path: '/order/:id', component: Order, meta: { requiresAuth: true } },
+  { name: 'order-owner', path: '/order-owner/:id', component: OrderOwner, meta: { requiresAuth: true } },
+  { name: 'scan-order', path: '/scan-order/:id', component: ScanOrder, meta: { requiresAuth: true } },
   { path: '/create', component: Create, meta: { requiresAuth: true } },
   { path: '/chat', component: Chat, meta: { requiresAuth: true } },
   { path: '*', redirect: '/signin' }
@@ -85,6 +93,9 @@ const app = new Vue({
       Signup,
       Onboarding,
       Feed,
+      Order,
+      OrderOwner,
+      ScanOrder,
       Create,
       Chat,
       Navigation,
@@ -106,6 +117,5 @@ const app = new Vue({
 }).$mount('#vue-app')
 
 router.afterEach((to, from, next) => {
-  navigationElem.filter(el => el.url == to.fullPath);
-  app.updateCurrentPage(navigationElem.filter(el => el.url == to.fullPath)[0])
+  app.updateCurrentPage(navigationElem.filter(el => el.url == `/${to.fullPath.split('/')[1]}`)[0])
 })

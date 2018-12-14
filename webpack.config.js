@@ -3,6 +3,9 @@ var glob = require("glob");
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
+  node: {
+    fs: 'empty'
+  },
   entry: glob.sync('./www/js/*.js'),
   output: {
     filename: 'index.js',

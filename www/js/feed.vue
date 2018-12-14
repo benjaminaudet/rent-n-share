@@ -2,7 +2,11 @@
   <div id="feed">
     <div id="content">
       <ul id="feed" class="demo-list-three mdl-list">
-        <div v-for="announce in announces" class="demo-card-wide mdl-card mdl-shadow--2dp">
+        <div 
+          v-for="announce in announces"
+          class="demo-card-wide mdl-card mdl-shadow--2dp"
+          v-on:click="displayOrder(announce.id)"
+        >
           <div class="mdl-card__title" v-bind:style="{ backgroundImage: `url('${announce.cover}')` }">
             <h2 class="mdl-card__title-text">{{announce.title}}</h2>
           </div>
@@ -36,32 +40,13 @@
         }, this));
     },
     destroyed: function() {
-      console.log('destroyed')
       this.snapshot();
     },
-    computed: {
-      setCoverImage: function() {
-        
-      }
-    },
     methods: {
-    //   postMessage: function() {
-    //     let db = firebase.firestore();
-    //     let currentUser = firebase.auth().currentUser;
-    //     db.collection('messages').add({
-    //       message: this.input,
-    //       username: currentUser.displayName,
-    //       email: currentUser.email,
-    //       posted_at: new Date()
-    //     })
-    //     .then(function() {
-    //       console.log('message sent')
-    //     })
-    //     .catch(function(error) {
-    //       console.error(error)
-    //     })
-    //     this.input = '';
-    //   }
+      displayOrder: function(id) {
+        console.log(id)
+        this.$router.push({ name: 'order', params: {id: id} })
+      }
     },
     components: {
       message,

@@ -25,6 +25,27 @@ export default [
     auth: true
   },
   {
+    label: 'Order',
+    icon: 'order',
+    url: '/order',
+    auth: true,
+    nav: 'back'
+  },
+  {
+    label: 'Order QR Code',
+    icon: 'order-owner',
+    url: '/order-owner',
+    auth: true,
+    nav: 'back'
+  },
+  {
+    label: 'Scan the QR Code',
+    icon: 'scan-order',
+    url: '/scan-order',
+    auth: true,
+    nav: 'back'
+  },
+  {
     label: 'Create',
     icon: 'add',
     url: '/create',
