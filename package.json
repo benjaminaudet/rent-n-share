@@ -1,7 +1,7 @@
 {
   "name": "com.audet.benjamin",
   "version": "1.0.0",
-  "displayName": "Phone Testing Center",
+  "displayName": "Rent-N-Share",
   "cordova": {
     "platforms": [
       "android",
@@ -56,13 +56,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benjaminaudet/phone-testing-center2.git"
+    "url": "git+https://github.com/benjaminaudet/rent-n-share.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/benjaminaudet/phone-testing-center2/issues"
+    "url": "https://github.com/benjaminaudet/rent-n-share/issues"
   },
-  "homepage": "https://github.com/benjaminaudet/phone-testing-center2#readme"
+  "homepage": "https://github.com/benjaminaudet/rent-n-share#readme"
 }
