@@ -31,7 +31,7 @@ module.exports = {
         var timerId = 0;
         var timeout = 300;
 
-        function connectionCB () {
+        function connectionCB() {
             if (timerId !== null) {
                 clearTimeout(timerId);
                 timerId = null;
@@ -46,7 +46,7 @@ module.exports = {
             }
         }
 
-        function errorCB (error) {
+        function errorCB(error) {
             console.log('Error: ' + error.code + ',' + error.name + ',' + error.message);
 
             if (errorCallback) {
@@ -54,14 +54,14 @@ module.exports = {
             }
         }
 
-        function wifiSuccessCB (wifi) {
+        function wifiSuccessCB(wifi) {
             if ((wifi.status === 'ON') && (wifi.ipAddress.length !== 0)) {
                 cncType = Connection.WIFI;
             }
             connectionCB();
         }
 
-        function cellularSuccessCB (cell) {
+        function cellularSuccessCB(cell) {
             if ((cncType === Connection.NONE) && (cell.status === 'ON') && (cell.ipAddress.length !== 0)) {
                 cncType = Connection.CELL_2G;
             }

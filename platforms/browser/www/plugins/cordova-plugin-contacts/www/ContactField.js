@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-contacts.ContactField", function(require, exports, module) { /*
+cordova.define("cordova-plugin-contacts.ContactField", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,21 +19,21 @@ cordova.define("cordova-plugin-contacts.ContactField", function(require, exports
  *
 */
 
-/**
-* Generic contact field.
-* @constructor
-* @param {DOMString} id unique identifier, should only be set by native code // NOTE: not a W3C standard
-* @param type
-* @param value
-* @param pref
-*/
-var ContactField = function(type, value, pref) {
-    this.id = null;
-    this.type = (type && type.toString()) || null;
-    this.value = (value && value.toString()) || null;
-    this.pref = (typeof pref != 'undefined' ? pref : false);
-};
+    /**
+    * Generic contact field.
+    * @constructor
+    * @param {DOMString} id unique identifier, should only be set by native code // NOTE: not a W3C standard
+    * @param type
+    * @param value
+    * @param pref
+    */
+    var ContactField = function (type, value, pref) {
+        this.id = null;
+        this.type = (type && type.toString()) || null;
+        this.value = (value && value.toString()) || null;
+        this.pref = (typeof pref != 'undefined' ? pref : false);
+    };
 
-module.exports = ContactField;
+    module.exports = ContactField;
 
 });

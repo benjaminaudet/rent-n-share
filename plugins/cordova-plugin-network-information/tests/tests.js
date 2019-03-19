@@ -65,17 +65,17 @@ exports.defineAutoTests = function () {
 /******************************************************************************/
 
 exports.defineManualTests = function (contentEl, createActionButton) {
-    function eventOutput (s) {
+    function eventOutput(s) {
         var el = document.getElementById('results');
         el.innerHTML = el.innerHTML + s + '<br>';
     }
 
-    function printNetwork () {
+    function printNetwork() {
         eventOutput('navigator.connection.type=' + navigator.connection.type);
         eventOutput('navigator.network.connection.type=' + navigator.network.connection.type);
     }
 
-    function onEvent (e) {
+    function onEvent(e) {
         eventOutput('Event of type: ' + e.type);
         printNetwork();
     }

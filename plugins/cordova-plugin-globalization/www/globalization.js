@@ -24,23 +24,23 @@ var exec = require('cordova/exec');
 
 var globalization = {
 
-/**
-* Returns the string identifier for the client's current language.
-* It returns the language identifier string to the successCB callback with a
-* properties object as a parameter. If there is an error getting the language,
-* then the errorCB callback is invoked.
-*
-* @param {Function} successCB
-* @param {Function} errorCB
-*
-* @return Object.value {String}: The language identifier
-*
-* @error GlobalizationError.UNKNOWN_ERROR
-*
-* Example
-*    globalization.getPreferredLanguage(function (language) {alert('language:' + language.value + '\n');},
-*                                function () {});
-*/
+    /**
+    * Returns the string identifier for the client's current language.
+    * It returns the language identifier string to the successCB callback with a
+    * properties object as a parameter. If there is an error getting the language,
+    * then the errorCB callback is invoked.
+    *
+    * @param {Function} successCB
+    * @param {Function} errorCB
+    *
+    * @return Object.value {String}: The language identifier
+    *
+    * @error GlobalizationError.UNKNOWN_ERROR
+    *
+    * Example
+    *    globalization.getPreferredLanguage(function (language) {alert('language:' + language.value + '\n');},
+    *                                function () {});
+    */
     getPreferredLanguage: function (successCB, failureCB) {
         argscheck.checkArgs('fF', 'Globalization.getPreferredLanguage', arguments);
         exec(successCB, failureCB, 'Globalization', 'getPreferredLanguage', []);
@@ -96,7 +96,7 @@ var globalization = {
     dateToString: function (date, successCB, failureCB, options) {
         argscheck.checkArgs('dfFO', 'Globalization.dateToString', arguments);
         var dateValue = date.valueOf();
-        exec(successCB, failureCB, 'Globalization', 'dateToString', [{'date': dateValue, 'options': options}]);
+        exec(successCB, failureCB, 'Globalization', 'dateToString', [{ 'date': dateValue, 'options': options }]);
     },
 
     /**
@@ -136,7 +136,7 @@ var globalization = {
     */
     stringToDate: function (dateString, successCB, failureCB, options) {
         argscheck.checkArgs('sfFO', 'Globalization.stringToDate', arguments);
-        exec(successCB, failureCB, 'Globalization', 'stringToDate', [{'dateString': dateString, 'options': options}]);
+        exec(successCB, failureCB, 'Globalization', 'stringToDate', [{ 'dateString': dateString, 'options': options }]);
     },
 
     /**
@@ -173,7 +173,7 @@ var globalization = {
     */
     getDatePattern: function (successCB, failureCB, options) {
         argscheck.checkArgs('fFO', 'Globalization.getDatePattern', arguments);
-        exec(successCB, failureCB, 'Globalization', 'getDatePattern', [{'options': options}]);
+        exec(successCB, failureCB, 'Globalization', 'getDatePattern', [{ 'options': options }]);
     },
 
     /**
@@ -203,7 +203,7 @@ var globalization = {
     */
     getDateNames: function (successCB, failureCB, options) {
         argscheck.checkArgs('fFO', 'Globalization.getDateNames', arguments);
-        exec(successCB, failureCB, 'Globalization', 'getDateNames', [{'options': options}]);
+        exec(successCB, failureCB, 'Globalization', 'getDateNames', [{ 'options': options }]);
     },
 
     /**
@@ -229,7 +229,7 @@ var globalization = {
     isDayLightSavingsTime: function (date, successCB, failureCB) {
         argscheck.checkArgs('dfF', 'Globalization.isDayLightSavingsTime', arguments);
         var dateValue = date.valueOf();
-        exec(successCB, failureCB, 'Globalization', 'isDayLightSavingsTime', [{'date': dateValue}]);
+        exec(successCB, failureCB, 'Globalization', 'isDayLightSavingsTime', [{ 'date': dateValue }]);
     },
 
     /**
@@ -280,7 +280,7 @@ var globalization = {
     */
     numberToString: function (number, successCB, failureCB, options) {
         argscheck.checkArgs('nfFO', 'Globalization.numberToString', arguments);
-        exec(successCB, failureCB, 'Globalization', 'numberToString', [{'number': number, 'options': options}]);
+        exec(successCB, failureCB, 'Globalization', 'numberToString', [{ 'number': number, 'options': options }]);
     },
 
     /**
@@ -308,7 +308,7 @@ var globalization = {
     */
     stringToNumber: function (numberString, successCB, failureCB, options) {
         argscheck.checkArgs('sfFO', 'Globalization.stringToNumber', arguments);
-        exec(successCB, failureCB, 'Globalization', 'stringToNumber', [{'numberString': numberString, 'options': options}]);
+        exec(successCB, failureCB, 'Globalization', 'stringToNumber', [{ 'numberString': numberString, 'options': options }]);
     },
 
     /**
@@ -345,7 +345,7 @@ var globalization = {
     */
     getNumberPattern: function (successCB, failureCB, options) {
         argscheck.checkArgs('fFO', 'Globalization.getNumberPattern', arguments);
-        exec(successCB, failureCB, 'Globalization', 'getNumberPattern', [{'options': options}]);
+        exec(successCB, failureCB, 'Globalization', 'getNumberPattern', [{ 'options': options }]);
     },
 
     /**
@@ -377,7 +377,7 @@ var globalization = {
     */
     getCurrencyPattern: function (currencyCode, successCB, failureCB) {
         argscheck.checkArgs('sfF', 'Globalization.getCurrencyPattern', arguments);
-        exec(successCB, failureCB, 'Globalization', 'getCurrencyPattern', [{'currencyCode': currencyCode}]);
+        exec(successCB, failureCB, 'Globalization', 'getCurrencyPattern', [{ 'currencyCode': currencyCode }]);
     }
 
 };

@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-media-capture.CaptureAudioOptions", function(require, exports, module) { /*
+cordova.define("cordova-plugin-media-capture.CaptureAudioOptions", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,16 +19,16 @@ cordova.define("cordova-plugin-media-capture.CaptureAudioOptions", function(requ
  *
 */
 
-/**
- * Encapsulates all audio capture operation configuration options.
- */
-var CaptureAudioOptions = function(){
-    // Upper limit of sound clips user can record. Value must be equal or greater than 1.
-    this.limit = 1;
-    // Maximum duration of a single sound clip in seconds.
-    this.duration = 0;
-};
+    /**
+     * Encapsulates all audio capture operation configuration options.
+     */
+    var CaptureAudioOptions = function () {
+        // Upper limit of sound clips user can record. Value must be equal or greater than 1.
+        this.limit = 1;
+        // Maximum duration of a single sound clip in seconds.
+        this.duration = 0;
+    };
 
-module.exports = CaptureAudioOptions;
+    module.exports = CaptureAudioOptions;
 
 });

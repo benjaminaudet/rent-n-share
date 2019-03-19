@@ -22,7 +22,7 @@
 var w3cBattery;
 var winCallBack;
 
-function success () {
+function success() {
     winCallBack({ level: w3cBattery.level * 100, isPlugged: w3cBattery.charging });
 }
 

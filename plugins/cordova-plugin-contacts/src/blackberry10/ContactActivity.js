@@ -25,7 +25,7 @@ var ContactActivity = function (args) {
     this.timestamp = new Date(parseInt(args.timestamp, 10)) || null;
 };
 
-Object.defineProperty(ContactActivity, "INCOMING", {"value": true});
-Object.defineProperty(ContactActivity, "OUTGOING", {"value": false});
+Object.defineProperty(ContactActivity, "INCOMING", { "value": true });
+Object.defineProperty(ContactActivity, "OUTGOING", { "value": false });
 
 module.exports = ContactActivity;

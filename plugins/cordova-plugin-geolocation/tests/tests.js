@@ -42,7 +42,7 @@ exports.defineAutoTests = function () {
             done();
         });
     };
-    
+
     var succeed = function (done, context) {
         // prevents done() to be called several times
         if (context) {
@@ -120,7 +120,7 @@ exports.defineAutoTests = function () {
 
                 navigator.geolocation.getCurrentPosition(
                     fail.bind(this, done),
-                    function(gpsError) {
+                    function (gpsError) {
                         // W3C specs: http://dev.w3.org/geo/api/spec-source.html#position_error_interface
                         expect(gpsError.PERMISSION_DENIED).toBe(1);
                         expect(gpsError.POSITION_UNAVAILABLE).toBe(2);
@@ -146,8 +146,8 @@ exports.defineAutoTests = function () {
                     expect(p.coords).toBeDefined();
                     expect(p.timestamp).toBeDefined();
                     done();
-                }, function(err){
-                    if(err.message && err.message.indexOf('kCLErrorDomain') > -1){
+                }, function (err) {
+                    if (err.message && err.message.indexOf('kCLErrorDomain') > -1) {
                         console.log("Error: Location not set in simulator, tests will fail.");
                         expect(true).toBe(true);
                         isIOSSim = true;
@@ -157,9 +157,9 @@ exports.defineAutoTests = function () {
                         fail(done);
                     }
                 },
-                {
-                    maximumAge: (5 * 60 * 1000) // 5 minutes maximum age of cached position
-                });
+                    {
+                        maximumAge: (5 * 60 * 1000) // 5 minutes maximum age of cached position
+                    });
             }, 25000); // first geolocation call can take several seconds on some devices
         });
 
@@ -167,10 +167,10 @@ exports.defineAutoTests = function () {
 
     describe('watchPosition method', function () {
 
-        beforeEach(function(done) {
+        beforeEach(function (done) {
             // This timeout is set to lessen the load on platform's geolocation services
             // which were causing occasional test failures
-            setTimeout(function() {
+            setTimeout(function () {
                 done();
             }, 100);
         });
@@ -205,7 +205,7 @@ exports.defineAutoTests = function () {
                 var context = this;
                 errorWatch = navigator.geolocation.watchPosition(
                     fail.bind(this, done, context, 'Unexpected win'),
-                    function(gpsError) {
+                    function (gpsError) {
                         if (context.done) return;
                         context.done = true;
 
@@ -365,8 +365,8 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     /******************************************************************************/
 
     var location_div = '<div id="info">' +
-            '<b>Status:</b> <span id="location_status">Stopped</span>' +
-            '<table width="100%">',
+        '<b>Status:</b> <span id="location_status">Stopped</span>' +
+        '<table width="100%">',
         latitude = '<tr>' +
             '<td><b>Latitude:</b></td>' +
             '<td id="latitude">&nbsp;</td>' +
@@ -424,7 +424,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
             'Expected result: Will update location values with a cached position that is up to 30 seconds old. Verify with time value. Status will read Done.',
         values_info =
             '<h3>Details about each value are listed below in the status box</h3>',
-        note = 
+        note =
             '<h3>Allow use of current location, if prompted</h3>';
 
     contentEl.innerHTML = values_info + location_div + latitude + longitude + altitude + accuracy + heading + speed +

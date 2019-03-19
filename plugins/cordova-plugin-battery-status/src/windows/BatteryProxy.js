@@ -75,11 +75,11 @@ if (PowerManager) {
 
     var Battery = {
         start: function (win, fail, args, env) {
-            function getBatteryStatus (success, error) {
+            function getBatteryStatus(success, error) {
                 handleResponse(success, error, BatteryStatus.BatteryStatus.start());
             }
 
-            function getBatteryStatusLevelChangeEvent (success, error) {
+            function getBatteryStatusLevelChangeEvent(success, error) {
                 return BatteryStatus.BatteryStatus.getBatteryStatusChangeEvent().done(function (result) {
                     if (stopped) {
                         return;

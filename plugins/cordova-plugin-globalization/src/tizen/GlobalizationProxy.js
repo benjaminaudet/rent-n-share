@@ -49,7 +49,7 @@ var globalization = {
             'LOCALE',
             function (localeInfo) {
                 console.log('Cordova, getLocaleName, language is  ' + localeInfo.language);
-                successCB({'value': localeInfo.language});
+                successCB({ 'value': localeInfo.language });
             },
             function (error) {
                 console.log('Cordova, getLocaleName, An error occurred ' + error.message);
@@ -80,7 +80,7 @@ var globalization = {
             'LOCALE',
             function (localeInfo) {
                 console.log('Cordova, getLocaleName, locale name (country) is  ' + localeInfo.country);
-                successCB({'value': localeInfo.language});
+                successCB({ 'value': localeInfo.language });
             },
             function (error) {
                 console.log('Cordova, getLocaleName, An error occurred ' + error.message);
@@ -132,7 +132,7 @@ var globalization = {
         }
 
         if (format) {
-            successCB({'value': format});
+            successCB({ 'value': format });
         } else {
             failureCB(new GlobalizationError(GlobalizationError.FORMATTING_ERROR, 'cannot format date string'));
         }
@@ -303,7 +303,7 @@ var globalization = {
 
             console.log('Cordova, globalization, isDayLightSavingsTime, ' + isDLS);
 
-            successCB({'dst': isDLS});
+            successCB({ 'dst': isDLS });
         } else {
             failureCB(new GlobalizationError(GlobalizationError.UNKNOWN_ERROR, 'cannot get information'));
         }
@@ -332,7 +332,7 @@ var globalization = {
         console.log('exec(successCB, failureCB, "Globalization", "getFirstDayOfWeek", []);');
 
         // there is no API to get the fist day of the week in Tizen Dvice API
-        successCB({value: 1});
+        successCB({ value: 1 });
 
         // first day of week is a settings in the date book app
         // what about : getting the settings directly or asking the date book ?

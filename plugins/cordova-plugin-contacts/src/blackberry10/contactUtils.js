@@ -36,7 +36,7 @@ var self,
 function populateFieldArray(contactProps, field, ClassName) {
     if (contactProps[field]) {
         var list = [],
-        obj;
+            obj;
 
         contactProps[field].forEach(function (args) {
             if (ClassName === ContactField) {
@@ -68,7 +68,7 @@ function populateDate(contactProps, field) {
 
 function validateFindArguments(findOptions) {
     var error = false;
-    
+
     // findOptions is mandatory
     if (!findOptions) {
         error = true;
@@ -77,32 +77,32 @@ function validateFindArguments(findOptions) {
         if (findOptions.filter) {
             findOptions.filter.forEach(function (f) {
                 switch (f.fieldName) {
-                case ContactFindOptions.SEARCH_FIELD_GIVEN_NAME:
-                case ContactFindOptions.SEARCH_FIELD_FAMILY_NAME:
-                case ContactFindOptions.SEARCH_FIELD_ORGANIZATION_NAME:
-                case ContactFindOptions.SEARCH_FIELD_PHONE:
-                case ContactFindOptions.SEARCH_FIELD_EMAIL:
-                case ContactFindOptions.SEARCH_FIELD_BBMPIN:
-                case ContactFindOptions.SEARCH_FIELD_LINKEDIN:
-                case ContactFindOptions.SEARCH_FIELD_TWITTER:
-                case ContactFindOptions.SEARCH_FIELD_VIDEO_CHAT:
-                    break;
-                default:
-                    error = true;
+                    case ContactFindOptions.SEARCH_FIELD_GIVEN_NAME:
+                    case ContactFindOptions.SEARCH_FIELD_FAMILY_NAME:
+                    case ContactFindOptions.SEARCH_FIELD_ORGANIZATION_NAME:
+                    case ContactFindOptions.SEARCH_FIELD_PHONE:
+                    case ContactFindOptions.SEARCH_FIELD_EMAIL:
+                    case ContactFindOptions.SEARCH_FIELD_BBMPIN:
+                    case ContactFindOptions.SEARCH_FIELD_LINKEDIN:
+                    case ContactFindOptions.SEARCH_FIELD_TWITTER:
+                    case ContactFindOptions.SEARCH_FIELD_VIDEO_CHAT:
+                        break;
+                    default:
+                        error = true;
                 }
 
                 if (!f.fieldValue) {
                     error = true;
                 }
             });
-        } 
+        }
 
         //findOptions.limit is optional
         if (findOptions.limit) {
             if (typeof findOptions.limit !== "number") {
                 error = true;
-            } 
-        } 
+            }
+        }
 
         //findOptions.favorite is optional
         if (findOptions.favorite) {
@@ -115,12 +115,12 @@ function validateFindArguments(findOptions) {
         if (!error && findOptions.sort && Array.isArray(findOptions.sort)) {
             findOptions.sort.forEach(function (s) {
                 switch (s.fieldName) {
-                case ContactFindOptions.SORT_FIELD_GIVEN_NAME:
-                case ContactFindOptions.SORT_FIELD_FAMILY_NAME:
-                case ContactFindOptions.SORT_FIELD_ORGANIZATION_NAME:
-                    break;
-                default:
-                    error = true;
+                    case ContactFindOptions.SORT_FIELD_GIVEN_NAME:
+                    case ContactFindOptions.SORT_FIELD_FAMILY_NAME:
+                    case ContactFindOptions.SORT_FIELD_ORGANIZATION_NAME:
+                        break;
+                    default:
+                        error = true;
                 }
 
                 if (s.desc === undefined || typeof s.desc !== "boolean") {
@@ -160,7 +160,7 @@ function validateContactsPickerFilter(filter) {
     var isValid = true,
         availableFields = {};
 
-    if (typeof(filter) === "undefined") {
+    if (typeof (filter) === "undefined") {
         isValid = false;
     } else {
         if (filter && Array.isArray(filter)) {
@@ -181,7 +181,7 @@ function validateContactsPickerOptions(options) {
     var isValid = false,
         mode = options.mode;
 
-    if (typeof(options) === "undefined") {
+    if (typeof (options) === "undefined") {
         isValid = false;
     } else {
         isValid = mode === ContactPickerOptions.MODE_SINGLE || mode === ContactPickerOptions.MODE_MULTIPLE || mode === ContactPickerOptions.MODE_ATTRIBUTE;

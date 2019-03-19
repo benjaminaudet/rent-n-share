@@ -35,63 +35,63 @@ exports.defineAutoTests = function () {
     describe('File API', function () {
         // Adding a Jasmine helper matcher, to report errors when comparing to FileError better.
         var fileErrorMap = {
-            1 : 'NOT_FOUND_ERR',
-            2 : 'SECURITY_ERR',
-            3 : 'ABORT_ERR',
-            4 : 'NOT_READABLE_ERR',
-            5 : 'ENCODING_ERR',
-            6 : 'NO_MODIFICATION_ALLOWED_ERR',
-            7 : 'INVALID_STATE_ERR',
-            8 : 'SYNTAX_ERR',
-            9 : 'INVALID_MODIFICATION_ERR',
-            10 : 'QUOTA_EXCEEDED_ERR',
-            11 : 'TYPE_MISMATCH_ERR',
-            12 : 'PATH_EXISTS_ERR'
+            1: 'NOT_FOUND_ERR',
+            2: 'SECURITY_ERR',
+            3: 'ABORT_ERR',
+            4: 'NOT_READABLE_ERR',
+            5: 'ENCODING_ERR',
+            6: 'NO_MODIFICATION_ALLOWED_ERR',
+            7: 'INVALID_STATE_ERR',
+            8: 'SYNTAX_ERR',
+            9: 'INVALID_MODIFICATION_ERR',
+            10: 'QUOTA_EXCEEDED_ERR',
+            11: 'TYPE_MISMATCH_ERR',
+            12: 'PATH_EXISTS_ERR'
         },
-        root,
-        temp_root,
-        persistent_root;
+            root,
+            temp_root,
+            persistent_root;
         beforeEach(function (done) {
             // Custom Matchers
             jasmine.Expectation.addMatchers({
-                toBeFileError : function () {
+                toBeFileError: function () {
                     return {
-                        compare : function (error, code) {
+                        compare: function (error, code) {
                             var pass = error.code === code;
                             return {
-                                pass : pass,
-                                message : 'Expected FileError with code ' + fileErrorMap[error.code] + ' (' + error.code + ') to be ' + fileErrorMap[code] + '(' + code + ')'
+                                pass: pass,
+                                message: 'Expected FileError with code ' + fileErrorMap[error.code] + ' (' + error.code + ') to be ' + fileErrorMap[code] + '(' + code + ')'
                             };
                         }
                     };
                 },
-                toCanonicallyMatch : function () {
+                toCanonicallyMatch: function () {
                     return {
-                        compare : function (currentPath, path) {
+                        compare: function (currentPath, path) {
                             var a = path.split("/").join("").split("\\").join(""),
-                            b = currentPath.split("/").join("").split("\\").join(""),
-                            pass = a === b;
+                                b = currentPath.split("/").join("").split("\\").join(""),
+                                pass = a === b;
                             return {
-                                pass : pass,
-                                message : 'Expected paths to match : ' + path + ' should be ' + currentPath
+                                pass: pass,
+                                message: 'Expected paths to match : ' + path + ' should be ' + currentPath
                             };
                         }
                     };
                 },
-                toFailWithMessage : function () {
+                toFailWithMessage: function () {
                     return {
-                        compare : function (error, message) {
+                        compare: function (error, message) {
                             var pass = false;
                             return {
-                                pass : pass,
-                                message : message
+                                pass: pass,
+                                message: message
                             };
                         }
                     };
                 },
                 toBeDataUrl: function () {
                     return {
-                        compare : function (url) {
+                        compare: function (url) {
                             var pass = false;
                             // "data:application/octet-stream;base64,"
                             var header = url.substr(0, url.indexOf(','));
@@ -103,8 +103,8 @@ exports.defineAutoTests = function () {
                             }
                             var message = 'Expected ' + url + ' to be a valid data url. ' + header + ' is not valid header for data uris';
                             return {
-                                pass : pass,
-                                message : message
+                                pass: pass,
+                                message: message
                             };
                         }
                     };
@@ -131,7 +131,7 @@ exports.defineAutoTests = function () {
         var deleteEntry = function (name, success, error) {
             // deletes entry, if it exists
             // entry.remove success callback is required: http://www.w3.org/TR/2011/WD-file-system-api-20110419/#the-entry-interface
-            success = success || function() {};
+            success = success || function () { };
             error = error || failed.bind(null, success, 'deleteEntry failed.');
 
             window.resolveLocalFileSystemURL(root.toURL() + '/' + name, function (entry) {
@@ -145,21 +145,21 @@ exports.defineAutoTests = function () {
         // deletes file, if it exists, then invokes callback
         var deleteFile = function (fileName, callback) {
             // entry.remove success callback is required: http://www.w3.org/TR/2011/WD-file-system-api-20110419/#the-entry-interface
-            callback = callback || function() {};
+            callback = callback || function () { };
 
             root.getFile(fileName, null, // remove file system entry
                 function (entry) {
-                entry.remove(callback, function () {
-                    console.log('[ERROR] deleteFile cleanup method invoked fail callback.');
-                });
-            }, // doesn't exist
+                    entry.remove(callback, function () {
+                        console.log('[ERROR] deleteFile cleanup method invoked fail callback.');
+                    });
+                }, // doesn't exist
                 callback);
         };
         // deletes and re-creates the specified file
         var createFile = function (fileName, success, error) {
             deleteEntry(fileName, function () {
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, success, error);
             }, error);
         };
@@ -167,7 +167,7 @@ exports.defineAutoTests = function () {
         var createDirectory = function (dirName, success, error) {
             deleteEntry(dirName, function () {
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, success, error);
             }, error);
         };
@@ -371,12 +371,12 @@ exports.defineAutoTests = function () {
 
                 it("file.spec.9.7 should resolve a file with valid nativeURL", function (done) {
                     var fileName = "de.create.file",
-                    win = function (entry) {
-                        var path = entry.nativeURL.split('///')[1];
-                        expect(/\/{2,}/.test(path)).toBeFalsy();
-                        // cleanup
-                        deleteEntry(entry.name, done);
-                    };
+                        win = function (entry) {
+                            var path = entry.nativeURL.split('///')[1];
+                            expect(/\/{2,}/.test(path)).toBeFalsy();
+                            // cleanup
+                            deleteEntry(entry.name, done);
+                        };
                     root.getFile(fileName, {
                         create: true
                     }, win, succeed.bind(null, done, 'root.getFile - Error unexpected callback, file should not exists: ' + fileName));
@@ -384,15 +384,15 @@ exports.defineAutoTests = function () {
 
                 it("file.spec.10 resolve valid file name with parameters", function (done) {
                     var fileName = "resolve.file.uri.params",
-                    win = function (fileEntry) {
-                        expect(fileEntry).toBeDefined();
-                        if (fileEntry.toURL().toLowerCase().substring(0, 10) === "cdvfile://") {
-                            expect(fileEntry.fullPath).toBe("/" + fileName + "?1234567890");
-                        }
-                        expect(fileEntry.name).toBe(fileName);
-                        // cleanup
-                        deleteEntry(fileName, done);
-                    };
+                        win = function (fileEntry) {
+                            expect(fileEntry).toBeDefined();
+                            if (fileEntry.toURL().toLowerCase().substring(0, 10) === "cdvfile://") {
+                                expect(fileEntry.fullPath).toBe("/" + fileName + "?1234567890");
+                            }
+                            expect(fileEntry.name).toBe(fileName);
+                            // cleanup
+                            deleteEntry(fileName, done);
+                        };
                     // create a new file entry
                     createFile(fileName, function (entry) {
                         window.resolveLocalFileSystemURL(entry.toURL() + "?1234567890", win, failed.bind(null, done, 'window.resolveLocalFileSystemURL - Error resolving file URI: ' + entry.toURL()));
@@ -401,20 +401,20 @@ exports.defineAutoTests = function () {
                 it("file.spec.11 should error (NOT_FOUND_ERR) when resolving (non-existent) invalid file name", function (done) {
                     var fileName = cordova.platformId === 'windowsphone' ? root.toURL() + "/" + "this.is.not.a.valid.file.txt" : joinURL(root.toURL(), "this.is.not.a.valid.file.txt"),
                         fail = function (error) {
-                        expect(error).toBeDefined();
-                        expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
-                        done();
-                    };
+                            expect(error).toBeDefined();
+                            expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
+                            done();
+                        };
                     // lookup file system entry
                     window.resolveLocalFileSystemURL(fileName, succeed.bind(null, done, 'window.resolveLocalFileSystemURL - Error unexpected callback resolving file URI: ' + fileName), fail);
                 });
                 it("file.spec.12 should error (ENCODING_ERR) when resolving invalid URI with leading /", function (done) {
                     var fileName = "/this.is.not.a.valid.url",
                         fail = function (error) {
-                        expect(error).toBeDefined();
-                        expect(error).toBeFileError(FileError.ENCODING_ERR);
-                        done();
-                    };
+                            expect(error).toBeDefined();
+                            expect(error).toBeFileError(FileError.ENCODING_ERR);
+                            done();
+                        };
                     // lookup file system entry
                     window.resolveLocalFileSystemURL(fileName, succeed.bind(null, done, 'window.resolveLocalFileSystemURL - Error unexpected callback resolving file URI: ' + fileName), fail);
                 });
@@ -464,54 +464,54 @@ exports.defineAutoTests = function () {
         describe('DirectoryEntry', function () {
             it("file.spec.16 getFile: get Entry for file that does not exist", function (done) {
                 var fileName = "de.no.file",
-                fail = function (error) {
-                    expect(error).toBeDefined();
-                    expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
-                    done();
-                };
+                    fail = function (error) {
+                        expect(error).toBeDefined();
+                        expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
+                        done();
+                    };
                 // create:false, exclusive:false, file does not exist
                 root.getFile(fileName, {
-                    create : false
+                    create: false
                 }, succeed.bind(null, done, 'root.getFile - Error unexpected callback, file should not exists: ' + fileName), fail);
             });
             it("file.spec.17 getFile: create new file", function (done) {
                 var fileName = "de.create.file",
-                filePath = joinURL(root.fullPath, fileName),
-                win = function (entry) {
-                    expect(entry).toBeDefined();
-                    expect(entry.isFile).toBe(true);
-                    expect(entry.isDirectory).toBe(false);
-                    expect(entry.name).toCanonicallyMatch(fileName);
-                    expect(entry.fullPath).toCanonicallyMatch(filePath);
-                    // cleanup
-                    deleteEntry(entry.name, done);
-                };
+                    filePath = joinURL(root.fullPath, fileName),
+                    win = function (entry) {
+                        expect(entry).toBeDefined();
+                        expect(entry.isFile).toBe(true);
+                        expect(entry.isDirectory).toBe(false);
+                        expect(entry.name).toCanonicallyMatch(fileName);
+                        expect(entry.fullPath).toCanonicallyMatch(filePath);
+                        // cleanup
+                        deleteEntry(entry.name, done);
+                    };
                 // create:true, exclusive:false, file does not exist
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, win, succeed.bind(null, done, 'root.getFile - Error unexpected callback, file should not exists: ' + fileName));
             });
             it("file.spec.18 getFile: create new file (exclusive)", function (done) {
                 var fileName = "de.create.exclusive.file",
-                filePath = joinURL(root.fullPath, fileName),
-                win = function (entry) {
-                    expect(entry).toBeDefined();
-                    expect(entry.isFile).toBe(true);
-                    expect(entry.isDirectory).toBe(false);
-                    expect(entry.name).toBe(fileName);
-                    expect(entry.fullPath).toCanonicallyMatch(filePath);
-                    // cleanup
-                    deleteEntry(entry.name, done);
-                };
+                    filePath = joinURL(root.fullPath, fileName),
+                    win = function (entry) {
+                        expect(entry).toBeDefined();
+                        expect(entry.isFile).toBe(true);
+                        expect(entry.isDirectory).toBe(false);
+                        expect(entry.name).toBe(fileName);
+                        expect(entry.fullPath).toCanonicallyMatch(filePath);
+                        // cleanup
+                        deleteEntry(entry.name, done);
+                    };
                 // create:true, exclusive:true, file does not exist
                 root.getFile(fileName, {
-                    create : true,
-                    exclusive : true
+                    create: true,
+                    exclusive: true
                 }, win, failed.bind(null, done, 'root.getFile - Error creating file: ' + fileName));
             });
             it("file.spec.19 getFile: create file that already exists", function (done) {
                 var fileName = "de.create.existing.file",
-                filePath = joinURL(root.fullPath, fileName);
+                    filePath = joinURL(root.fullPath, fileName);
 
                 function win(entry) {
                     expect(entry).toBeDefined();
@@ -526,18 +526,18 @@ exports.defineAutoTests = function () {
                 function getFile(file) {
                     // create:true, exclusive:false, file exists
                     root.getFile(fileName, {
-                        create : true
+                        create: true
                     }, win, failed.bind(null, done, 'root.getFile - Error creating file: ' + fileName));
                 }
 
                 // create file to kick off it
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, getFile, failed.bind(null, done, 'root.getFile - Error on initial creating file: ' + fileName));
             });
             it("file.spec.20 getFile: create file that already exists (exclusive)", function (done) {
                 var fileName = "de.create.exclusive.existing.file",
-                existingFile;
+                    existingFile;
 
                 function fail(error) {
                     expect(error).toBeDefined();
@@ -556,39 +556,39 @@ exports.defineAutoTests = function () {
                     existingFile = file;
                     // create:true, exclusive:true, file exists
                     root.getFile(fileName, {
-                        create : true,
-                        exclusive : true
+                        create: true,
+                        exclusive: true
                     }, succeed.bind(null, done, 'root.getFile - getFile function - Error unexpected callback, file should exists: ' + fileName), fail);
                 }
 
                 // create file to kick off it
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, getFile, failed.bind(null, done, 'root.getFile - Error creating file: ' + fileName));
             });
             it("file.spec.21 DirectoryEntry.getFile: get Entry for existing file", function (done) {
                 var fileName = "de.get.file",
-                filePath = joinURL(root.fullPath, fileName),
-                win = function (entry) {
-                    expect(entry).toBeDefined();
-                    expect(entry.isFile).toBe(true);
-                    expect(entry.isDirectory).toBe(false);
-                    expect(entry.name).toCanonicallyMatch(fileName);
-                    expect(entry.fullPath).toCanonicallyMatch(filePath);
-                    expect(entry.filesystem).toBeDefined();
-                    expect(entry.filesystem).toBe(root.filesystem);
-                    //clean up
-                    deleteEntry(entry.name, done);
-                },
-                getFile = function (file) {
-                    // create:false, exclusive:false, file exists
-                    root.getFile(fileName, {
-                        create : false
-                    }, win, failed.bind(null, done, 'root.getFile - Error getting file entry: ' + fileName));
-                };
+                    filePath = joinURL(root.fullPath, fileName),
+                    win = function (entry) {
+                        expect(entry).toBeDefined();
+                        expect(entry.isFile).toBe(true);
+                        expect(entry.isDirectory).toBe(false);
+                        expect(entry.name).toCanonicallyMatch(fileName);
+                        expect(entry.fullPath).toCanonicallyMatch(filePath);
+                        expect(entry.filesystem).toBeDefined();
+                        expect(entry.filesystem).toBe(root.filesystem);
+                        //clean up
+                        deleteEntry(entry.name, done);
+                    },
+                    getFile = function (file) {
+                        // create:false, exclusive:false, file exists
+                        root.getFile(fileName, {
+                            create: false
+                        }, win, failed.bind(null, done, 'root.getFile - Error getting file entry: ' + fileName));
+                    };
                 // create file to kick off it
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, getFile, failed.bind(null, done, 'root.getFile - Error creating file: ' + fileName));
             });
             it("file.spec.22 DirectoryEntry.getFile: get FileEntry for invalid path", function (done) {
@@ -599,26 +599,26 @@ exports.defineAutoTests = function () {
                 }
 
                 var fileName = "de:invalid:path",
-                fail = function (error) {
-                    expect(error).toBeDefined();
-                    expect(error).toBeFileError(FileError.ENCODING_ERR);
-                    done();
-                };
+                    fail = function (error) {
+                        expect(error).toBeDefined();
+                        expect(error).toBeFileError(FileError.ENCODING_ERR);
+                        done();
+                    };
                 // create:false, exclusive:false, invalid path
                 root.getFile(fileName, {
-                    create : false
+                    create: false
                 }, succeed.bind(null, done, 'root.getFile - Error unexpected callback, file should not exists: ' + fileName), fail);
             });
             it("file.spec.23 DirectoryEntry.getDirectory: get Entry for directory that does not exist", function (done) {
                 var dirName = "de.no.dir",
-                fail = function (error) {
-                    expect(error).toBeDefined();
-                    expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
-                    done();
-                };
+                    fail = function (error) {
+                        expect(error).toBeDefined();
+                        expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
+                        done();
+                    };
                 // create:false, exclusive:false, directory does not exist
                 root.getDirectory(dirName, {
-                    create : false
+                    create: false
                 }, succeed.bind(null, done, 'root.getDirectory - Error unexpected callback, directory should not exists: ' + dirName), fail);
             });
             it("file.spec.24 DirectoryEntry.getDirectory: create new dir with space then resolveLocalFileSystemURL", function (done) {
@@ -644,7 +644,7 @@ exports.defineAutoTests = function () {
 
                 // create:true, exclusive:false, directory does not exist
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, getDir, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
             // This test is excluded, and should probably be removed. Filesystem
@@ -655,7 +655,7 @@ exports.defineAutoTests = function () {
             // backend.
             xit("file.spec.25 DirectoryEntry.getDirectory: create new dir with space resolveLocalFileSystemURL with encoded URI", function (done) {
                 var dirName = "de create dir2",
-                dirPath = joinURL(root.fullPath, dirName);
+                    dirPath = joinURL(root.fullPath, dirName);
 
                 function win(directory) {
                     expect(directory).toBeDefined();
@@ -675,115 +675,115 @@ exports.defineAutoTests = function () {
 
                 // create:true, exclusive:false, directory does not exist
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, getDir, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
             it("file.spec.26 DirectoryEntry.getDirectory: create new directory", function (done) {
                 var dirName = "de.create.dir",
-                dirPath = joinURL(root.fullPath, dirName),
-                win = function (directory) {
-                    expect(directory).toBeDefined();
-                    expect(directory.isFile).toBe(false);
-                    expect(directory.isDirectory).toBe(true);
-                    expect(directory.name).toCanonicallyMatch(dirName);
-                    expect(directory.fullPath).toCanonicallyMatch(dirPath);
-                    expect(directory.filesystem).toBeDefined();
-                    expect(directory.filesystem).toBe(root.filesystem);
-                    // cleanup
-                    deleteEntry(directory.name, done);
-                };
+                    dirPath = joinURL(root.fullPath, dirName),
+                    win = function (directory) {
+                        expect(directory).toBeDefined();
+                        expect(directory.isFile).toBe(false);
+                        expect(directory.isDirectory).toBe(true);
+                        expect(directory.name).toCanonicallyMatch(dirName);
+                        expect(directory.fullPath).toCanonicallyMatch(dirPath);
+                        expect(directory.filesystem).toBeDefined();
+                        expect(directory.filesystem).toBe(root.filesystem);
+                        // cleanup
+                        deleteEntry(directory.name, done);
+                    };
                 // create:true, exclusive:false, directory does not exist
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, win, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
             it("file.spec.27 DirectoryEntry.getDirectory: create new directory (exclusive)", function (done) {
                 var dirName = "de.create.exclusive.dir",
-                dirPath = joinURL(root.fullPath, dirName),
-                win = function (directory) {
-                    expect(directory).toBeDefined();
-                    expect(directory.isFile).toBe(false);
-                    expect(directory.isDirectory).toBe(true);
-                    expect(directory.name).toCanonicallyMatch(dirName);
-                    expect(directory.fullPath).toCanonicallyMatch(dirPath);
-                    expect(directory.filesystem).toBeDefined();
-                    expect(directory.filesystem).toBe(root.filesystem);
-                    // cleanup
-                    deleteEntry(directory.name, done);
-                };
+                    dirPath = joinURL(root.fullPath, dirName),
+                    win = function (directory) {
+                        expect(directory).toBeDefined();
+                        expect(directory.isFile).toBe(false);
+                        expect(directory.isDirectory).toBe(true);
+                        expect(directory.name).toCanonicallyMatch(dirName);
+                        expect(directory.fullPath).toCanonicallyMatch(dirPath);
+                        expect(directory.filesystem).toBeDefined();
+                        expect(directory.filesystem).toBe(root.filesystem);
+                        // cleanup
+                        deleteEntry(directory.name, done);
+                    };
                 // create:true, exclusive:true, directory does not exist
                 root.getDirectory(dirName, {
-                    create : true,
-                    exclusive : true
+                    create: true,
+                    exclusive: true
                 }, win, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
             it("file.spec.28 DirectoryEntry.getDirectory: create directory that already exists", function (done) {
                 var dirName = "de.create.existing.dir",
-                dirPath = joinURL(root.fullPath, dirName),
-                win = function (directory) {
-                    expect(directory).toBeDefined();
-                    expect(directory.isFile).toBe(false);
-                    expect(directory.isDirectory).toBe(true);
-                    expect(directory.name).toCanonicallyMatch(dirName);
-                    expect(directory.fullPath).toCanonicallyMatch(dirPath);
-                    // cleanup
-                    deleteEntry(directory.name, done);
-                };
+                    dirPath = joinURL(root.fullPath, dirName),
+                    win = function (directory) {
+                        expect(directory).toBeDefined();
+                        expect(directory.isFile).toBe(false);
+                        expect(directory.isDirectory).toBe(true);
+                        expect(directory.name).toCanonicallyMatch(dirName);
+                        expect(directory.fullPath).toCanonicallyMatch(dirPath);
+                        // cleanup
+                        deleteEntry(directory.name, done);
+                    };
                 // create directory to kick off it
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, function () {
                     root.getDirectory(dirName, {
-                        create : true
+                        create: true
                     }, win, failed.bind(null, done, 'root.getDirectory - Error creating existent second directory : ' + dirName));
                 }, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
             it("file.spec.29 DirectoryEntry.getDirectory: create directory that already exists (exclusive)", function (done) {
 
                 var dirName = "de.create.exclusive.existing.dir",
-                existingDir,
-                fail = function (error) {
-                    expect(error).toBeDefined();
-                    if (isChrome) {
-                        /*INVALID_MODIFICATION_ERR (code: 9) is thrown instead of PATH_EXISTS_ERR(code: 12)
-                        on trying to exclusively create a file or directory, which already exists (Chrome).*/
-                        expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
-                    } else {
-                        expect(error).toBeFileError(FileError.PATH_EXISTS_ERR);
-                    }
-                    // cleanup
-                    deleteEntry(existingDir.name, done);
-                };
+                    existingDir,
+                    fail = function (error) {
+                        expect(error).toBeDefined();
+                        if (isChrome) {
+                            /*INVALID_MODIFICATION_ERR (code: 9) is thrown instead of PATH_EXISTS_ERR(code: 12)
+                            on trying to exclusively create a file or directory, which already exists (Chrome).*/
+                            expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
+                        } else {
+                            expect(error).toBeFileError(FileError.PATH_EXISTS_ERR);
+                        }
+                        // cleanup
+                        deleteEntry(existingDir.name, done);
+                    };
                 // create directory to kick off it
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, function (directory) {
                     existingDir = directory;
                     // create:true, exclusive:true, directory exists
                     root.getDirectory(dirName, {
-                        create : true,
-                        exclusive : true
+                        create: true,
+                        exclusive: true
                     }, failed.bind(null, done, 'root.getDirectory - Unexpected success callback, second directory should not be created : ' + dirName), fail);
                 }, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
             it("file.spec.30 DirectoryEntry.getDirectory: get Entry for existing directory", function (done) {
                 var dirName = "de.get.dir",
-                dirPath = joinURL(root.fullPath, dirName),
-                win = function (directory) {
-                    expect(directory).toBeDefined();
-                    expect(directory.isFile).toBe(false);
-                    expect(directory.isDirectory).toBe(true);
-                    expect(directory.name).toCanonicallyMatch(dirName);
-                    expect(directory.fullPath).toCanonicallyMatch(dirPath);
-                    // cleanup
-                    deleteEntry(directory.name, done);
-                };
+                    dirPath = joinURL(root.fullPath, dirName),
+                    win = function (directory) {
+                        expect(directory).toBeDefined();
+                        expect(directory.isFile).toBe(false);
+                        expect(directory.isDirectory).toBe(true);
+                        expect(directory.name).toCanonicallyMatch(dirName);
+                        expect(directory.fullPath).toCanonicallyMatch(dirPath);
+                        // cleanup
+                        deleteEntry(directory.name, done);
+                    };
                 // create directory to kick it off
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, function () {
                     root.getDirectory(dirName, {
-                        create : false
+                        create: false
                     }, win, failed.bind(null, done, 'root.getDirectory - Error getting directory entry : ' + dirName));
                 }, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
@@ -795,72 +795,72 @@ exports.defineAutoTests = function () {
                 }
 
                 var dirName = "de:invalid:path",
-                fail = function (error) {
-                    expect(error).toBeDefined();
-                    expect(error).toBeFileError(FileError.ENCODING_ERR);
-                    done();
-                };
+                    fail = function (error) {
+                        expect(error).toBeDefined();
+                        expect(error).toBeFileError(FileError.ENCODING_ERR);
+                        done();
+                    };
                 // create:false, exclusive:false, invalid path
                 root.getDirectory(dirName, {
-                    create : false
+                    create: false
                 }, succeed.bind(null, done, 'root.getDirectory - Unexpected success callback, directory should not exists: ' + dirName), fail);
             });
             it("file.spec.32 DirectoryEntry.getDirectory: get DirectoryEntry for existing file", function (done) {
                 var fileName = "de.existing.file",
-                existingFile,
-                fail = function (error) {
-                    expect(error).toBeDefined();
-                    expect(error).toBeFileError(FileError.TYPE_MISMATCH_ERR);
-                    // cleanup
-                    deleteEntry(existingFile.name, done);
-                };
+                    existingFile,
+                    fail = function (error) {
+                        expect(error).toBeDefined();
+                        expect(error).toBeFileError(FileError.TYPE_MISMATCH_ERR);
+                        // cleanup
+                        deleteEntry(existingFile.name, done);
+                    };
                 // create file to kick off it
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, function (file) {
                     existingFile = file;
                     root.getDirectory(fileName, {
-                        create : false
+                        create: false
                     }, succeed.bind(null, done, 'root.getDirectory - Unexpected success callback, directory should not exists: ' + fileName), fail);
                 }, failed.bind(null, done, 'root.getFile - Error creating file : ' + fileName));
             });
             it("file.spec.33 DirectoryEntry.getFile: get FileEntry for existing directory", function (done) {
                 var dirName = "de.existing.dir",
-                existingDir,
-                fail = function (error) {
-                    expect(error).toBeDefined();
-                    expect(error).toBeFileError(FileError.TYPE_MISMATCH_ERR);
-                    // cleanup
-                    deleteEntry(existingDir.name, done);
-                };
+                    existingDir,
+                    fail = function (error) {
+                        expect(error).toBeDefined();
+                        expect(error).toBeFileError(FileError.TYPE_MISMATCH_ERR);
+                        // cleanup
+                        deleteEntry(existingDir.name, done);
+                    };
                 // create directory to kick off it
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, function (directory) {
                     existingDir = directory;
                     root.getFile(dirName, {
-                        create : false
+                        create: false
                     }, succeed.bind(null, done, 'root.getFile - Unexpected success callback, file should not exists: ' + dirName), fail);
                 }, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
             it("file.spec.34 DirectoryEntry.removeRecursively on directory", function (done) {
                 var dirName = "de.removeRecursively",
-                subDirName = "dir",
-                dirExists = function (error) {
-                    expect(error).toBeDefined();
-                    expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
-                    done();
-                };
+                    subDirName = "dir",
+                    dirExists = function (error) {
+                        expect(error).toBeDefined();
+                        expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
+                        done();
+                    };
                 // create a new directory entry to kick off it
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, function (entry) {
                     entry.getDirectory(subDirName, {
-                        create : true
+                        create: true
                     }, function (dir) {
                         entry.removeRecursively(function () {
                             root.getDirectory(dirName, {
-                                create : false
+                                create: false
                             }, succeed.bind(null, done, 'root.getDirectory - Unexpected success callback, directory should not exists: ' + dirName), dirExists);
                         }, failed.bind(null, done, 'entry.removeRecursively - Error removing directory recursively : ' + dirName));
                     }, failed.bind(null, done, 'root.getDirectory - Error creating directory : ' + subDirName));
@@ -894,11 +894,11 @@ exports.defineAutoTests = function () {
             describe("readEntries", function () {
                 it("file.spec.37 should read contents of existing directory", function (done) {
                     var reader,
-                    win = function (entries) {
-                        expect(entries).toBeDefined();
-                        expect(entries instanceof Array).toBe(true);
-                        done();
-                    };
+                        win = function (entries) {
+                            expect(entries).toBeDefined();
+                            expect(entries instanceof Array).toBe(true);
+                            done();
+                        };
                     // create reader for root directory
                     reader = root.createReader();
                     // read entries
@@ -906,12 +906,12 @@ exports.defineAutoTests = function () {
                 });
                 it("file.spec.37.1 should read contents of existing directory", function (done) {
                     var dirName = 'readEntries.dir',
-                    fileName = 'readeEntries.file';
+                        fileName = 'readeEntries.file';
                     root.getDirectory(dirName, {
-                        create : true
+                        create: true
                     }, function (directory) {
                         directory.getFile(fileName, {
-                            create : true
+                            create: true
                         }, function (fileEntry) {
                             var reader = directory.createReader();
                             reader.readEntries(function (entries) {
@@ -936,10 +936,10 @@ exports.defineAutoTests = function () {
                 });
                 it("file.spec.109 should return an empty entry list on the second call", function (done) {
                     var reader,
-                    fileName = 'test109.txt';
+                        fileName = 'test109.txt';
                     // Add a file to ensure the root directory is non-empty and then read the contents of the directory.
                     root.getFile(fileName, {
-                        create : true
+                        create: true
                     }, function (entry) {
                         reader = root.createReader();
                         //First read
@@ -963,7 +963,7 @@ exports.defineAutoTests = function () {
                 var dirName = "de.createReader.notfound";
                 // create a new directory entry to kick off it
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, function (directory) {
                     directory.removeRecursively(function () {
                         var reader = directory.createReader();
@@ -971,7 +971,7 @@ exports.defineAutoTests = function () {
                             expect(error).toBeDefined();
                             expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
                             root.getDirectory(dirName, {
-                                create : false
+                                create: false
                             }, succeed.bind(null, done, 'root.getDirectory - Unexpected success callback, it should not get deleted directory: ' + dirName), function (err) {
                                 expect(err).toBeDefined();
                                 expect(err).toBeFileError(FileError.NOT_FOUND_ERR);
@@ -1001,37 +1001,37 @@ exports.defineAutoTests = function () {
 
             it("file.spec.41 should be define FileEntry methods", function (done) {
                 var fileName = "fe.methods",
-                testFileEntry = function (fileEntry) {
-                    expect(fileEntry).toBeDefined();
-                    expect(typeof fileEntry.createWriter).toBe('function');
-                    expect(typeof fileEntry.file).toBe('function');
-                    // cleanup
-                    deleteEntry(fileEntry.name, done);
-                };
+                    testFileEntry = function (fileEntry) {
+                        expect(fileEntry).toBeDefined();
+                        expect(typeof fileEntry.createWriter).toBe('function');
+                        expect(typeof fileEntry.file).toBe('function');
+                        // cleanup
+                        deleteEntry(fileEntry.name, done);
+                    };
                 // create a new file entry to kick off it
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, testFileEntry, failed.bind(null, done, 'root.getFile - Error creating file : ' + fileName));
             });
             it("file.spec.42 createWriter should return a FileWriter object", function (done) {
                 var fileName = "fe.createWriter",
-                testFile,
-                testWriter = function (writer) {
-                    expect(writer).toBeDefined();
-                    if (isChrome) {
-                        // Slicing '[object {type}]' -> '{type}'
-                        expect(writer.toString().slice(8, -1)).toEqual("FileWriter");
-                    }
-                    else {
-                        expect(writer instanceof FileWriter).toBe(true);
-                    }
+                    testFile,
+                    testWriter = function (writer) {
+                        expect(writer).toBeDefined();
+                        if (isChrome) {
+                            // Slicing '[object {type}]' -> '{type}'
+                            expect(writer.toString().slice(8, -1)).toEqual("FileWriter");
+                        }
+                        else {
+                            expect(writer instanceof FileWriter).toBe(true);
+                        }
 
-                    // cleanup
-                    deleteEntry(testFile.name, done);
-                };
+                        // cleanup
+                        deleteEntry(testFile.name, done);
+                    };
                 // create a new file entry to kick off it
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, function (fileEntry) {
                     testFile = fileEntry;
                     fileEntry.createWriter(testWriter, failed.bind(null, done, 'fileEntry.createWriter - Error creating Writer from entry'));
@@ -1039,23 +1039,23 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.43 file should return a File object", function (done) {
                 var fileName = "fe.file",
-                newFile,
-                testFile = function (file) {
-                    expect(file).toBeDefined();
-                    if (isChrome) {
-                        // Slicing '[object {type}]' -> '{type}'
-                        expect(file.toString().slice(8, -1)).toEqual("File");
-                    }
-                    else {
-                        expect(file instanceof File).toBe(true);
-                    }
+                    newFile,
+                    testFile = function (file) {
+                        expect(file).toBeDefined();
+                        if (isChrome) {
+                            // Slicing '[object {type}]' -> '{type}'
+                            expect(file.toString().slice(8, -1)).toEqual("File");
+                        }
+                        else {
+                            expect(file instanceof File).toBe(true);
+                        }
 
-                    // cleanup
-                    deleteEntry(newFile.name, done);
-                };
+                        // cleanup
+                        deleteEntry(newFile.name, done);
+                    };
                 // create a new file entry to kick off it
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, function (fileEntry) {
                     newFile = fileEntry;
                     fileEntry.file(testFile, failed.bind(null, done, 'fileEntry.file - Error reading file using fileEntry: ' + fileEntry.name));
@@ -1065,7 +1065,7 @@ exports.defineAutoTests = function () {
                 var fileName = "fe.no.file";
                 // create a new file entry to kick off it
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, function (fileEntry) {
                     fileEntry.remove(function () {
                         fileEntry.file(succeed.bind(null, done, 'fileEntry.file - Unexpected success callback, file it should not be created from removed entry'), function (error) {
@@ -1081,25 +1081,25 @@ exports.defineAutoTests = function () {
         describe('Entry', function () {
             it("file.spec.45 Entry object", function (done) {
                 var fileName = "entry",
-                fullPath = joinURL(root.fullPath, fileName),
-                winEntry = function (entry) {
-                    expect(entry).toBeDefined();
-                    expect(entry.isFile).toBe(true);
-                    expect(entry.isDirectory).toBe(false);
-                    expect(entry.name).toCanonicallyMatch(fileName);
-                    expect(entry.fullPath).toCanonicallyMatch(fullPath);
-                    expect(typeof entry.getMetadata).toBe('function');
-                    expect(typeof entry.setMetadata).toBe('function');
-                    expect(typeof entry.moveTo).toBe('function');
-                    expect(typeof entry.copyTo).toBe('function');
-                    expect(typeof entry.toURL).toBe('function');
-                    expect(typeof entry.remove).toBe('function');
-                    expect(typeof entry.getParent).toBe('function');
-                    expect(typeof entry.createWriter).toBe('function');
-                    expect(typeof entry.file).toBe('function');
-                    // Clean up
-                    deleteEntry(fileName, done);
-                };
+                    fullPath = joinURL(root.fullPath, fileName),
+                    winEntry = function (entry) {
+                        expect(entry).toBeDefined();
+                        expect(entry.isFile).toBe(true);
+                        expect(entry.isDirectory).toBe(false);
+                        expect(entry.name).toCanonicallyMatch(fileName);
+                        expect(entry.fullPath).toCanonicallyMatch(fullPath);
+                        expect(typeof entry.getMetadata).toBe('function');
+                        expect(typeof entry.setMetadata).toBe('function');
+                        expect(typeof entry.moveTo).toBe('function');
+                        expect(typeof entry.copyTo).toBe('function');
+                        expect(typeof entry.toURL).toBe('function');
+                        expect(typeof entry.remove).toBe('function');
+                        expect(typeof entry.getParent).toBe('function');
+                        expect(typeof entry.createWriter).toBe('function');
+                        expect(typeof entry.file).toBe('function');
+                        // Clean up
+                        deleteEntry(fileName, done);
+                    };
                 // create a new file entry
                 createFile(fileName, winEntry, failed.bind(null, done, 'createFile - Error creating file : ' + fileName));
             });
@@ -1137,7 +1137,7 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.48 Entry.getParent on file in root file system", function (done) {
                 var fileName = "entry.parent.file",
-                rootPath = root.fullPath;
+                    rootPath = root.fullPath;
                 // create a new file entry
                 createFile(fileName, function (entry) {
                     entry.getParent(function (parent) {
@@ -1150,7 +1150,7 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.49 Entry.getParent on directory in root file system", function (done) {
                 var dirName = "entry.parent.dir",
-                rootPath = root.fullPath;
+                    rootPath = root.fullPath;
                 // create a new directory entry
                 createDirectory(dirName, function (entry) {
                     entry.getParent(function (parent) {
@@ -1163,34 +1163,34 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.50 Entry.getParent on root file system", function (done) {
                 var rootPath = root.fullPath,
-                winParent = function (parent) {
-                    expect(parent).toBeDefined();
-                    expect(parent.fullPath).toCanonicallyMatch(rootPath);
-                    done();
-                };
+                    winParent = function (parent) {
+                        expect(parent).toBeDefined();
+                        expect(parent.fullPath).toCanonicallyMatch(rootPath);
+                        done();
+                    };
                 // create a new directory entry
                 root.getParent(winParent, failed.bind(null, done, 'root.getParent - Error getting parent directory of root'));
             });
             it("file.spec.51 Entry.toURL on file", function (done) {
                 var fileName = "entry.uri.file",
-                rootPath = root.fullPath,
-                winURI = function (entry) {
-                    var uri = entry.toURL();
-                    expect(uri).toBeDefined();
-                    expect(uri.indexOf(rootPath)).not.toBe(-1);
-                    // cleanup
-                    deleteEntry(fileName, done);
-                };
+                    rootPath = root.fullPath,
+                    winURI = function (entry) {
+                        var uri = entry.toURL();
+                        expect(uri).toBeDefined();
+                        expect(uri.indexOf(rootPath)).not.toBe(-1);
+                        // cleanup
+                        deleteEntry(fileName, done);
+                    };
                 // create a new file entry
                 createFile(fileName, winURI, failed.bind(null, done, 'createFile - Error creating file : ' + fileName));
             });
             it("file.spec.52 Entry.toURL on directory", function (done) {
                 var dirName_1 = "num 1",
-                dirName_2 = "num 2",
-                rootPath = root.fullPath;
+                    dirName_2 = "num 2",
+                    rootPath = root.fullPath;
                 createDirectory(dirName_1, function (entry) {
                     entry.getDirectory(dirName_2, {
-                        create : true
+                        create: true
                     }, function (entryFile) {
                         var uri = entryFile.toURL();
                         expect(uri).toBeDefined();
@@ -1255,12 +1255,12 @@ exports.defineAutoTests = function () {
                 }
 
                 var dirName = "ent y.rm.dir.not.empty",
-                fileName = "re ove.txt",
-                fullPath = joinURL(root.fullPath, dirName);
+                    fileName = "re ove.txt",
+                    fullPath = joinURL(root.fullPath, dirName);
                 // create a new directory entry
                 createDirectory(dirName, function (entry) {
                     entry.getFile(fileName, {
-                        create : true
+                        create: true
                     }, function (fileEntry) {
                         entry.remove(succeed.bind(null, done, 'entry.remove - Unexpected success callback, it should not remove a directory that contains files : ' + dirName), function (error) {
                             expect(error).toBeDefined();
@@ -1293,8 +1293,8 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.57 copyTo: file", function (done) {
                 var file1 = "entry copy.file1",
-                file2 = "entry copy.file2",
-                fullPath = joinURL(root.fullPath, file2);
+                    file2 = "entry copy.file2",
+                    fullPath = joinURL(root.fullPath, file2);
                 // create a new file entry to kick off it
                 deleteEntry(file2, function () {
                     createFile(file1, function (fileEntry) {
@@ -1306,7 +1306,7 @@ exports.defineAutoTests = function () {
                             expect(entry.fullPath).toCanonicallyMatch(fullPath);
                             expect(entry.name).toCanonicallyMatch(file2);
                             root.getFile(file2, {
-                                create : false
+                                create: false
                             }, function (entry2) {
                                 expect(entry2).toBeDefined();
                                 expect(entry2.isFile).toBe(true);
@@ -1342,16 +1342,16 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "file1",
-                srcDir = "entry.copy.srcDir",
-                dstDir = "entry.copy.dstDir",
-                dstPath = joinURL(root.fullPath, dstDir),
-                filePath = joinURL(dstPath, file1);
+                    srcDir = "entry.copy.srcDir",
+                    dstDir = "entry.copy.dstDir",
+                    dstPath = joinURL(root.fullPath, dstDir),
+                    filePath = joinURL(dstPath, file1);
                 // create a new directory entry to kick off it
                 deleteEntry(dstDir, function () {
                     createDirectory(srcDir, function (directory) {
                         // create a file within new directory
                         directory.getFile(file1, {
-                            create : true
+                            create: true
                         }, function () {
                             directory.copyTo(root, dstDir, function (directory) {
                                 expect(directory).toBeDefined();
@@ -1360,7 +1360,7 @@ exports.defineAutoTests = function () {
                                 expect(directory.fullPath).toCanonicallyMatch(dstPath);
                                 expect(directory.name).toCanonicallyMatch(dstDir);
                                 root.getDirectory(dstDir, {
-                                    create : false
+                                    create: false
                                 }, function (dirEntry) {
                                     expect(dirEntry).toBeDefined();
                                     expect(dirEntry.isFile).toBe(false);
@@ -1368,7 +1368,7 @@ exports.defineAutoTests = function () {
                                     expect(dirEntry.fullPath).toCanonicallyMatch(dstPath);
                                     expect(dirEntry.name).toCanonicallyMatch(dstDir);
                                     dirEntry.getFile(file1, {
-                                        create : false
+                                        create: false
                                     }, function (fileEntry) {
                                         expect(fileEntry).toBeDefined();
                                         expect(fileEntry.isFile).toBe(true);
@@ -1393,15 +1393,15 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "file1",
-                srcDir = "entry.copy srcDirSame",
-                dstDir = "entry.copy srcDirSame-backup",
-                dstPath = joinURL(root.fullPath, dstDir),
-                filePath = joinURL(dstPath, file1);
+                    srcDir = "entry.copy srcDirSame",
+                    dstDir = "entry.copy srcDirSame-backup",
+                    dstPath = joinURL(root.fullPath, dstDir),
+                    filePath = joinURL(dstPath, file1);
                 // create a new directory entry to kick off it
                 deleteEntry(dstDir, function () {
                     createDirectory(srcDir, function (directory) {
                         directory.getFile(file1, {
-                            create : true
+                            create: true
                         }, function () {
                             directory.copyTo(root, dstDir, function (directory) {
                                 expect(directory).toBeDefined();
@@ -1410,7 +1410,7 @@ exports.defineAutoTests = function () {
                                 expect(directory.fullPath).toCanonicallyMatch(dstPath);
                                 expect(directory.name).toCanonicallyMatch(dstDir);
                                 root.getDirectory(dstDir, {
-                                    create : false
+                                    create: false
                                 }, function (dirEntry) {
                                     expect(dirEntry).toBeDefined();
                                     expect(dirEntry.isFile).toBe(false);
@@ -1418,7 +1418,7 @@ exports.defineAutoTests = function () {
                                     expect(dirEntry.fullPath).toCanonicallyMatch(dstPath);
                                     expect(dirEntry.name).toCanonicallyMatch(dstDir);
                                     dirEntry.getFile(file1, {
-                                        create : false
+                                        create: false
                                     }, function (fileEntry) {
                                         expect(fileEntry).toBeDefined();
                                         expect(fileEntry.isFile).toBe(true);
@@ -1443,26 +1443,26 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "file1",
-                srcDir = "entry.copy.dos.srcDir",
-                srcPath = joinURL(root.fullPath, srcDir),
-                filePath = joinURL(srcPath, file1);
+                    srcDir = "entry.copy.dos.srcDir",
+                    srcPath = joinURL(root.fullPath, srcDir),
+                    filePath = joinURL(srcPath, file1);
                 // create a new directory entry to kick off it
                 createDirectory(srcDir, function (directory) {
                     // create a file within new directory
                     directory.getFile(file1, {
-                        create : true
+                        create: true
                     }, function (fileEntry) {
                         // copy srcDir onto itself
                         directory.copyTo(root, null, succeed.bind(null, done, 'directory.copyTo - Unexpected success callback, it should not copy file: ' + srcDir + ' to a null destination'), function (error) {
                             expect(error).toBeDefined();
                             expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                             root.getDirectory(srcDir, {
-                                create : false
+                                create: false
                             }, function (dirEntry) {
                                 expect(dirEntry).toBeDefined();
                                 expect(dirEntry.fullPath).toCanonicallyMatch(srcPath);
                                 dirEntry.getFile(file1, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
@@ -1481,8 +1481,8 @@ exports.defineAutoTests = function () {
                 }
 
                 var srcDir = "entry.copy.dis.srcDir",
-                dstDir = "entry.copy.dis.dstDir",
-                srcPath = joinURL(root.fullPath, srcDir);
+                    dstDir = "entry.copy.dis.dstDir",
+                    srcPath = joinURL(root.fullPath, srcDir);
                 // create a new directory entry to kick off it
                 createDirectory(srcDir, function (directory) {
                     // copy source directory into itself
@@ -1490,7 +1490,7 @@ exports.defineAutoTests = function () {
                         expect(error).toBeDefined();
                         expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                         root.getDirectory(srcDir, {
-                            create : false
+                            create: false
                         }, function (dirEntry) {
                             // returning confirms existence so just check fullPath entry
                             expect(dirEntry).toBeDefined();
@@ -1503,7 +1503,7 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.63 copyTo: directory that does not exist", function (done) {
                 var file1 = "entry.copy.dnf.file1",
-                dirName = 'dir-foo';
+                    dirName = 'dir-foo';
                 createFile(file1, function (fileEntry) {
                     createDirectory(dirName, function (dirEntry) {
                         dirEntry.remove(function () {
@@ -1524,7 +1524,7 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "entry.copy.itn.file1",
-                file2 = "bad:file:name";
+                    file2 = "bad:file:name";
                 // create a new file entry
                 createFile(file1, function (entry) {
                     // copy file1 to file2
@@ -1538,8 +1538,8 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.65 moveTo: file to same parent", function (done) {
                 var file1 = "entry.move.fsp.file1",
-                file2 = "entry.move.fsp.file2",
-                dstPath = joinURL(root.fullPath, file2);
+                    file2 = "entry.move.fsp.file2",
+                    dstPath = joinURL(root.fullPath, file2);
                 // create a new file entry to kick off it
                 createFile(file1, function (entry) {
                     // move file1 to file2
@@ -1550,12 +1550,12 @@ exports.defineAutoTests = function () {
                         expect(entry.fullPath).toCanonicallyMatch(dstPath);
                         expect(entry.name).toCanonicallyMatch(file2);
                         root.getFile(file2, {
-                            create : false
+                            create: false
                         }, function (fileEntry) {
                             expect(fileEntry).toBeDefined();
                             expect(fileEntry.fullPath).toCanonicallyMatch(dstPath);
                             root.getFile(file1, {
-                                create : false
+                                create: false
                             }, succeed.bind(null, done, 'root.getFile - Unexpected success callback, it should not get invalid or moved file: ' + file1), function (error) {
                                 //expect(navigator.fileMgr.testFileExists(srcPath) === false, "original file should not exist.");
                                 expect(error).toBeDefined();
@@ -1571,15 +1571,15 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.66 moveTo: file to new parent", function (done) {
                 var file1 = "entry.move.fnp.file1",
-                dir = "entry.move.fnp.dir",
-                dstPath = joinURL(joinURL(root.fullPath, dir), file1);
+                    dir = "entry.move.fnp.dir",
+                    dstPath = joinURL(joinURL(root.fullPath, dir), file1);
                 // ensure destination directory is cleaned up first
                 deleteEntry(dir, function () {
                     // create a new file entry to kick off it
                     createFile(file1, function (entry) {
                         // create a parent directory to move file to
                         root.getDirectory(dir, {
-                            create : true
+                            create: true
                         }, function (directory) {
                             // move file1 to new directory
                             // move the file
@@ -1591,12 +1591,12 @@ exports.defineAutoTests = function () {
                                 expect(entry.name).toCanonicallyMatch(file1);
                                 // test the moved file exists
                                 directory.getFile(file1, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(dstPath);
                                     root.getFile(file1, {
-                                        create : false
+                                        create: false
                                     }, succeed.bind(null, done, 'root.getFile - Unexpected success callback, it should not get invalid or moved file: ' + file1), function (error) {
                                         expect(error).toBeDefined();
                                         expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
@@ -1618,17 +1618,17 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "file1",
-                srcDir = "entry.move.dsp.srcDir",
-                dstDir = "entry.move.dsp.dstDir",
-                dstPath = joinURL(root.fullPath, dstDir),
-                filePath = joinURL(dstPath, file1);
+                    srcDir = "entry.move.dsp.srcDir",
+                    dstDir = "entry.move.dsp.dstDir",
+                    dstPath = joinURL(root.fullPath, dstDir),
+                    filePath = joinURL(dstPath, file1);
                 // ensure destination directory is cleaned up before it
                 deleteEntry(dstDir, function () {
                     // create a new directory entry to kick off it
                     createDirectory(srcDir, function (directory) {
                         // create a file within directory
                         directory.getFile(file1, {
-                            create : true
+                            create: true
                         }, function () {
                             // move srcDir to dstDir
                             directory.moveTo(root, dstDir, function (directory) {
@@ -1639,18 +1639,18 @@ exports.defineAutoTests = function () {
                                 expect(directory.name).toCanonicallyMatch(dstDir);
                                 // test that moved file exists in destination dir
                                 directory.getFile(file1, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
                                     // check that the moved file no longer exists in original dir
                                     root.getFile(file1, {
-                                        create : false
+                                        create: false
                                     }, succeed.bind(null, done, 'directory.getFile - Unexpected success callback, it should not get invalid or moved file: ' + file1), function (error) {
                                         expect(error).toBeDefined();
                                         expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
                                         // cleanup
-                                        deleteEntry(srcDir, function() {
+                                        deleteEntry(srcDir, function () {
                                             deleteEntry(dstDir, done);
                                         });
                                     });
@@ -1667,17 +1667,17 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "file1",
-                srcDir = "entry.move.dsp.srcDir",
-                dstDir = "entry.move.dsp.srcDir-backup",
-                dstPath = joinURL(root.fullPath, dstDir),
-                filePath = joinURL(dstPath, file1);
+                    srcDir = "entry.move.dsp.srcDir",
+                    dstDir = "entry.move.dsp.srcDir-backup",
+                    dstPath = joinURL(root.fullPath, dstDir),
+                    filePath = joinURL(dstPath, file1);
                 // ensure destination directory is cleaned up before it
                 deleteEntry(dstDir, function () {
                     // create a new directory entry to kick off it
                     createDirectory(srcDir, function (directory) {
                         // create a file within directory
                         directory.getFile(file1, {
-                            create : true
+                            create: true
                         }, function () {
                             // move srcDir to dstDir
                             directory.moveTo(root, dstDir, function (directory) {
@@ -1688,18 +1688,18 @@ exports.defineAutoTests = function () {
                                 expect(directory.name).toCanonicallyMatch(dstDir);
                                 // check that moved file exists in destination dir
                                 directory.getFile(file1, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
                                     // check that the moved file no longer exists in original dir
                                     root.getFile(file1, {
-                                        create : false
+                                        create: false
                                     }, succeed.bind(null, done, 'directory.getFile - Unexpected success callback, it should not get invalid or moved file: ' + file1), function (error) {
                                         expect(error).toBeDefined();
                                         expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
                                         // cleanup
-                                        deleteEntry(srcDir, function() {
+                                        deleteEntry(srcDir, function () {
                                             deleteEntry(dstDir, done);
                                         });
                                     });
@@ -1716,17 +1716,17 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "file1",
-                srcDir = "entry.move.dnp.srcDir",
-                dstDir = "entry.move.dnp.dstDir",
-                dstPath = joinURL(root.fullPath, dstDir),
-                filePath = joinURL(dstPath, file1);
+                    srcDir = "entry.move.dnp.srcDir",
+                    dstDir = "entry.move.dnp.dstDir",
+                    dstPath = joinURL(root.fullPath, dstDir),
+                    filePath = joinURL(dstPath, file1);
                 // ensure destination directory is cleaned up before it
                 deleteEntry(dstDir, function () {
                     // create a new directory entry to kick off it
                     createDirectory(srcDir, function (directory) {
                         // create a file within directory
                         directory.getFile(file1, {
-                            create : true
+                            create: true
                         }, function () {
                             // move srcDir to dstDir
                             directory.moveTo(root, dstDir, function (dirEntry) {
@@ -1737,18 +1737,18 @@ exports.defineAutoTests = function () {
                                 expect(dirEntry.name).toCanonicallyMatch(dstDir);
                                 // test that moved file exists in destination dir
                                 dirEntry.getFile(file1, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
                                     // test that the moved file no longer exists in original dir
                                     root.getFile(file1, {
-                                        create : false
+                                        create: false
                                     }, succeed.bind(null, done, 'root.getFile - Unexpected success callback, it should not get invalid or moved file: ' + file1), function (error) {
                                         expect(error).toBeDefined();
                                         expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
                                         // cleanup
-                                        deleteEntry(srcDir, function() {
+                                        deleteEntry(srcDir, function () {
                                             deleteEntry(dstDir, done);
                                         });
                                     });
@@ -1796,14 +1796,14 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "file1",
-                srcDir = "entry.move.dos.srcDir",
-                srcPath = joinURL(root.fullPath, srcDir),
-                filePath = joinURL(srcPath, file1);
+                    srcDir = "entry.move.dos.srcDir",
+                    srcPath = joinURL(root.fullPath, srcDir),
+                    filePath = joinURL(srcPath, file1);
                 // create a new directory entry to kick off it
                 createDirectory(srcDir, function (directory) {
                     // create a file within new directory
                     directory.getFile(file1, {
-                        create : true
+                        create: true
                     }, function () {
                         // move srcDir onto itself
                         directory.moveTo(root, null, succeed.bind(null, done, 'directory.moveTo - Unexpected success callback, it should not move directory to invalid path'), function (error) {
@@ -1811,13 +1811,13 @@ exports.defineAutoTests = function () {
                             expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                             // test that original dir still exists
                             root.getDirectory(srcDir, {
-                                create : false
+                                create: false
                             }, function (dirEntry) {
                                 // returning confirms existence so just check fullPath entry
                                 expect(dirEntry).toBeDefined();
                                 expect(dirEntry.fullPath).toCanonicallyMatch(srcPath);
                                 dirEntry.getFile(file1, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
@@ -1836,8 +1836,8 @@ exports.defineAutoTests = function () {
                 }
 
                 var srcDir = "entry.move.dis.srcDir",
-                dstDir = "entry.move.dis.dstDir",
-                srcPath = joinURL(root.fullPath, srcDir);
+                    dstDir = "entry.move.dis.dstDir",
+                    srcPath = joinURL(root.fullPath, srcDir);
                 // create a new directory entry to kick off it
                 createDirectory(srcDir, function (directory) {
                     // move source directory into itself
@@ -1846,7 +1846,7 @@ exports.defineAutoTests = function () {
                         expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                         // make sure original directory still exists
                         root.getDirectory(srcDir, {
-                            create : false
+                            create: false
                         }, function (entry) {
                             expect(entry).toBeDefined();
                             expect(entry.fullPath).toCanonicallyMatch(srcPath);
@@ -1863,23 +1863,23 @@ exports.defineAutoTests = function () {
                 }
 
                 var srcDir = "entry.move.dis.srcDir",
-                dstDir = "entry.move.dis.srcDir-backup";
+                    dstDir = "entry.move.dis.srcDir-backup";
                 // create a new directory entry to kick off it
                 createDirectory(srcDir, function (srcDirEntry) {
-                deleteEntry(dstDir, function () {
-                createDirectory(dstDir, function (dstDirEntry) {
-                    // move source directory into itself
-                    srcDirEntry.moveTo(dstDirEntry, 'file', function (newDirEntry) {
-                        expect(newDirEntry).toBeDefined();
-                        deleteEntry(dstDir, done);
-                    }, failed.bind(null, done, 'directory.moveTo - Error moving a directory into a similarly-named directory: ' + srcDir));
-                }, failed.bind(null, done, 'createDirectory - Error creating directory : ' + dstDir));
-                }, failed.bind(null, done, 'deleteEntry - Error deleting directory : ' + dstDir));
+                    deleteEntry(dstDir, function () {
+                        createDirectory(dstDir, function (dstDirEntry) {
+                            // move source directory into itself
+                            srcDirEntry.moveTo(dstDirEntry, 'file', function (newDirEntry) {
+                                expect(newDirEntry).toBeDefined();
+                                deleteEntry(dstDir, done);
+                            }, failed.bind(null, done, 'directory.moveTo - Error moving a directory into a similarly-named directory: ' + srcDir));
+                        }, failed.bind(null, done, 'createDirectory - Error creating directory : ' + dstDir));
+                    }, failed.bind(null, done, 'deleteEntry - Error deleting directory : ' + dstDir));
                 }, failed.bind(null, done, 'createDirectory - Error creating directory : ' + srcDir));
             });
             it("file.spec.72 moveTo: file onto itself", function (done) {
                 var file1 = "entry.move.fos.file1",
-                filePath = joinURL(root.fullPath, file1);
+                    filePath = joinURL(root.fullPath, file1);
                 // create a new file entry to kick off it
                 createFile(file1, function (entry) {
                     // move file1 onto itself
@@ -1888,7 +1888,7 @@ exports.defineAutoTests = function () {
                         expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                         //test that original file still exists
                         root.getFile(file1, {
-                            create : false
+                            create: false
                         }, function (fileEntry) {
                             expect(fileEntry).toBeDefined();
                             expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
@@ -1900,21 +1900,21 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.73 moveTo: file onto existing directory", function (done) {
                 var file1 = "entry.move.fod.file1",
-                dstDir = "entry.move.fod.dstDir",
-                subDir = "subDir",
-                dirPath = joinURL(joinURL(root.fullPath, dstDir), subDir),
-                filePath = joinURL(root.fullPath, file1);
+                    dstDir = "entry.move.fod.dstDir",
+                    subDir = "subDir",
+                    dirPath = joinURL(joinURL(root.fullPath, dstDir), subDir),
+                    filePath = joinURL(root.fullPath, file1);
                 // ensure destination directory is cleaned up before it
                 deleteEntry(dstDir, function () {
                     // create a new file entry to kick off it
                     createFile(file1, function (entry) {
                         // create top level directory
                         root.getDirectory(dstDir, {
-                            create : true
+                            create: true
                         }, function (directory) {
                             // create sub-directory
                             directory.getDirectory(subDir, {
-                                create : true
+                                create: true
                             }, function (subDirectory) {
                                 // move file1 onto sub-directory
                                 entry.moveTo(directory, subDir, succeed.bind(null, done, 'entry.moveTo - Unexpected success callback, it should not move a file: ' + file1 + ' into directory: ' + dstDir + '\n' + subDir + ' directory already exists'), function (error) {
@@ -1922,13 +1922,13 @@ exports.defineAutoTests = function () {
                                     expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                                     // check that original dir still exists
                                     directory.getDirectory(subDir, {
-                                        create : false
+                                        create: false
                                     }, function (dirEntry) {
                                         expect(dirEntry).toBeDefined();
                                         expect(dirEntry.fullPath).toCanonicallyMatch(dirPath);
                                         // check that original file still exists
                                         root.getFile(file1, {
-                                            create : false
+                                            create: false
                                         }, function (fileEntry) {
                                             expect(fileEntry).toBeDefined();
                                             expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
@@ -1951,14 +1951,14 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "entry.move.dof.file1",
-                srcDir = "entry.move.dof.srcDir",
-                dirPath = joinURL(root.fullPath, srcDir),
-                filePath = joinURL(root.fullPath, file1);
+                    srcDir = "entry.move.dof.srcDir",
+                    dirPath = joinURL(root.fullPath, srcDir),
+                    filePath = joinURL(root.fullPath, file1);
                 // create a new directory entry to kick off it
                 createDirectory(srcDir, function (entry) {
                     // create file
                     root.getFile(file1, {
-                        create : true
+                        create: true
                     }, function (fileEntry) {
                         // move directory onto file
                         entry.moveTo(root, file1, succeed.bind(null, done, 'entry.moveTo - Unexpected success callback, it should not move : \n' + srcDir + ' into root directory renamed as ' + file1 + '\n' + file1 + ' file already exists'), function (error) {
@@ -1966,14 +1966,14 @@ exports.defineAutoTests = function () {
                             expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                             // test that original directory exists
                             root.getDirectory(srcDir, {
-                                create : false
+                                create: false
                             }, function (dirEntry) {
                                 // returning confirms existence so just check fullPath entry
                                 expect(dirEntry).toBeDefined();
                                 expect(dirEntry.fullPath).toCanonicallyMatch(dirPath);
                                 // test that original file exists
                                 root.getFile(file1, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
@@ -1994,14 +1994,14 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "entry.copy.dof.file1",
-                srcDir = "entry.copy.dof.srcDir",
-                dirPath = joinURL(root.fullPath, srcDir),
-                filePath = joinURL(root.fullPath, file1);
+                    srcDir = "entry.copy.dof.srcDir",
+                    dirPath = joinURL(root.fullPath, srcDir),
+                    filePath = joinURL(root.fullPath, file1);
                 // create a new directory entry to kick off it
                 createDirectory(srcDir, function (entry) {
                     // create file
                     root.getFile(file1, {
-                        create : true
+                        create: true
                     }, function () {
                         // copy directory onto file
                         entry.copyTo(root, file1, succeed.bind(null, done, 'entry.copyTo - Unexpected success callback, it should not copy : \n' + srcDir + ' into root directory renamed as ' + file1 + '\n' + file1 + ' file already exists'), function (error) {
@@ -2009,14 +2009,14 @@ exports.defineAutoTests = function () {
                             expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                             //check that original dir still exists
                             root.getDirectory(srcDir, {
-                                create : false
+                                create: false
                             }, function (dirEntry) {
                                 // returning confirms existence so just check fullPath entry
                                 expect(dirEntry).toBeDefined();
                                 expect(dirEntry.fullPath).toCanonicallyMatch(dirPath);
                                 // test that original file still exists
                                 root.getFile(file1, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
@@ -2037,21 +2037,21 @@ exports.defineAutoTests = function () {
                 }
 
                 var srcDir = "entry.move.dod.srcDir",
-                dstDir = "entry.move.dod.dstDir",
-                subDir = "subDir",
-                srcPath = joinURL(root.fullPath, srcDir),
-                dstPath = joinURL(joinURL(root.fullPath, dstDir), subDir);
+                    dstDir = "entry.move.dod.dstDir",
+                    subDir = "subDir",
+                    srcPath = joinURL(root.fullPath, srcDir),
+                    dstPath = joinURL(joinURL(root.fullPath, dstDir), subDir);
                 // ensure destination directory is cleaned up before it
                 deleteEntry(dstDir, function () {
                     // create a new file entry to kick off it
                     createDirectory(srcDir, function (entry) {
                         // create top level directory
                         root.getDirectory(dstDir, {
-                            create : true
+                            create: true
                         }, function (directory) {
                             // create sub-directory
                             directory.getDirectory(subDir, {
-                                create : true
+                                create: true
                             }, function () {
                                 // move srcDir onto dstDir (not empty)
                                 entry.moveTo(root, dstDir, succeed.bind(null, done, 'entry.moveTo - Unexpected success callback, it should not copy : \n' + srcDir + ' into root directory renamed as ' + dstDir + '\n' + dstDir + ' directory already exists'), function (error) {
@@ -2059,14 +2059,14 @@ exports.defineAutoTests = function () {
                                     expect(error).toBeFileError(FileError.INVALID_MODIFICATION_ERR);
                                     // making sure destination directory still exists
                                     directory.getDirectory(subDir, {
-                                        create : false
+                                        create: false
                                     }, function (dirEntry) {
                                         // returning confirms existence so just check fullPath entry
                                         expect(dirEntry).toBeDefined();
                                         expect(dirEntry.fullPath).toCanonicallyMatch(dstPath);
                                         // making sure source directory exists
                                         root.getDirectory(srcDir, {
-                                            create : false
+                                            create: false
                                         }, function (srcEntry) {
                                             expect(srcEntry).toBeDefined();
                                             expect(srcEntry.fullPath).toCanonicallyMatch(srcPath);
@@ -2084,13 +2084,13 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.77 moveTo: file replace existing file", function (done) {
                 var file1 = "entry.move.frf.file1",
-                file2 = "entry.move.frf.file2",
-                file2Path = joinURL(root.fullPath, file2);
+                    file2 = "entry.move.frf.file2",
+                    file2Path = joinURL(root.fullPath, file2);
                 // create a new directory entry to kick off it
                 createFile(file1, function (entry) {
                     // create file
                     root.getFile(file2, {
-                        create : true
+                        create: true
                     }, function () {
                         // replace file2 with file1
                         entry.moveTo(root, file2, function (entry2) {
@@ -2101,13 +2101,13 @@ exports.defineAutoTests = function () {
                             expect(entry2.name).toCanonicallyMatch(file2);
                             // old file should not exists
                             root.getFile(file1, {
-                                create : false
+                                create: false
                             }, succeed.bind(null, done, 'root.getFile - Unexpected success callback, file: ' + file1 + ' should not exists'), function (error) {
                                 expect(error).toBeDefined();
                                 expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
                                 // test that new file exists
                                 root.getFile(file2, {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.fullPath).toCanonicallyMatch(file2Path);
@@ -2128,21 +2128,21 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "file1",
-                srcDir = "entry.move.drd.srcDir",
-                dstDir = "entry.move.drd.dstDir",
-                dstPath = joinURL(root.fullPath, dstDir),
-                filePath = dstPath + '/' + file1;
+                    srcDir = "entry.move.drd.srcDir",
+                    dstDir = "entry.move.drd.dstDir",
+                    dstPath = joinURL(root.fullPath, dstDir),
+                    filePath = dstPath + '/' + file1;
                 // ensure destination directory is cleaned up before it
                 deleteEntry(dstDir, function () {
                     // create a new directory entry to kick off it
                     createDirectory(srcDir, function (directory) {
                         // create a file within source directory
                         directory.getFile(file1, {
-                            create : true
+                            create: true
                         }, function () {
                             // create destination directory
                             root.getDirectory(dstDir, {
-                                create : true
+                                create: true
                             }, function () {
                                 // move srcDir to dstDir
                                 directory.moveTo(root, dstDir, function (dirEntry) {
@@ -2153,13 +2153,13 @@ exports.defineAutoTests = function () {
                                     expect(dirEntry.name).toCanonicallyMatch(dstDir);
                                     // check that old directory contents have been moved
                                     dirEntry.getFile(file1, {
-                                        create : false
+                                        create: false
                                     }, function (fileEntry) {
                                         expect(fileEntry).toBeDefined();
                                         expect(fileEntry.fullPath).toCanonicallyMatch(filePath);
                                         // check that old directory no longer exists
                                         root.getDirectory(srcDir, {
-                                            create : false
+                                            create: false
                                         }, succeed.bind(null, done, 'root.getDirectory - Unexpected success callback, directory: ' + srcDir + ' should not exists'), function (error) {
                                             expect(error).toBeDefined();
                                             expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
@@ -2178,8 +2178,8 @@ exports.defineAutoTests = function () {
             it("file.spec.79 moveTo: directory that does not exist", function (done) {
 
                 var file1 = "entry.move.dnf.file1",
-                dstDir = "entry.move.dnf.dstDir",
-                dstPath = joinURL(root.fullPath, dstDir);
+                    dstDir = "entry.move.dnf.dstDir",
+                    dstPath = joinURL(root.fullPath, dstDir);
                 // create a new file entry to kick off it
                 createFile(file1, function (entry) {
                     // move file to directory that does not exist
@@ -2208,7 +2208,7 @@ exports.defineAutoTests = function () {
                 }
 
                 var file1 = "entry.move.itn.file1",
-                file2 = "bad:file:name";
+                    file2 = "bad:file:name";
                 // create a new file entry to kick off it
                 createFile(file1, function (entry) {
                     // move file1 to file2
@@ -2238,13 +2238,13 @@ exports.defineAutoTests = function () {
         describe('Read method', function () {
             it("file.spec.82 should error out on non-existent file", function (done) {
                 var fileName = cordova.platformId === 'windowsphone' ? root.toURL() + "/" + "somefile.txt" : "somefile.txt",
-                verifier = function (evt) {
-                    expect(evt).toBeDefined();
-                    expect(evt.target.error).toBeFileError(FileError.NOT_FOUND_ERR);
-                    done();
-                };
+                    verifier = function (evt) {
+                        expect(evt).toBeDefined();
+                        expect(evt.target.error).toBeFileError(FileError.NOT_FOUND_ERR);
+                        done();
+                    };
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, function (entry) {
                     entry.file(function (file) {
                         deleteEntry(fileName, function () {
@@ -2299,12 +2299,12 @@ exports.defineAutoTests = function () {
             });
             function writeDummyFile(writeBinary, callback, done, fileContents) {
                 var fileName = "dummy.txt",
-                fileEntry = null,
-                // use default string if file data is not provided
-                fileData = fileContents !== undefined ? fileContents :
-                    '\u20AC\xEB - There is an exception to every rule. Except this one.',
-                fileDataAsBinaryString = fileContents !== undefined ? fileContents :
-                    '\xe2\x82\xac\xc3\xab - There is an exception to every rule. Except this one.';
+                    fileEntry = null,
+                    // use default string if file data is not provided
+                    fileData = fileContents !== undefined ? fileContents :
+                        '\u20AC\xEB - There is an exception to every rule. Except this one.',
+                    fileDataAsBinaryString = fileContents !== undefined ? fileContents :
+                        '\xe2\x82\xac\xc3\xab - There is an exception to every rule. Except this one.';
 
                 function createWriter(fe) {
                     fileEntry = fe;
@@ -2361,7 +2361,7 @@ exports.defineAutoTests = function () {
                 });
             });
             it("file.spec.84.1 should read JSON file properly, readAsText", function (done) {
-                var testObject = {key1: "value1", key2: 2};
+                var testObject = { key1: "value1", key2: 2 };
                 runReaderTest('readAsText', false, done, null, function (evt, fileData, fileDataAsBinaryString) {
                     expect(evt.target.result).toEqual(JSON.stringify(testObject));
                     done();
@@ -2546,7 +2546,7 @@ exports.defineAutoTests = function () {
                         expect(lastProgressValue).toEqual(largeText.length);
                         done();
                     },
-                undefined, undefined, largeText);
+                    undefined, undefined, largeText);
             });
         });
         //Read method
@@ -2556,7 +2556,7 @@ exports.defineAutoTests = function () {
                 var fileName = "writer.methods";
                 // FileWriter
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, function (fileEntry) {
                     fileEntry.createWriter(function (writer) {
                         expect(writer).toBeDefined();
@@ -2571,9 +2571,9 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.96 should be able to write and append to file, createWriter", function (done) {
                 var fileName = "writer.append.createWriter", // file content
-                content = "There is an exception to every rule.", // for checkin file length
-                exception = " Except this one.",
-                length = content.length;
+                    content = "There is an exception to every rule.", // for checkin file length
+                    exception = " Except this one.",
+                    length = content.length;
                 // create file, then write and append to it
                 createFile(fileName, function (fileEntry) {
                     // writes initial file content
@@ -2594,10 +2594,10 @@ exports.defineAutoTests = function () {
                             var reader = new FileReader();
                             reader.onloadend = thirdVerifier;
                             reader.onerror = failed.bind(null, done, 'reader.onerror - Error reading file: ' + fileName);
-                            fileEntry.file(function(f){reader.readAsText(f);});
+                            fileEntry.file(function (f) { reader.readAsText(f); });
                         }
                         function thirdVerifier(evt) {
-                            expect(evt.target.result).toBe(content+exception);
+                            expect(evt.target.result).toBe(content + exception);
                             // cleanup
                             deleteFile(fileName, done);
                         }
@@ -2610,11 +2610,11 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.97 should be able to write and append to file, File object", function (done) {
                 var fileName = "writer.append.File", // file content
-                content = "There is an exception to every rule.", // for checkin file length
-                exception = " Except this one.",
-                length = content.length;
+                    content = "There is an exception to every rule.", // for checkin file length
+                    exception = " Except this one.",
+                    length = content.length;
                 root.getFile(fileName, {
-                    create : true
+                    create: true
                 }, function (fileEntry) {
                     fileEntry.createWriter(function (writer) {
                         //Verifiers declaration
@@ -2633,10 +2633,10 @@ exports.defineAutoTests = function () {
                             var reader = new FileReader();
                             reader.onloadend = thirdVerifier;
                             reader.onerror = failed.bind(null, done, 'reader.onerror - Error reading file: ' + fileName);
-                            fileEntry.file(function(f){reader.readAsText(f);});
+                            fileEntry.file(function (f) { reader.readAsText(f); });
                         }
                         function thirdVerifier(evt) {
-                            expect(evt.target.result).toBe(content+exception);
+                            expect(evt.target.result).toBe(content + exception);
                             // cleanup
                             deleteFile(fileName, done);
                         }
@@ -2649,9 +2649,9 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.98 should be able to seek to the middle of the file and write more data than file.length", function (done) {
                 var fileName = "writer.seek.write", // file content
-                content = "This is our sentence.", // for checking file length
-                exception = "newer sentence.",
-                length = content.length;
+                    content = "This is our sentence.", // for checking file length
+                    exception = "newer sentence.",
+                    length = content.length;
                 // create file, then write and append to it
                 createFile(fileName, function (fileEntry) {
                     fileEntry.createWriter(function (writer) {
@@ -2671,10 +2671,10 @@ exports.defineAutoTests = function () {
                             var reader = new FileReader();
                             reader.onloadend = thirdVerifier;
                             reader.onerror = failed.bind(null, done, 'reader.onerror - Error reading file: ' + fileName);
-                            fileEntry.file(function(f){reader.readAsText(f);});
+                            fileEntry.file(function (f) { reader.readAsText(f); });
                         }
                         function thirdVerifier(evt) {
-                            expect(evt.target.result).toBe(content.substr(0,12)+exception);
+                            expect(evt.target.result).toBe(content.substr(0, 12) + exception);
                             // cleanup
                             deleteFile(fileName, done);
                         }
@@ -2693,9 +2693,9 @@ exports.defineAutoTests = function () {
                 }
 
                 var fileName = "writer.seek.write2", // file content
-                content = "This is our sentence.", // for checking file length
-                exception = "new.",
-                length = content.length;
+                    content = "This is our sentence.", // for checking file length
+                    exception = "new.",
+                    length = content.length;
                 // create file, then write and append to it
                 createFile(fileName, function (fileEntry) {
                     fileEntry.createWriter(function (writer) {
@@ -2715,10 +2715,10 @@ exports.defineAutoTests = function () {
                             var reader = new FileReader();
                             reader.onloadend = thirdVerifier;
                             reader.onerror = failed.bind(null, done, 'reader.onerror - Error reading file: ' + fileName);
-                            fileEntry.file(function(f){reader.readAsText(f);});
+                            fileEntry.file(function (f) { reader.readAsText(f); });
                         }
                         function thirdVerifier(evt) {
-                            expect(evt.target.result).toBe(content.substr(0,8)+exception);
+                            expect(evt.target.result).toBe(content.substr(0, 8) + exception);
                             // cleanup
                             deleteFile(fileName, done);
                         }
@@ -2731,8 +2731,8 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.100 should be able to write XML data", function (done) {
                 var fileName = "writer.xml", // file content
-                content = '<?xml version="1.0" encoding="UTF-8"?>\n<test prop="ack">\nData\n</test>\n', // for testing file length
-                length = content.length;
+                    content = '<?xml version="1.0" encoding="UTF-8"?>\n<test prop="ack">\nData\n</test>\n', // for testing file length
+                    length = content.length;
                 // creates file, then write XML data
                 createFile(fileName, function (fileEntry) {
                     fileEntry.createWriter(function (writer) {
@@ -2751,8 +2751,8 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.101 should be able to write JSON data", function (done) {
                 var fileName = "writer.json", // file content
-                content = '{ "name": "Guy Incognito", "email": "here@there.com" }', // for testing file length
-                length = content.length;
+                    content = '{ "name": "Guy Incognito", "email": "here@there.com" }', // for testing file length
+                    length = content.length;
                 // creates file, then write JSON content
                 createFile(fileName, function (fileEntry) {
                     fileEntry.createWriter(function (writer) {
@@ -2771,8 +2771,8 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.102 should be able to seek", function (done) {
                 var fileName = "writer.seek", // file content
-                content = "There is an exception to every rule. Except this one.", // for testing file length
-                length = content.length;
+                    content = "There is an exception to every rule. Except this one.", // for testing file length
+                    length = content.length;
                 // creates file, then write JSON content
                 createFile(fileName, function (fileEntry) {
                     // writes file content and tests writer.seek
@@ -2804,7 +2804,7 @@ exports.defineAutoTests = function () {
                 }
 
                 var fileName = "writer.truncate",
-                content = "There is an exception to every rule. Except this one.";
+                    content = "There is an exception to every rule. Except this one.";
                 // creates file, writes to it, then truncates it
                 createFile(fileName, function (fileEntry) {
                     fileEntry.createWriter(function (writer) {
@@ -2833,9 +2833,9 @@ exports.defineAutoTests = function () {
                     return;
                 }
                 var fileName = "bufferwriter.bin", // file content
-                data = new ArrayBuffer(32),
-                dataView = new Int8Array(data), // for verifying file length
-                length = 32;
+                    data = new ArrayBuffer(32),
+                    dataView = new Int8Array(data), // for verifying file length
+                    length = 32;
                 for (var i = 0; i < dataView.length; i++) {
                     dataView[i] = i;
                 }
@@ -2864,18 +2864,18 @@ exports.defineAutoTests = function () {
                     return;
                 }
                 var fileName = "blobwriter.bin", // file content
-                data = new ArrayBuffer(32),
-                dataView = new Int8Array(data),
-                blob, // for verifying file length
-                length = 32;
+                    data = new ArrayBuffer(32),
+                    dataView = new Int8Array(data),
+                    blob, // for verifying file length
+                    length = 32;
                 for (var i = 0; i < dataView.length; i++) {
                     dataView[i] = i;
                 }
                 try {
                     // Mobile Safari: Use Blob constructor
                     blob = new Blob([data], {
-                            "type" : "application/octet-stream"
-                        });
+                        "type": "application/octet-stream"
+                    });
                 } catch (e) {
                     if (window.WebKitBlobBuilder) {
                         // Android Browser: Use deprecated BlobBuilder
@@ -2907,39 +2907,39 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.106 should be able to write a File to a FileWriter", function (done) {
                 var dummyFileName = 'dummy.txt',
-                outputFileName = 'verify.txt',
-                dummyFileText = 'This text should be written to two files',
-                verifier = function (outputFileWriter) {
-                    expect(outputFileWriter.length).toBe(dummyFileText.length);
-                    expect(outputFileWriter.position).toBe(dummyFileText.length);
-                    deleteFile(outputFileName, done);
-                },
-                writeFile = function (fileName, fileData, win) {
-                    var theWriter,
-                    write_file = function (fileEntry) {
-                        // writes file content to new file
-                        fileEntry.createWriter(function (writer) {
-                            theWriter = writer;
-                            writer.onwriteend = function (ev) {
-                                if (typeof fileData.length !== "undefined") {
-                                    expect(theWriter.length).toBe(fileData.length);
-                                    expect(theWriter.position).toBe(fileData.length);
-                                }
-                                win(theWriter);
+                    outputFileName = 'verify.txt',
+                    dummyFileText = 'This text should be written to two files',
+                    verifier = function (outputFileWriter) {
+                        expect(outputFileWriter.length).toBe(dummyFileText.length);
+                        expect(outputFileWriter.position).toBe(dummyFileText.length);
+                        deleteFile(outputFileName, done);
+                    },
+                    writeFile = function (fileName, fileData, win) {
+                        var theWriter,
+                            write_file = function (fileEntry) {
+                                // writes file content to new file
+                                fileEntry.createWriter(function (writer) {
+                                    theWriter = writer;
+                                    writer.onwriteend = function (ev) {
+                                        if (typeof fileData.length !== "undefined") {
+                                            expect(theWriter.length).toBe(fileData.length);
+                                            expect(theWriter.position).toBe(fileData.length);
+                                        }
+                                        win(theWriter);
+                                    };
+                                    writer.onerror = failed.bind(null, done, 'writer.onerror - Error writing content on file: ' + fileName);
+                                    writer.write(fileData);
+                                }, failed.bind(null, done, 'fileEntry.createWriter - Error creating writer using fileEntry: ' + fileEntry.name));
                             };
-                            writer.onerror = failed.bind(null, done, 'writer.onerror - Error writing content on file: ' + fileName);
-                            writer.write(fileData);
-                        }, failed.bind(null, done, 'fileEntry.createWriter - Error creating writer using fileEntry: ' + fileEntry.name));
+                        createFile(fileName, write_file, failed.bind(null, done, 'createFile - Error creating file: ' + fileName));
+                    },
+                    openFile = function (fileName, callback) {
+                        root.getFile(fileName, {
+                            create: false
+                        }, function (fileEntry) {
+                            fileEntry.file(callback, failed.bind(null, done, 'fileEntry.file - Error reading file using fileEntry: ' + fileEntry.name));
+                        }, failed.bind(null, done, 'root.getFile - Error getting file: ' + fileName));
                     };
-                    createFile(fileName, write_file, failed.bind(null, done, 'createFile - Error creating file: ' + fileName));
-                },
-                openFile = function (fileName, callback) {
-                    root.getFile(fileName, {
-                        create : false
-                    }, function (fileEntry) {
-                        fileEntry.file(callback, failed.bind(null, done, 'fileEntry.file - Error reading file using fileEntry: ' + fileEntry.name));
-                    }, failed.bind(null, done, 'root.getFile - Error getting file: ' + fileName));
-                };
                 writeFile(dummyFileName, dummyFileText, function (dummyFileWriter) {
                     openFile(dummyFileName, function (file) {
                         writeFile(outputFileName, file, verifier);
@@ -2948,39 +2948,39 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.107 should be able to write a sliced File to a FileWriter", function (done) {
                 var dummyFileName = 'dummy2.txt',
-                outputFileName = 'verify2.txt',
-                dummyFileText = 'This text should be written to two files',
-                verifier = function (outputFileWriter) {
-                    expect(outputFileWriter.length).toBe(10);
-                    expect(outputFileWriter.position).toBe(10);
-                    deleteFile(outputFileName, done);
-                },
-                writeFile = function (fileName, fileData, win) {
-                    var theWriter,
-                    write_file = function (fileEntry) {
-                        // writes file content to new file
-                        fileEntry.createWriter(function (writer) {
-                            theWriter = writer;
-                            writer.onwriteend = function (ev) {
-                                if (typeof fileData.length !== "undefined") {
-                                    expect(theWriter.length).toBe(fileData.length);
-                                    expect(theWriter.position).toBe(fileData.length);
-                                }
-                                win(theWriter);
+                    outputFileName = 'verify2.txt',
+                    dummyFileText = 'This text should be written to two files',
+                    verifier = function (outputFileWriter) {
+                        expect(outputFileWriter.length).toBe(10);
+                        expect(outputFileWriter.position).toBe(10);
+                        deleteFile(outputFileName, done);
+                    },
+                    writeFile = function (fileName, fileData, win) {
+                        var theWriter,
+                            write_file = function (fileEntry) {
+                                // writes file content to new file
+                                fileEntry.createWriter(function (writer) {
+                                    theWriter = writer;
+                                    writer.onwriteend = function (ev) {
+                                        if (typeof fileData.length !== "undefined") {
+                                            expect(theWriter.length).toBe(fileData.length);
+                                            expect(theWriter.position).toBe(fileData.length);
+                                        }
+                                        win(theWriter);
+                                    };
+                                    writer.onerror = failed.bind(null, done, 'writer.onerror - Error writing content on file: ' + fileName);
+                                    writer.write(fileData);
+                                }, failed.bind(null, done, 'fileEntry.createWriter - Error creating writer using fileEntry: ' + fileEntry.name));
                             };
-                            writer.onerror = failed.bind(null, done, 'writer.onerror - Error writing content on file: ' + fileName);
-                            writer.write(fileData);
-                        }, failed.bind(null, done, 'fileEntry.createWriter - Error creating writer using fileEntry: ' + fileEntry.name));
+                        createFile(fileName, write_file, failed.bind(null, done, 'createFile - Error creating file: ' + fileName));
+                    },
+                    openFile = function (fileName, callback) {
+                        root.getFile(fileName, {
+                            create: false
+                        }, function (fileEntry) {
+                            fileEntry.file(callback, failed.bind(null, done, 'fileEntry.file - Error reading file using fileEntry: ' + fileEntry.name));
+                        }, failed.bind(null, done, 'root.getFile - Error getting file: ' + fileName));
                     };
-                    createFile(fileName, write_file, failed.bind(null, done, 'createFile - Error creating file: ' + fileName));
-                },
-                openFile = function (fileName, callback) {
-                    root.getFile(fileName, {
-                        create : false
-                    }, function (fileEntry) {
-                        fileEntry.file(callback, failed.bind(null, done, 'fileEntry.file - Error reading file using fileEntry: ' + fileEntry.name));
-                    }, failed.bind(null, done, 'root.getFile - Error getting file: ' + fileName));
-                };
                 writeFile(dummyFileName, dummyFileText, function (dummyFileWriter) {
                     openFile(dummyFileName, function (file) {
                         writeFile(outputFileName, file.slice(10, 20), verifier);
@@ -2994,52 +2994,52 @@ exports.defineAutoTests = function () {
                     done();
                 }
                 var dummyFileName = "blobwriter.bin",
-                outputFileName = 'verify.bin', // file content
-                data = new ArrayBuffer(32),
-                dataView = new Int8Array(data),
-                blob, // for verifying file length
-                length = 32,
-                verifier = function (outputFileWriter) {
-                    expect(outputFileWriter.length).toBe(length);
-                    expect(outputFileWriter.position).toBe(length);
-                    // cleanup
-                    deleteFile(outputFileName);
-                    done();
-                },
-                writeFile = function (fileName, fileData, win) {
-                    var theWriter,
-                    write_file = function (fileEntry) {
-                        // writes file content to new file
-                        fileEntry.createWriter(function (writer) {
-                            theWriter = writer;
-                            writer.onwriteend = function (ev) {
-                                if (typeof fileData.length !== "undefined") {
-                                    expect(theWriter.length).toBe(fileData.length);
-                                    expect(theWriter.position).toBe(fileData.length);
-                                }
-                                win(theWriter);
+                    outputFileName = 'verify.bin', // file content
+                    data = new ArrayBuffer(32),
+                    dataView = new Int8Array(data),
+                    blob, // for verifying file length
+                    length = 32,
+                    verifier = function (outputFileWriter) {
+                        expect(outputFileWriter.length).toBe(length);
+                        expect(outputFileWriter.position).toBe(length);
+                        // cleanup
+                        deleteFile(outputFileName);
+                        done();
+                    },
+                    writeFile = function (fileName, fileData, win) {
+                        var theWriter,
+                            write_file = function (fileEntry) {
+                                // writes file content to new file
+                                fileEntry.createWriter(function (writer) {
+                                    theWriter = writer;
+                                    writer.onwriteend = function (ev) {
+                                        if (typeof fileData.length !== "undefined") {
+                                            expect(theWriter.length).toBe(fileData.length);
+                                            expect(theWriter.position).toBe(fileData.length);
+                                        }
+                                        win(theWriter);
+                                    };
+                                    writer.onerror = failed.bind(null, done, 'writer.onerror - Error writing content on file: ' + fileName);
+                                    writer.write(fileData);
+                                }, failed.bind(null, done, 'fileEntry.createWriter - Error creating writer using fileEntry: ' + fileEntry.name));
                             };
-                            writer.onerror = failed.bind(null, done, 'writer.onerror - Error writing content on file: ' + fileName);
-                            writer.write(fileData);
-                        }, failed.bind(null, done, 'fileEntry.createWriter - Error creating writer using fileEntry: ' + fileEntry.name));
+                        createFile(fileName, write_file, failed.bind(null, done, 'createFile - Error creating file: ' + fileName));
+                    },
+                    openFile = function (fileName, callback) {
+                        root.getFile(fileName, {
+                            create: false
+                        }, function (fileEntry) {
+                            fileEntry.file(callback, failed.bind(null, done, 'fileEntry.file - Error reading file using fileEntry: ' + fileEntry.name));
+                        }, failed.bind(null, done, 'root.getFile - Error getting file: ' + fileName));
                     };
-                    createFile(fileName, write_file, failed.bind(null, done, 'createFile - Error creating file: ' + fileName));
-                },
-                openFile = function (fileName, callback) {
-                    root.getFile(fileName, {
-                        create : false
-                    }, function (fileEntry) {
-                        fileEntry.file(callback, failed.bind(null, done, 'fileEntry.file - Error reading file using fileEntry: ' + fileEntry.name));
-                    }, failed.bind(null, done, 'root.getFile - Error getting file: ' + fileName));
-                };
                 for (var i = 0; i < dataView.length; i++) {
                     dataView[i] = i;
                 }
                 try {
                     // Mobile Safari: Use Blob constructor
                     blob = new Blob([data], {
-                            "type" : "application/octet-stream"
-                        });
+                        "type": "application/octet-stream"
+                    });
                 } catch (e) {
                     if (window.WebKitBlobBuilder) {
                         // Android Browser: Use deprecated BlobBuilder
@@ -3073,7 +3073,7 @@ exports.defineAutoTests = function () {
                 var localFilename = 'file.txt';
                 var originalEntry;
                 root.getFile(localFilename, {
-                    create : true
+                    create: true
                 }, function (entry) {
                     originalEntry = entry;
                     /* This is an undocumented interface to File which exists only for testing
@@ -3104,7 +3104,7 @@ exports.defineAutoTests = function () {
                 var dirName = "resolve.dir.uri";
                 // create a new file entry
                 createDirectory(dirName, function () {
-                    createFile(dirName+"/../" + fileName, function (entry) {
+                    createFile(dirName + "/../" + fileName, function (entry) {
                         // lookup file system entry
                         window.resolveLocalFileSystemURL(entry.toURL(), function (fileEntry) {
                             expect(fileEntry).toBeDefined();
@@ -3121,12 +3121,12 @@ exports.defineAutoTests = function () {
                 createFile(fileName, function (entry) {
                     // lookup file system entry
                     root.getFile('../' + fileName, {
-                        create : false
+                        create: false
                     }, function (fileEntry) {
                         // Note: we expect this to still resolve, as the correct behaviour is to ignore the ../, not to fail out.
                         expect(fileEntry).toBeDefined();
                         expect(fileEntry.name).toBe(fileName);
-                        expect(fileEntry.fullPath).toCanonicallyMatch(root.fullPath +'/' + fileName);
+                        expect(fileEntry.fullPath).toCanonicallyMatch(root.fullPath + '/' + fileName);
                         // cleanup
                         deleteEntry(fileName, done);
                     }, failed.bind(null, done, 'root.getFile - Error getting file: ../' + fileName));
@@ -3134,13 +3134,13 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.112 should traverse above above the current directory", function (done) {
                 var fileName = "traverse2.file.uri",
-                dirName = "traverse2.subdir";
+                    dirName = "traverse2.subdir";
                 // create a new directory and a file entry
                 createFile(fileName, function () {
                     createDirectory(dirName, function (entry) {
                         // lookup file system entry
                         entry.getFile('../' + fileName, {
-                            create : false
+                            create: false
                         }, function (fileEntry) {
                             expect(fileEntry).toBeDefined();
                             expect(fileEntry.name).toBe(fileName);
@@ -3157,7 +3157,7 @@ exports.defineAutoTests = function () {
                 var fileName = "../missing.file";
                 // create:false, exclusive:false, file does not exist
                 root.getFile(fileName, {
-                    create : false
+                    create: false
                 }, succeed.bind(null, done, 'root.getFile - Unexpected success callback, it should not locate nonexistent file: ' + fileName), function (error) {
                     expect(error).toBeDefined();
                     expect(error).toBeFileError(FileError.NOT_FOUND_ERR);
@@ -3195,29 +3195,29 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.115 DirectoryReader should return entries with toNativeURL method", function (done) {
                 var dirName = 'nativeEntries.dir',
-                fileName = 'nativeEntries.file',
-                directory,
-                checkEntries = function (entries) {
-                    expect(entries).toBeDefined();
-                    expect(entries instanceof Array).toBe(true);
-                    expect(entries.length).toBe(1);
-                    expect(entries[0].toNativeURL).toBeDefined();
-                    expect(typeof entries[0].toNativeURL).toBe('function');
-                    var nativeURL = entries[0].toNativeURL();
-                    expect(typeof nativeURL).toBe("string");
-                    expect(nativeURL.substring(0, pathExpect.length)).toEqual(pathExpect);
-                    expect(nativeURL.substring(nativeURL.length - fileName.length)).toEqual(fileName);
-                    // cleanup
-                    directory.removeRecursively(null, null);
-                    done();
-                };
+                    fileName = 'nativeEntries.file',
+                    directory,
+                    checkEntries = function (entries) {
+                        expect(entries).toBeDefined();
+                        expect(entries instanceof Array).toBe(true);
+                        expect(entries.length).toBe(1);
+                        expect(entries[0].toNativeURL).toBeDefined();
+                        expect(typeof entries[0].toNativeURL).toBe('function');
+                        var nativeURL = entries[0].toNativeURL();
+                        expect(typeof nativeURL).toBe("string");
+                        expect(nativeURL.substring(0, pathExpect.length)).toEqual(pathExpect);
+                        expect(nativeURL.substring(nativeURL.length - fileName.length)).toEqual(fileName);
+                        // cleanup
+                        directory.removeRecursively(null, null);
+                        done();
+                    };
                 // create a new file entry
                 root.getDirectory(dirName, {
-                    create : true
+                    create: true
                 }, function (dir) {
                     directory = dir;
                     directory.getFile(fileName, {
-                        create : true
+                        create: true
                     }, function (fileEntry) {
                         var reader = directory.createReader();
                         reader.readEntries(checkEntries, failed.bind(null, done, 'reader.readEntries - Error reading entries from directory: ' + dirName));
@@ -3332,41 +3332,41 @@ exports.defineAutoTests = function () {
              */
             it("file.spec.125 copyTo: temporary -> persistent", function (done) {
                 var file1 = "entry.copy.file1a",
-                file2 = "entry.copy.file2a",
-                sourceEntry,
-                fullPath = joinURL(root.fullPath, file2),
-                validateFile = function (entry) {
-                    // a bit redundant since copy returned this entry already
-                    expect(entry).toBeDefined();
-                    expect(entry.isFile).toBe(true);
-                    expect(entry.isDirectory).toBe(false);
-                    expect(entry.name).toCanonicallyMatch(file2);
-                    expect(entry.fullPath).toCanonicallyMatch(fullPath);
-                    expect(entry.filesystem).toBeDefined();
-                    if (isChrome) {
-                        expect(entry.filesystem.name).toContain("Persistent");
-                    } else {
-                        expect(entry.filesystem.name).toEqual("persistent");
-                    }
-                    // cleanup
-                    deleteEntry(entry.name);
-                    deleteEntry(sourceEntry.name, done);
-                },
-                createSourceAndTransfer = function () {
-                    temp_root.getFile(file1, {
-                        create : true
-                    }, function (entry) {
+                    file2 = "entry.copy.file2a",
+                    sourceEntry,
+                    fullPath = joinURL(root.fullPath, file2),
+                    validateFile = function (entry) {
+                        // a bit redundant since copy returned this entry already
+                        expect(entry).toBeDefined();
+                        expect(entry.isFile).toBe(true);
+                        expect(entry.isDirectory).toBe(false);
+                        expect(entry.name).toCanonicallyMatch(file2);
+                        expect(entry.fullPath).toCanonicallyMatch(fullPath);
                         expect(entry.filesystem).toBeDefined();
                         if (isChrome) {
-                            expect(entry.filesystem.name).toContain("Temporary");
+                            expect(entry.filesystem.name).toContain("Persistent");
                         } else {
-                            expect(entry.filesystem.name).toEqual("temporary");
+                            expect(entry.filesystem.name).toEqual("persistent");
                         }
-                        sourceEntry = entry;
-                        // Save for later cleanup
-                        entry.copyTo(persistent_root, file2, validateFile, failed.bind(null, done, 'entry.copyTo - Error copying file: ' + file1 + ' to PERSISTENT root as: ' + file2));
-                    }, failed.bind(null, done, 'temp_root.getFile - Error creating file: ' + file1 + 'at TEMPORAL root'));
-                };
+                        // cleanup
+                        deleteEntry(entry.name);
+                        deleteEntry(sourceEntry.name, done);
+                    },
+                    createSourceAndTransfer = function () {
+                        temp_root.getFile(file1, {
+                            create: true
+                        }, function (entry) {
+                            expect(entry.filesystem).toBeDefined();
+                            if (isChrome) {
+                                expect(entry.filesystem.name).toContain("Temporary");
+                            } else {
+                                expect(entry.filesystem.name).toEqual("temporary");
+                            }
+                            sourceEntry = entry;
+                            // Save for later cleanup
+                            entry.copyTo(persistent_root, file2, validateFile, failed.bind(null, done, 'entry.copyTo - Error copying file: ' + file1 + ' to PERSISTENT root as: ' + file2));
+                        }, failed.bind(null, done, 'temp_root.getFile - Error creating file: ' + file1 + 'at TEMPORAL root'));
+                    };
                 // Delete any existing file to start things off
                 persistent_root.getFile(file2, {}, function (entry) {
                     entry.remove(createSourceAndTransfer, failed.bind(null, done, 'entry.remove - Error removing file: ' + file2));
@@ -3374,40 +3374,40 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.126 copyTo: persistent -> temporary", function (done) {
                 var file1 = "entry.copy.file1b",
-                file2 = "entry.copy.file2b",
-                sourceEntry,
-                fullPath = joinURL(temp_root.fullPath, file2),
-                validateFile = function (entry) {
-                    expect(entry).toBeDefined();
-                    expect(entry.isFile).toBe(true);
-                    expect(entry.isDirectory).toBe(false);
-                    expect(entry.name).toCanonicallyMatch(file2);
-                    expect(entry.fullPath).toCanonicallyMatch(fullPath);
-                    if (isChrome) {
-                        expect(entry.filesystem.name).toContain("Temporary");
-                    } else {
-                        expect(entry.filesystem.name).toEqual("temporary");
-                    }
-                    // cleanup
-                    deleteEntry(entry.name);
-                    deleteEntry(sourceEntry.name, done);
-                },
-                createSourceAndTransfer = function () {
-                    persistent_root.getFile(file1, {
-                        create : true
-                    }, function (entry) {
+                    file2 = "entry.copy.file2b",
+                    sourceEntry,
+                    fullPath = joinURL(temp_root.fullPath, file2),
+                    validateFile = function (entry) {
                         expect(entry).toBeDefined();
-                        expect(entry.filesystem).toBeDefined();
+                        expect(entry.isFile).toBe(true);
+                        expect(entry.isDirectory).toBe(false);
+                        expect(entry.name).toCanonicallyMatch(file2);
+                        expect(entry.fullPath).toCanonicallyMatch(fullPath);
                         if (isChrome) {
-                            expect(entry.filesystem.name).toContain("Persistent");
+                            expect(entry.filesystem.name).toContain("Temporary");
                         } else {
-                            expect(entry.filesystem.name).toEqual("persistent");
+                            expect(entry.filesystem.name).toEqual("temporary");
                         }
-                        sourceEntry = entry;
-                        // Save for later cleanup
-                        entry.copyTo(temp_root, file2, validateFile, failed.bind(null, done, 'entry.copyTo - Error copying file: ' + file1 + ' to TEMPORAL root as: ' + file2));
-                    }, failed.bind(null, done, 'persistent_root.getFile - Error creating file: ' + file1 + 'at PERSISTENT root'));
-                };
+                        // cleanup
+                        deleteEntry(entry.name);
+                        deleteEntry(sourceEntry.name, done);
+                    },
+                    createSourceAndTransfer = function () {
+                        persistent_root.getFile(file1, {
+                            create: true
+                        }, function (entry) {
+                            expect(entry).toBeDefined();
+                            expect(entry.filesystem).toBeDefined();
+                            if (isChrome) {
+                                expect(entry.filesystem.name).toContain("Persistent");
+                            } else {
+                                expect(entry.filesystem.name).toEqual("persistent");
+                            }
+                            sourceEntry = entry;
+                            // Save for later cleanup
+                            entry.copyTo(temp_root, file2, validateFile, failed.bind(null, done, 'entry.copyTo - Error copying file: ' + file1 + ' to TEMPORAL root as: ' + file2));
+                        }, failed.bind(null, done, 'persistent_root.getFile - Error creating file: ' + file1 + 'at PERSISTENT root'));
+                    };
                 // Delete any existing file to start things off
                 temp_root.getFile(file2, {}, function (entry) {
                     entry.remove(createSourceAndTransfer, failed.bind(null, done, 'entry.remove - Error removing file: ' + file2));
@@ -3415,41 +3415,41 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.127 moveTo: temporary -> persistent", function (done) {
                 var file1 = "entry.copy.file1a",
-                file2 = "entry.copy.file2a",
-                sourceEntry,
-                fullPath = joinURL(root.fullPath, file2),
-                validateFile = function (entry) {
-                    // a bit redundant since copy returned this entry already
-                    expect(entry).toBeDefined();
-                    expect(entry.isFile).toBe(true);
-                    expect(entry.isDirectory).toBe(false);
-                    expect(entry.name).toCanonicallyMatch(file2);
-                    expect(entry.fullPath).toCanonicallyMatch(fullPath);
-                    expect(entry.filesystem).toBeDefined();
-                    if (isChrome) {
-                        expect(entry.filesystem.name).toContain("Persistent");
-                    } else {
-                        expect(entry.filesystem.name).toEqual("persistent");
-                    }
-                    // cleanup
-                    deleteEntry(entry.name);
-                    deleteEntry(sourceEntry.name, done);
-                },
-                createSourceAndTransfer = function () {
-                    temp_root.getFile(file1, {
-                        create : true
-                    }, function (entry) {
+                    file2 = "entry.copy.file2a",
+                    sourceEntry,
+                    fullPath = joinURL(root.fullPath, file2),
+                    validateFile = function (entry) {
+                        // a bit redundant since copy returned this entry already
+                        expect(entry).toBeDefined();
+                        expect(entry.isFile).toBe(true);
+                        expect(entry.isDirectory).toBe(false);
+                        expect(entry.name).toCanonicallyMatch(file2);
+                        expect(entry.fullPath).toCanonicallyMatch(fullPath);
                         expect(entry.filesystem).toBeDefined();
                         if (isChrome) {
-                            expect(entry.filesystem.name).toContain("Temporary");
+                            expect(entry.filesystem.name).toContain("Persistent");
                         } else {
-                            expect(entry.filesystem.name).toEqual("temporary");
+                            expect(entry.filesystem.name).toEqual("persistent");
                         }
-                        sourceEntry = entry;
-                        // Save for later cleanup
-                        entry.moveTo(persistent_root, file2, validateFile, failed.bind(null, done, 'entry.moveTo - Error moving file: ' + file1 + ' to PERSISTENT root as: ' + file2));
-                    }, failed.bind(null, done, 'temp_root.getFile - Error creating file: ' + file1 + 'at TEMPORAL root'));
-                };
+                        // cleanup
+                        deleteEntry(entry.name);
+                        deleteEntry(sourceEntry.name, done);
+                    },
+                    createSourceAndTransfer = function () {
+                        temp_root.getFile(file1, {
+                            create: true
+                        }, function (entry) {
+                            expect(entry.filesystem).toBeDefined();
+                            if (isChrome) {
+                                expect(entry.filesystem.name).toContain("Temporary");
+                            } else {
+                                expect(entry.filesystem.name).toEqual("temporary");
+                            }
+                            sourceEntry = entry;
+                            // Save for later cleanup
+                            entry.moveTo(persistent_root, file2, validateFile, failed.bind(null, done, 'entry.moveTo - Error moving file: ' + file1 + ' to PERSISTENT root as: ' + file2));
+                        }, failed.bind(null, done, 'temp_root.getFile - Error creating file: ' + file1 + 'at TEMPORAL root'));
+                    };
                 // Delete any existing file to start things off
                 persistent_root.getFile(file2, {}, function (entry) {
                     entry.remove(createSourceAndTransfer, failed.bind(null, done, 'entry.remove - Error removing file: ' + file2));
@@ -3457,40 +3457,40 @@ exports.defineAutoTests = function () {
             });
             it("file.spec.128 moveTo: persistent -> temporary", function (done) {
                 var file1 = "entry.copy.file1b",
-                file2 = "entry.copy.file2b",
-                sourceEntry,
-                fullPath = joinURL(temp_root.fullPath, file2),
-                validateFile = function (entry) {
-                    expect(entry).toBeDefined();
-                    expect(entry.isFile).toBe(true);
-                    expect(entry.isDirectory).toBe(false);
-                    expect(entry.name).toCanonicallyMatch(file2);
-                    expect(entry.fullPath).toCanonicallyMatch(fullPath);
-                    if(isChrome) {
-                        expect(entry.filesystem.name).toContain("Temporary");
-                    } else {
-                        expect(entry.filesystem.name).toEqual("temporary");
-                    }
-                    // cleanup
-                    deleteEntry(entry.name);
-                    deleteEntry(sourceEntry.name, done);
-                },
-                createSourceAndTransfer = function () {
-                    persistent_root.getFile(file1, {
-                        create : true
-                    }, function (entry) {
+                    file2 = "entry.copy.file2b",
+                    sourceEntry,
+                    fullPath = joinURL(temp_root.fullPath, file2),
+                    validateFile = function (entry) {
                         expect(entry).toBeDefined();
-                        expect(entry.filesystem).toBeDefined();
+                        expect(entry.isFile).toBe(true);
+                        expect(entry.isDirectory).toBe(false);
+                        expect(entry.name).toCanonicallyMatch(file2);
+                        expect(entry.fullPath).toCanonicallyMatch(fullPath);
                         if (isChrome) {
-                            expect(entry.filesystem.name).toContain("Persistent");
+                            expect(entry.filesystem.name).toContain("Temporary");
                         } else {
-                            expect(entry.filesystem.name).toEqual("persistent");
+                            expect(entry.filesystem.name).toEqual("temporary");
                         }
-                        sourceEntry = entry;
-                        // Save for later cleanup
-                        entry.moveTo(temp_root, file2, validateFile, failed.bind(null, done, 'entry.moveTo - Error moving file: ' + file1 + ' to TEMPORAL root as: ' + file2));
-                    }, failed.bind(null, done, 'persistent_root.getFile - Error creating file: ' + file1 + 'at PERSISTENT root'));
-                };
+                        // cleanup
+                        deleteEntry(entry.name);
+                        deleteEntry(sourceEntry.name, done);
+                    },
+                    createSourceAndTransfer = function () {
+                        persistent_root.getFile(file1, {
+                            create: true
+                        }, function (entry) {
+                            expect(entry).toBeDefined();
+                            expect(entry.filesystem).toBeDefined();
+                            if (isChrome) {
+                                expect(entry.filesystem.name).toContain("Persistent");
+                            } else {
+                                expect(entry.filesystem.name).toEqual("persistent");
+                            }
+                            sourceEntry = entry;
+                            // Save for later cleanup
+                            entry.moveTo(temp_root, file2, validateFile, failed.bind(null, done, 'entry.moveTo - Error moving file: ' + file1 + ' to TEMPORAL root as: ' + file2));
+                        }, failed.bind(null, done, 'persistent_root.getFile - Error creating file: ' + file1 + 'at PERSISTENT root'));
+                    };
                 // Delete any existing file to start things off
                 temp_root.getFile(file2, {}, function (entry) {
                     entry.remove(createSourceAndTransfer, failed.bind(null, done, 'entry.remove - Error removing file: ' + file2));
@@ -3521,7 +3521,7 @@ exports.defineAutoTests = function () {
             });
         });
         describe('resolveLocalFileSystemURL on cdvfile://', function () {
-            it("file.spec.147 should be able to resolve cdvfile applicationDirectory fs root", function(done) {
+            it("file.spec.147 should be able to resolve cdvfile applicationDirectory fs root", function (done) {
                 var cdvfileApplicationDirectoryFsRootName;
                 if (cordova.platformId === 'android') {
                     cdvfileApplicationDirectoryFsRootName = 'assets';
@@ -3531,7 +3531,7 @@ exports.defineAutoTests = function () {
                     pending();
                 }
 
-                resolveLocalFileSystemURL('cdvfile://localhost/' + cdvfileApplicationDirectoryFsRootName + '/', function(applicationDirectoryRoot) {
+                resolveLocalFileSystemURL('cdvfile://localhost/' + cdvfileApplicationDirectoryFsRootName + '/', function (applicationDirectoryRoot) {
                     expect(applicationDirectoryRoot.isFile).toBe(false);
                     expect(applicationDirectoryRoot.isDirectory).toBe(true);
                     expect(applicationDirectoryRoot.name).toCanonicallyMatch('');
@@ -3540,7 +3540,7 @@ exports.defineAutoTests = function () {
 
                     // Requires HelloCordova www assets, <allow-navigation href="cdvfile:*" /> in config.xml or
                     // cdvfile: in CSP and <access origin="cdvfile://*" /> in config.xml
-                    resolveLocalFileSystemURL('cdvfile://localhost/' + cdvfileApplicationDirectoryFsRootName + '/www/img/logo.png', function(entry) {
+                    resolveLocalFileSystemURL('cdvfile://localhost/' + cdvfileApplicationDirectoryFsRootName + '/www/img/logo.png', function (entry) {
                         expect(entry.isFile).toBe(true);
                         expect(entry.isDirectory).toBe(false);
                         expect(entry.name).toCanonicallyMatch('logo.png');
@@ -3548,11 +3548,11 @@ exports.defineAutoTests = function () {
                         expect(entry.filesystem.name).toEqual(cdvfileApplicationDirectoryFsRootName);
 
                         var img = new Image();
-                        img.onerror = function(err) {
+                        img.onerror = function (err) {
                             expect(err).not.toBeDefined();
                             done();
                         };
-                        img.onload = function() {
+                        img.onload = function () {
                             done();
                         };
                         img.src = entry.toInternalURL();
@@ -3568,17 +3568,17 @@ exports.defineAutoTests = function () {
                     nestedFileName = 'nestedFile131.txt';
 
                 createDirectory(parentDirName, function (parent) {
-                    parent.getDirectory(nestedDirName, { create: true}, function () {
-                        parent.getFile(nestedFileName, { create: true}, function () {
-                            parent.removeRecursively(function() {
-                                root.getDirectory(parentDirName,{ create: false}, failed.bind(this, done, 'root.getDirectory - unexpected success callback : ' + parentDirName), function(){
-                                    parent.getFile(nestedFileName,{ create: false}, failed.bind(this, done, 'getFile - unexpected success callback : ' + nestedFileName), function(){
-                                            parent.getDirectory(nestedDirName, { create: false}, failed.bind(this, done, 'getDirectory - unexpected success callback : ' + nestedDirName), done);
-                                        });
+                    parent.getDirectory(nestedDirName, { create: true }, function () {
+                        parent.getFile(nestedFileName, { create: true }, function () {
+                            parent.removeRecursively(function () {
+                                root.getDirectory(parentDirName, { create: false }, failed.bind(this, done, 'root.getDirectory - unexpected success callback : ' + parentDirName), function () {
+                                    parent.getFile(nestedFileName, { create: false }, failed.bind(this, done, 'getFile - unexpected success callback : ' + nestedFileName), function () {
+                                        parent.getDirectory(nestedDirName, { create: false }, failed.bind(this, done, 'getDirectory - unexpected success callback : ' + nestedDirName), done);
                                     });
-                                }, failed.bind(this, done, 'removeRecursively - Error removing directory : ' + parentDirName));
+                                });
+                            }, failed.bind(this, done, 'removeRecursively - Error removing directory : ' + parentDirName));
                         }, failed.bind(this, done, 'getFile - Error creating file : ' + nestedFileName));
-                    },failed.bind(this, done, 'getDirectory - Error creating directory : ' + nestedDirName));
+                    }, failed.bind(this, done, 'getDirectory - Error creating directory : ' + nestedDirName));
                 }, failed.bind(this, done, 'root.getDirectory - Error creating directory : ' + parentDirName));
             });
             it("file.spec.132 Entry should be created succesfully when using relative paths if its parent directory exists", function (done) {
@@ -3589,7 +3589,7 @@ exports.defineAutoTests = function () {
                 var nestedName = 'nestedName132';
                 var path = parentName + '/' + nestedName;
 
-                var win = function(directory){
+                var win = function (directory) {
                     expect(directory).toBeDefined();
                     expect(directory.isFile).toBe(false);
                     expect(directory.isDirectory).toBe(true);
@@ -3599,8 +3599,8 @@ exports.defineAutoTests = function () {
                     deleteEntry(parentName, done);
                 };
 
-                createDirectory(parentName, function() {
-                    root.getDirectory(parentName + '/' + nestedName, {create:true}, win,
+                createDirectory(parentName, function () {
+                    root.getDirectory(parentName + '/' + nestedName, { create: true }, win,
                         failed.bind(this, done, 'root.getDirectory - Error getting directory : ' + path));
                 }, failed.bind(this, done, 'root.getDirectory - Error getting directory : ' + parentName));
             });
@@ -3608,9 +3608,9 @@ exports.defineAutoTests = function () {
 
                 // Names include special symbols so that we check the IndexedDB range used
                 var deletedFileName = 'deletedFile.0',
-                secondFileName = 'deletedFile.0.1';
+                    secondFileName = 'deletedFile.0.1';
 
-                var win = function(fileEntry){
+                var win = function (fileEntry) {
                     expect(fileEntry).toBeDefined();
                     expect(fileEntry.isFile).toBe(true);
                     expect(fileEntry.isDirectory).toBe(false);
@@ -3620,9 +3620,9 @@ exports.defineAutoTests = function () {
 
                 createFile(deletedFileName, function (deletedFile) {
                     createFile(secondFileName, function () {
-                        deletedFile.remove(function() {
-                            root.getFile(deletedFileName, {create: false}, failed.bind(this, done, 'getFile - unexpected success callback getting deleted file : ' + deletedFileName), function(){
-                                root.getFile(secondFileName, {create: false}, win, failed.bind(this, done, 'getFile - Error getting file after deleting deletedFile : ' + secondFileName));
+                        deletedFile.remove(function () {
+                            root.getFile(deletedFileName, { create: false }, failed.bind(this, done, 'getFile - unexpected success callback getting deleted file : ' + deletedFileName), function () {
+                                root.getFile(secondFileName, { create: false }, win, failed.bind(this, done, 'getFile - Error getting file after deleting deletedFile : ' + secondFileName));
                             });
                         }, failed.bind(this, done, 'remove - Error removing file : ' + deletedFileName));
                     }, failed.bind(this, done, 'getFile - Error creating file : ' + secondFileName));
@@ -3632,9 +3632,9 @@ exports.defineAutoTests = function () {
 
                 // Names include special symbols so that we check the IndexedDB range used
                 var deletedDirName = 'deletedDir.0',
-                secondDirName = 'deletedDir.0.1';
+                    secondDirName = 'deletedDir.0.1';
 
-                var win = function(directory){
+                var win = function (directory) {
                     expect(directory).toBeDefined();
                     expect(directory.isFile).toBe(false);
                     expect(directory.isDirectory).toBe(true);
@@ -3644,9 +3644,9 @@ exports.defineAutoTests = function () {
 
                 createDirectory(deletedDirName, function (deletedDir) {
                     createDirectory(secondDirName, function () {
-                        deletedDir.remove(function() {
-                            root.getDirectory(deletedDirName, {create: false}, failed.bind(this, done, 'getDirectory - unexpected success callback getting deleted directory : ' + deletedDirName), function() {
-                                root.getDirectory(secondDirName, {create: false}, win, failed.bind(this, done, 'getDirectory - Error getting directory after deleting deletedDirectory : ' + secondDirName));
+                        deletedDir.remove(function () {
+                            root.getDirectory(deletedDirName, { create: false }, failed.bind(this, done, 'getDirectory - unexpected success callback getting deleted directory : ' + deletedDirName), function () {
+                                root.getDirectory(secondDirName, { create: false }, win, failed.bind(this, done, 'getDirectory - Error getting directory after deleting deletedDirectory : ' + secondDirName));
                             });
                         }, failed.bind(this, done, 'remove - Error removing directory : ' + deletedDirName));
                     }, failed.bind(this, done, 'root.getDirectory - Error creating directory : ' + secondDirName));
@@ -3657,7 +3657,7 @@ exports.defineAutoTests = function () {
                 var parentName = 'parentName135';
                 var childName = 'childName135';
 
-                var win = function(directory){
+                var win = function (directory) {
                     expect(directory).toBeDefined();
                     expect(directory.isFile).toBe(false);
                     expect(directory.isDirectory).toBe(true);
@@ -3665,12 +3665,12 @@ exports.defineAutoTests = function () {
                     deleteEntry(directory.name, done);
                 };
 
-                createDirectory(parentName, function(parent){
-                    parent.getDirectory(childName, {create: true}, function(child){
-                        child.removeRecursively(function(){
-                            root.getDirectory(parentName, {create: false}, win, failed.bind(this, done, 'root.getDirectory - Error getting parent directory : ' + parentName));
+                createDirectory(parentName, function (parent) {
+                    parent.getDirectory(childName, { create: true }, function (child) {
+                        child.removeRecursively(function () {
+                            root.getDirectory(parentName, { create: false }, win, failed.bind(this, done, 'root.getDirectory - Error getting parent directory : ' + parentName));
                         },
-                        failed.bind(this, done, 'getDirectory - Error removing directory : ' + childName));
+                            failed.bind(this, done, 'getDirectory - Error removing directory : ' + childName));
                     }, failed.bind(this, done, 'getDirectory - Error creating directory : ' + childName));
                 }, failed.bind(this, done, 'root.getDirectory - Error creating directory : ' + parentName));
             });
@@ -3678,7 +3678,7 @@ exports.defineAutoTests = function () {
 
                 var dirName = '文件插件';
 
-                var win = function(directory){
+                var win = function (directory) {
                     expect(directory).toBeDefined();
                     expect(directory.isFile).toBe(false);
                     expect(directory.isDirectory).toBe(true);
@@ -3686,48 +3686,48 @@ exports.defineAutoTests = function () {
                     deleteEntry(directory.name, done);
                 };
 
-                createDirectory(dirName, function(){
-                    root.getDirectory(dirName, {create: false}, win,
+                createDirectory(dirName, function () {
+                    root.getDirectory(dirName, { create: false }, win,
                         failed.bind(this, done, 'root.getDirectory - Error getting directory : ' + dirName));
                 }, failed.bind(this, done, 'root.getDirectory - Error creating directory : ' + dirName));
             });
         });
         // Content and Asset URLs
         if (cordova.platformId == 'android') {
-            describe('content: URLs', function() {
+            describe('content: URLs', function () {
                 // Warning: Default HelloWorld www directory structure is required for these tests (www/index.html at least)
                 function testContentCopy(src, done) {
                     var file2 = "entry.copy.file2b",
-                    fullPath = joinURL(temp_root.fullPath, file2),
-                    validateFile = function (entry) {
-                        expect(entry.isFile).toBe(true);
-                        expect(entry.isDirectory).toBe(false);
-                        expect(entry.name).toCanonicallyMatch(file2);
-                        expect(entry.fullPath).toCanonicallyMatch(fullPath);
-                        expect(entry.filesystem.name).toEqual("temporary");
-                        // cleanup
-                        deleteEntry(entry.name, done);
-                    },
-                    transfer = function () {
-                        resolveLocalFileSystemURL(src, function(entry) {
-                            expect(entry).toBeDefined();
-                            expect(entry.filesystem.name).toEqual("content");
-                            entry.copyTo(temp_root, file2, validateFile, failed.bind(null, done, 'entry.copyTo - Error copying file: ' + entry.toURL() + ' to TEMPORAL root as: ' + file2));
-                        }, failed.bind(null, done, 'resolveLocalFileSystemURL failed for content provider'));
-                    };
+                        fullPath = joinURL(temp_root.fullPath, file2),
+                        validateFile = function (entry) {
+                            expect(entry.isFile).toBe(true);
+                            expect(entry.isDirectory).toBe(false);
+                            expect(entry.name).toCanonicallyMatch(file2);
+                            expect(entry.fullPath).toCanonicallyMatch(fullPath);
+                            expect(entry.filesystem.name).toEqual("temporary");
+                            // cleanup
+                            deleteEntry(entry.name, done);
+                        },
+                        transfer = function () {
+                            resolveLocalFileSystemURL(src, function (entry) {
+                                expect(entry).toBeDefined();
+                                expect(entry.filesystem.name).toEqual("content");
+                                entry.copyTo(temp_root, file2, validateFile, failed.bind(null, done, 'entry.copyTo - Error copying file: ' + entry.toURL() + ' to TEMPORAL root as: ' + file2));
+                            }, failed.bind(null, done, 'resolveLocalFileSystemURL failed for content provider'));
+                        };
                     // Delete any existing file to start things off
                     temp_root.getFile(file2, {}, function (entry) {
                         entry.remove(transfer, failed.bind(null, done, 'entry.remove - Error removing file: ' + file2));
                     }, transfer);
                 }
-                it("file.spec.138 copyTo: content", function(done) {
+                it("file.spec.138 copyTo: content", function (done) {
                     testContentCopy('content://org.apache.cordova.file.testprovider/www/index.html', done);
                 });
-                it("file.spec.139 copyTo: content /w space and query", function(done) {
+                it("file.spec.139 copyTo: content /w space and query", function (done) {
                     testContentCopy('content://org.apache.cordova.file.testprovider/?name=foo%20bar&realPath=%2Fwww%2Findex.html', done);
                 });
-                it("file.spec.140 delete: content should fail", function(done) {
-                    resolveLocalFileSystemURL('content://org.apache.cordova.file.testprovider/www/index.html', function(entry) {
+                it("file.spec.140 delete: content should fail", function (done) {
+                    resolveLocalFileSystemURL('content://org.apache.cordova.file.testprovider/www/index.html', function (entry) {
                         entry.remove(failed.bind(null, done, 'expected delete to fail'), done);
                     }, failed.bind(null, done, 'resolveLocalFileSystemURL failed for content provider'));
                 });
@@ -3736,12 +3736,12 @@ exports.defineAutoTests = function () {
             // these tests ensure that you can read and copy from android_asset folder
             // for details see https://issues.apache.org/jira/browse/CB-6428
             // and https://mail-archives.apache.org/mod_mbox/cordova-dev/201508.mbox/%3C782154441.8406572.1440182722528.JavaMail.yahoo%40mail.yahoo.com%3E
-            describe('asset: URLs', function() {
-                it("file.spec.141 filePaths.applicationStorage", function() {
+            describe('asset: URLs', function () {
+                it("file.spec.141 filePaths.applicationStorage", function () {
                     expect(cordova.file.applicationDirectory).toEqual('file:///android_asset/');
                 }, MEDIUM_TIMEOUT);
-                it("file.spec.142 assets should be enumerable", function(done) {
-                    resolveLocalFileSystemURL('file:///android_asset/www/fixtures/asset-test', function(entry) {
+                it("file.spec.142 assets should be enumerable", function (done) {
+                    resolveLocalFileSystemURL('file:///android_asset/www/fixtures/asset-test', function (entry) {
                         var reader = entry.createReader();
                         reader.readEntries(function (entries) {
                             expect(entries.length).not.toBe(0);
@@ -3749,8 +3749,8 @@ exports.defineAutoTests = function () {
                         }, failed.bind(null, done, 'reader.readEntries - Error during reading of entries from assets directory'));
                     }, failed.bind(null, done, 'resolveLocalFileSystemURL failed for assets'));
                 }, MEDIUM_TIMEOUT);
-                it("file.spec.145 asset subdirectories should be obtainable", function(done) {
-                    resolveLocalFileSystemURL('file:///android_asset/www/fixtures', function(entry) {
+                it("file.spec.145 asset subdirectories should be obtainable", function (done) {
+                    resolveLocalFileSystemURL('file:///android_asset/www/fixtures', function (entry) {
                         entry.getDirectory('asset-test', { create: false }, function (subDir) {
                             expect(subDir).toBeDefined();
                             expect(subDir.isFile).toBe(false);
@@ -3760,8 +3760,8 @@ exports.defineAutoTests = function () {
                         }, failed.bind(null, done, 'entry.getDirectory - Error getting asset subdirectory'));
                     }, failed.bind(null, done, 'resolveLocalFileSystemURL failed for assets'));
                 }, MEDIUM_TIMEOUT);
-                it("file.spec.146 asset files should be readable", function(done) {
-                    resolveLocalFileSystemURL('file:///android_asset/www/fixtures/asset-test/asset-test.txt', function(entry) {
+                it("file.spec.146 asset files should be readable", function (done) {
+                    resolveLocalFileSystemURL('file:///android_asset/www/fixtures/asset-test/asset-test.txt', function (entry) {
                         expect(entry.isFile).toBe(true);
                         entry.file(function (file) {
                             expect(file).toBeDefined();
@@ -3776,24 +3776,24 @@ exports.defineAutoTests = function () {
                         }, failed.bind(null, done, 'entry.file - Error reading asset file'));
                     }, failed.bind(null, done, 'resolveLocalFileSystemURL failed for assets'));
                 }, MEDIUM_TIMEOUT);
-                it("file.spec.143 copyTo: asset -> temporary", function(done) {
+                it("file.spec.143 copyTo: asset -> temporary", function (done) {
                     var file2 = "entry.copy.file2b",
-                    fullPath = joinURL(temp_root.fullPath, file2),
-                    validateFile = function (entry) {
-                        expect(entry.isFile).toBe(true);
-                        expect(entry.isDirectory).toBe(false);
-                        expect(entry.name).toCanonicallyMatch(file2);
-                        expect(entry.fullPath).toCanonicallyMatch(fullPath);
-                        expect(entry.filesystem.name).toEqual("temporary");
-                        // cleanup
-                        deleteEntry(entry.name, done);
-                    },
-                    transfer = function () {
-                        resolveLocalFileSystemURL('file:///android_asset/www/index.html', function(entry) {
-                            expect(entry.filesystem.name).toEqual('assets');
-                            entry.copyTo(temp_root, file2, validateFile, failed.bind(null, done, 'entry.copyTo - Error copying file: ' + entry.toURL() + ' to TEMPORAL root as: ' + file2));
-                        }, failed.bind(null, done, 'resolveLocalFileSystemURL failed for assets'));
-                    };
+                        fullPath = joinURL(temp_root.fullPath, file2),
+                        validateFile = function (entry) {
+                            expect(entry.isFile).toBe(true);
+                            expect(entry.isDirectory).toBe(false);
+                            expect(entry.name).toCanonicallyMatch(file2);
+                            expect(entry.fullPath).toCanonicallyMatch(fullPath);
+                            expect(entry.filesystem.name).toEqual("temporary");
+                            // cleanup
+                            deleteEntry(entry.name, done);
+                        },
+                        transfer = function () {
+                            resolveLocalFileSystemURL('file:///android_asset/www/index.html', function (entry) {
+                                expect(entry.filesystem.name).toEqual('assets');
+                                entry.copyTo(temp_root, file2, validateFile, failed.bind(null, done, 'entry.copyTo - Error copying file: ' + entry.toURL() + ' to TEMPORAL root as: ' + file2));
+                            }, failed.bind(null, done, 'resolveLocalFileSystemURL failed for assets'));
+                        };
                     // Delete any existing file to start things off
                     temp_root.getFile(file2, {}, function (entry) {
                         entry.remove(transfer, failed.bind(null, done, 'entry.remove - Error removing file: ' + file2));
@@ -3806,7 +3806,7 @@ exports.defineAutoTests = function () {
                 var dstPath = joinURL(root.fullPath, dstDir);
                 // create a new directory entry to kick off it
                 deleteEntry(dstDir, function () {
-                    resolveLocalFileSystemURL(srcUrl, function(directory) {
+                    resolveLocalFileSystemURL(srcUrl, function (directory) {
                         directory.copyTo(root, dstDir, function (directory) {
                             expect(directory).toBeDefined();
                             expect(directory.isFile).toBe(false);
@@ -3814,7 +3814,7 @@ exports.defineAutoTests = function () {
                             expect(directory.fullPath).toCanonicallyMatch(dstPath);
                             expect(directory.name).toCanonicallyMatch(dstDir);
                             root.getDirectory(dstDir, {
-                                create : false
+                                create: false
                             }, function (dirEntry) {
                                 expect(dirEntry).toBeDefined();
                                 expect(dirEntry.isFile).toBe(false);
@@ -3822,7 +3822,7 @@ exports.defineAutoTests = function () {
                                 expect(dirEntry.fullPath).toCanonicallyMatch(dstPath);
                                 expect(dirEntry.name).toCanonicallyMatch(dstDir);
                                 dirEntry.getFile('asset-test.txt', {
-                                    create : false
+                                    create: false
                                 }, function (fileEntry) {
                                     expect(fileEntry).toBeDefined();
                                     expect(fileEntry.isFile).toBe(true);
@@ -3864,7 +3864,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         requestFileSystem(LocalFileSystem.TEMPORARY, 0, function (fileSystem) {
             logMessage("Temporary root is at " + fileSystem.root.toNativeURL());
             fileSystem.root.getFile("testfile", {
-                create : true
+                create: true
             }, function (entry) {
                 logMessage("Temporary file is at " + entry.toNativeURL());
                 if (entry.toNativeURL().substring(0, 12) == "file:///var/") {
@@ -3883,35 +3883,35 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }
 
     function resolveFsContactImage() {
-        navigator.contacts.pickContact(function(contact) {
+        navigator.contacts.pickContact(function (contact) {
             var logBox = document.getElementById("logContactBox");
             logBox.innerHTML = "";
             var resolveResult = document.createElement("p");
             if (contact.photos) {
                 var photoURL = contact.photos[0].value;
-                resolveLocalFileSystemURL(photoURL, function(entry) {
+                resolveLocalFileSystemURL(photoURL, function (entry) {
                     var contactImage = document.createElement("img");
-                    var contactLabelImage = document.createElement("p");                       
-                    contactLabelImage.innerHTML = "Result contact image";                   
+                    var contactLabelImage = document.createElement("p");
+                    contactLabelImage.innerHTML = "Result contact image";
                     contactImage.setAttribute("src", entry.toURL());
                     resolveResult.innerHTML = "Success resolve\n" + entry.toURL();
                     logBox.appendChild(contactLabelImage);
                     logBox.appendChild(contactImage);
                     logBox.appendChild(resolveResult);
-                }, 
-                function(err) {
-                    console.log("resolve error" + err);
-                }); 
+                },
+                    function (err) {
+                        console.log("resolve error" + err);
+                    });
             }
             else {
                 resolveResult.innerHTML = "Contact has no photos";
                 logBox.appendChild(resolveResult);
             }
-        }, 
-        function(err) {
-            console.log("contact pick error" + err);
-        });
-    }    
+        },
+            function (err) {
+                console.log("contact pick error" + err);
+            });
+    }
 
     function clearLog() {
         var log = document.getElementById("info");
@@ -3935,10 +3935,10 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }
 
     var fsRoots = {
-        "ios" : "library,library-nosync,documents,documents-nosync,cache,bundle,root,private",
-        "osx" : "library,library-nosync,documents,documents-nosync,cache,bundle,root,private",
-        "android" : "files,files-external,documents,sdcard,cache,cache-external,assets,root",
-        "amazon-fireos" : "files,files-external,documents,sdcard,cache,cache-external,root",
+        "ios": "library,library-nosync,documents,documents-nosync,cache,bundle,root,private",
+        "osx": "library,library-nosync,documents,documents-nosync,cache,bundle,root,private",
+        "android": "files,files-external,documents,sdcard,cache,cache-external,assets,root",
+        "amazon-fireos": "files,files-external,documents,sdcard,cache,cache-external,root",
         "windows": "temporary,persistent"
     };
 
@@ -4008,5 +4008,5 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     createActionButton('show-contact-image', function () {
         resolveFsContactImage();
-    }, 'contactButton');    
+    }, 'contactButton');
 };

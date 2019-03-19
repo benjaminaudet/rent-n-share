@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-contacts.convertUtils", function(require, exports, module) { /*
+cordova.define("cordova-plugin-contacts.convertUtils", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,54 +19,54 @@ cordova.define("cordova-plugin-contacts.convertUtils", function(require, exports
  *
 */
 
-var utils = require('cordova/utils');
+    var utils = require('cordova/utils');
 
-module.exports = {
-    /**
-    * Converts primitives into Complex Object
-    * Currently only used for Date fields
-    */
-    toCordovaFormat: function (contact) {
-        var value = contact.birthday;
-        if (value !== null) {
-            try {
-              contact.birthday = new Date(parseFloat(value));
-              
-              //we might get 'Invalid Date' which does not throw an error
-              //and is an instance of Date.
-              if (isNaN(contact.birthday.getTime())) {
-                contact.birthday = null;
-              }
-
-            } catch (exception){
-              console.log("Cordova Contact toCordovaFormat error: exception creating date.");
-            }
-        }
-        return contact;
-    },
-
-    /**
-    * Converts Complex objects into primitives
-    * Only conversion at present is for Dates.
-    **/
-    toNativeFormat: function (contact) {
-        var value = contact.birthday;
-        if (value !== null) {
-            // try to make it a Date object if it is not already
-            if (!utils.isDate(value)){
+    module.exports = {
+        /**
+        * Converts primitives into Complex Object
+        * Currently only used for Date fields
+        */
+        toCordovaFormat: function (contact) {
+            var value = contact.birthday;
+            if (value !== null) {
                 try {
-                    value = new Date(value);
-                } catch(exception){
-                    value = null;
+                    contact.birthday = new Date(parseFloat(value));
+
+                    //we might get 'Invalid Date' which does not throw an error
+                    //and is an instance of Date.
+                    if (isNaN(contact.birthday.getTime())) {
+                        contact.birthday = null;
+                    }
+
+                } catch (exception) {
+                    console.log("Cordova Contact toCordovaFormat error: exception creating date.");
                 }
             }
-            if (utils.isDate(value)){
-                value = value.valueOf(); // convert to milliseconds
+            return contact;
+        },
+
+        /**
+        * Converts Complex objects into primitives
+        * Only conversion at present is for Dates.
+        **/
+        toNativeFormat: function (contact) {
+            var value = contact.birthday;
+            if (value !== null) {
+                // try to make it a Date object if it is not already
+                if (!utils.isDate(value)) {
+                    try {
+                        value = new Date(value);
+                    } catch (exception) {
+                        value = null;
+                    }
+                }
+                if (utils.isDate(value)) {
+                    value = value.valueOf(); // convert to milliseconds
+                }
+                contact.birthday = value;
             }
-            contact.birthday = value;
+            return contact;
         }
-        return contact;
-    }
-};
+    };
 
 });

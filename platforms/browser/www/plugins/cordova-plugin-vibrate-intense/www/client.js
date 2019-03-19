@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-vibrate-intense.client", function(require, exports, module) { /*
+cordova.define("cordova-plugin-vibrate-intense.client", function (require, exports, module) { /*
 * Copyright (c) 2013-2014 BlackBerry Limited
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +14,9 @@ cordova.define("cordova-plugin-vibrate-intense.client", function(require, export
 * limitations under the License.
 */
 
-var _self = {},
-	_ID = "cordova-plugin-vibrate-intense",
-	exec = cordova.require("cordova/exec");
+	var _self = {},
+		_ID = "cordova-plugin-vibrate-intense",
+		exec = cordova.require("cordova/exec");
 
 	// These methods are called by your App's JavaScript
 	// They make WebWorks function calls to the methods
@@ -27,10 +27,10 @@ var _self = {},
 	// Asynchronous with sending and returning a JSON object
 	_self.vibration_request = function (input, callback) {
 		var success = function (data, response) {
-				var json = JSON.parse(data);
-				if (typeof callback === 'function')
+			var json = JSON.parse(data);
+			if (typeof callback === 'function')
 				callback(json);
-			},
+		},
 			fail = function (data, response) {
 				console.log("Error: " + data);
 			};
@@ -38,5 +38,5 @@ var _self = {},
 	};
 
 
-module.exports = _self;
+	module.exports = _self;
 });

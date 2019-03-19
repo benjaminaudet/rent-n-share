@@ -25,7 +25,7 @@ var CordovaError = require('cordova-common').CordovaError;
 
 PodsJson.FILENAME = 'pods.json';
 
-function PodsJson (podsJsonPath) {
+function PodsJson(podsJsonPath) {
     this.path = podsJsonPath;
     this.contents = null;
     this.__dirty = false;

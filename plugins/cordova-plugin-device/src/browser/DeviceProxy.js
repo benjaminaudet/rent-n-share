@@ -20,19 +20,19 @@
  */
 var browser = require('cordova/platform');
 
-function getPlatform () {
+function getPlatform() {
     return 'browser';
 }
 
-function getModel () {
+function getModel() {
     return getBrowserInfo(true);
 }
 
-function getVersion () {
+function getVersion() {
     return getBrowserInfo(false);
 }
 
-function getBrowserInfo (getModel) {
+function getBrowserInfo(getModel) {
     var userAgent = navigator.userAgent;
     var returnVal = '';
     var offset;

@@ -189,9 +189,9 @@ module.exports = {
             attributes.emails.forEach(function (email) {
                 if (email.value) {
                     if (email.type) {
-                        nativeEmails.push({ "type" : email.type, "value" : email.value });
+                        nativeEmails.push({ "type": email.type, "value": email.value });
                     } else {
-                        nativeEmails.push({ "type" : "home", "value" : email.value });
+                        nativeEmails.push({ "type": "home", "value": email.value });
                     }
                 }
             });
@@ -227,31 +227,30 @@ module.exports = {
 // JavaScript wrapper for JNEXT plugin
 ///////////////////////////////////////////////////////////////////
 
-JNEXT.PimContacts = function ()
-{
+JNEXT.PimContacts = function () {
     var self = this,
         hasInstance = false;
 
     self.find = function (cordovaFindOptions, pluginResult, handler) {
         //register find eventHandler for when JNEXT onEvent fires
         self.eventHandlers[cordovaFindOptions.callbackId] = {
-            "result" : pluginResult,
-            "action" : "find",
-            "multiple" : cordovaFindOptions[1].filter ? true : false,
-            "fields" : cordovaFindOptions[0],
-            "searchFilter" : cordovaFindOptions[1].filter,
-            "searchFields" : cordovaFindOptions[1].filter ? populateSearchFields(cordovaFindOptions[0]) : null,
-            "searchFieldIndex" : 0,
-            "searchResult" : [],
-            "handler" : handler,
-            "error" : true
+            "result": pluginResult,
+            "action": "find",
+            "multiple": cordovaFindOptions[1].filter ? true : false,
+            "fields": cordovaFindOptions[0],
+            "searchFilter": cordovaFindOptions[1].filter,
+            "searchFields": cordovaFindOptions[1].filter ? populateSearchFields(cordovaFindOptions[0]) : null,
+            "searchFieldIndex": 0,
+            "searchResult": [],
+            "handler": handler,
+            "error": true
         };
 
         self.invokeJnextSearch(cordovaFindOptions.callbackId);
         return "";
     };
 
-    self.invokeJnextSearch = function(eventId) {
+    self.invokeJnextSearch = function (eventId) {
         var jnextArgs = {},
             findHandler = self.eventHandlers[eventId];
 
@@ -262,8 +261,8 @@ JNEXT.PimContacts = function ()
 
         if (findHandler.multiple) {
             jnextArgs.options.filter.push({
-                "fieldName" : findHandler.searchFields[findHandler.searchFieldIndex],
-                "fieldValue" : findHandler.searchFilter
+                "fieldName": findHandler.searchFields[findHandler.searchFieldIndex],
+                "fieldValue": findHandler.searchFilter
             });
             //findHandler.searchFieldIndex++;
         }
@@ -278,9 +277,9 @@ JNEXT.PimContacts = function ()
     self.save = function (args, pluginResult, handler) {
         //register save eventHandler for when JNEXT onEvent fires
         self.eventHandlers[args._eventId] = {
-            "result" : pluginResult,
-            "action" : "save",
-            "handler" : handler
+            "result": pluginResult,
+            "action": "save",
+            "handler": handler
         };
         JNEXT.invoke(self.m_id, "save " + JSON.stringify(args));
         return "";
@@ -289,9 +288,9 @@ JNEXT.PimContacts = function ()
     self.remove = function (args, pluginResult, handler) {
         //register remove eventHandler for when JNEXT onEvent fires
         self.eventHandlers[args._eventId] = {
-            "result" : pluginResult,
-            "action" : "remove",
-            "handler" : handler
+            "result": pluginResult,
+            "action": "remove",
+            "handler": handler
         };
         JNEXT.invoke(self.m_id, "remove " + JSON.stringify(args));
         return "";

@@ -50,7 +50,7 @@ function MediaCaptureProxy() {
     function toggleElements() {
         // convert arguments to array
         var args = Array.prototype.slice.call(arguments);
-        args.forEach(function(buttonId) {
+        args.forEach(function (buttonId) {
             var buttonEl = document.getElementById(buttonId);
             if (buttonEl) {
                 var curDisplayStyle = buttonEl.style.display;
@@ -72,10 +72,10 @@ function MediaCaptureProxy() {
         previewContainer.innerHTML =
             '<video id="capturePreview" style="width: 100%; height: 100%"></video>' +
             '<div id="previewButtons" style="width: 100%; bottom: 0px; display: flex; position: absolute; justify-content: space-around; background-color: black;">' +
-                '<button id="takePicture" style="' + buttonStyle + '">Capture</button>' +
-                '<button id="cancelCapture" style="' + buttonStyle + '">Cancel</button>' +
-                '<button id="selectPicture" style="display: none; ' + buttonStyle + '">Accept</button>' +
-                '<button id="retakePicture" style="display: none; ' + buttonStyle + '">Retake</button>' +
+            '<button id="takePicture" style="' + buttonStyle + '">Capture</button>' +
+            '<button id="cancelCapture" style="' + buttonStyle + '">Cancel</button>' +
+            '<button id="selectPicture" style="display: none; ' + buttonStyle + '">Accept</button>' +
+            '<button id="retakePicture" style="display: none; ' + buttonStyle + '">Retake</button>' +
             '</div>';
 
         document.body.appendChild(previewContainer);
@@ -179,15 +179,15 @@ function MediaCaptureProxy() {
                             generateUniqueCollisionOption = Windows.Storage.CreationCollisionOption.generateUniqueName,
                             localFolder = Windows.Storage.ApplicationData.current.localFolder;
 
-                        localFolder.createFileAsync("cameraCaptureVideo.mp4", generateUniqueCollisionOption).done(function(capturedFile) {
-                            capture.startRecordToStorageFileAsync(encodingProperties, capturedFile).done(function() {
+                        localFolder.createFileAsync("cameraCaptureVideo.mp4", generateUniqueCollisionOption).done(function (capturedFile) {
+                            capture.startRecordToStorageFileAsync(encodingProperties, capturedFile).done(function () {
                                 capturedVideoFile = capturedFile;
                                 captureStarted = true;
-                            }, function(err) {
+                            }, function (err) {
                                 destroyCameraPreview();
                                 errorCallback(CaptureError.CAPTURE_INTERNAL_ERR, err);
                             });
-                        }, function(err) {
+                        }, function (err) {
                             destroyCameraPreview();
                             errorCallback(CaptureError.CAPTURE_INTERNAL_ERR, err);
                         });
@@ -248,7 +248,7 @@ function MediaCaptureProxy() {
                         capturedPictureFile.copyAsync(localFolder, capturedPictureFile.name, generateUniqueCollisionOption).done(function (copiedFile) {
                             destroyCameraPreview();
                             successCallback(copiedFile);
-                        }, function(err) {
+                        }, function (err) {
                             destroyCameraPreview();
                             errorCallback(err);
                         });
@@ -268,11 +268,11 @@ function MediaCaptureProxy() {
 
 module.exports = {
 
-    captureAudio:function(successCallback, errorCallback, args) {
+    captureAudio: function (successCallback, errorCallback, args) {
         var options = args[0];
 
         var audioOptions = new CaptureAudioOptions();
-        if (typeof(options.duration) == 'undefined') {
+        if (typeof (options.duration) == 'undefined') {
             audioOptions.duration = 3600; // Arbitrary amount, need to change later
         } else if (options.duration > 0) {
             audioOptions.duration = options.duration;
@@ -298,15 +298,15 @@ module.exports = {
             stopRecordTimeout;
 
         var stopRecord = function () {
-            mediaCapture.stopRecordAsync().then(function() {
+            mediaCapture.stopRecordAsync().then(function () {
                 capturedFile.getBasicPropertiesAsync().then(function (basicProperties) {
                     var result = new MediaFile(capturedFile.name, 'ms-appdata:///local/' + capturedFile.name, capturedFile.contentType, basicProperties.dateModified, basicProperties.size);
                     result.fullPath = capturedFile.path;
                     successCallback([result]);
-                }, function() {
+                }, function () {
                     errorCallback(new CaptureError(CaptureError.CAPTURE_NO_MEDIA_FILES));
                 });
-            }, function() { errorCallback(new CaptureError(CaptureError.CAPTURE_NO_MEDIA_FILES)); });
+            }, function () { errorCallback(new CaptureError(CaptureError.CAPTURE_NO_MEDIA_FILES)); });
         };
 
         mediaCapture.initializeAsync(mediaCaptureSettings).done(function () {
@@ -325,7 +325,7 @@ module.exports = {
                             capturedFile = storageFile;
                             mediaCapture.startRecordToStorageFileAsync(m4aEncodingProfile, capturedFile).then(function () {
                                 stopRecordTimeout = setTimeout(stopRecord, audioOptions.duration * 1000);
-                            }, function() {
+                            }, function () {
                                 // if we here, we're totally failed to record either mp3 or m4a
                                 errorCallback(new CaptureError(CaptureError.CAPTURE_INTERNAL_ERR));
                                 return;
@@ -340,7 +340,7 @@ module.exports = {
         });
     },
 
-    captureImage:function (successCallback, errorCallback, args) {
+    captureImage: function (successCallback, errorCallback, args) {
         var CaptureNS = Windows.Media.Capture;
 
         function fail(code, data) {
@@ -395,7 +395,7 @@ module.exports = {
         }
     },
 
-    captureVideo:function (successCallback, errorCallback, args) {
+    captureVideo: function (successCallback, errorCallback, args) {
         var options = args[0];
         var CaptureNS = Windows.Media.Capture;
 
@@ -435,23 +435,23 @@ module.exports = {
             cameraCaptureUI.videoSettings.allowTrimming = true;
             cameraCaptureUI.videoSettings.format = Windows.Media.Capture.CameraCaptureUIVideoFormat.mp4;
             cameraCaptureUI.videoSettings.maxDurationInSeconds = videoOptions.duration;
-            cameraCaptureUI.captureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.video).then(function(file) {
+            cameraCaptureUI.captureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.video).then(function (file) {
                 if (file) {
                     file.moveAsync(Windows.Storage.ApplicationData.current.localFolder, "cameraCaptureVideo.mp4", Windows.Storage.NameCollisionOption.generateUniqueName).then(function () {
-                        file.getBasicPropertiesAsync().then(function(basicProperties) {
+                        file.getBasicPropertiesAsync().then(function (basicProperties) {
                             var result = new MediaFile(file.name, 'ms-appdata:///local/' + file.name, file.contentType, basicProperties.dateModified, basicProperties.size);
                             result.fullPath = file.path;
                             successCallback([result]);
-                        }, function() {
+                        }, function () {
                             errorCallback(new CaptureError(CaptureError.CAPTURE_NO_MEDIA_FILES));
                         });
-                    }, function() {
+                    }, function () {
                         errorCallback(new CaptureError(CaptureError.CAPTURE_NO_MEDIA_FILES));
                     });
                 } else {
                     errorCallback(new CaptureError(CaptureError.CAPTURE_NO_MEDIA_FILES));
                 }
-            }, function() { errorCallback(new CaptureError(CaptureError.CAPTURE_NO_MEDIA_FILES)); });
+            }, function () { errorCallback(new CaptureError(CaptureError.CAPTURE_NO_MEDIA_FILES)); });
         }
     },
 
@@ -488,4 +488,4 @@ module.exports = {
     }
 };
 
-require("cordova/exec/proxy").add("Capture",module.exports);
+require("cordova/exec/proxy").add("Capture", module.exports);

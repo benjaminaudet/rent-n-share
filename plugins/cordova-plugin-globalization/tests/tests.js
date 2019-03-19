@@ -55,7 +55,7 @@ exports.defineAutoTests = function () {
                     checkPreferredLanguage(a);
                     done();
                 },
-                fail.bind(null, done));
+                    fail.bind(null, done));
             });
             it('globalization.spec.4 getPreferredLanguage return string should contain one or more language subtags separated by hyphen', function (done) {
                 navigator.globalization.getPreferredLanguage(function (a) {
@@ -137,35 +137,35 @@ exports.defineAutoTests = function () {
                     checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
-                { formatLength: 'short', selector: 'date' });
+                    { formatLength: 'short', selector: 'date' });
             });
             it('globalization.spec.7 dateToString using formatLength=full and selector=date options, success callback should be called with a Properties object', function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
                     checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
-                { formatLength: 'full', selector: 'date' });
+                    { formatLength: 'full', selector: 'date' });
             });
             it('globalization.spec.8 dateToString using formatLength=medium and selector=date and time(default) options, success callback should be called with a Properties object', function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
                     checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
-                { formatLength: 'medium' });
+                    { formatLength: 'medium' });
             });
             it('globalization.spec.9 dateToString using formatLength=long and selector=date and time(default) options, success callback should be called with a Properties object', function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
                     checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
-                { formatLength: 'long' });
+                    { formatLength: 'long' });
             });
             it('globalization.spec.10 dateToString using formatLength=full and selector=date and time(default) options, success callback should be called with a Properties object', function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
                     checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
-                { formatLength: 'full' });
+                    { formatLength: 'full' });
             });
         });
 
@@ -290,7 +290,7 @@ exports.defineAutoTests = function () {
                     checkDatePattern(a);
                     done();
                 }, fail.bind(null, done),
-                { formatLength: 'medium', selector: 'date' });
+                    { formatLength: 'medium', selector: 'date' });
             });
         });
 
@@ -318,28 +318,28 @@ exports.defineAutoTests = function () {
                     checkDateNames(a);
                     done();
                 }, fail.bind(null, done),
-                { type: 'narrow', item: 'days' });
+                    { type: 'narrow', item: 'days' });
             });
             it('globalization.spec.22 getDateNames using type=narrow and item=months options, success callback should be called with a Properties object', function (done) {
                 navigator.globalization.getDateNames(function (a) {
                     checkDateNames(a);
                     done();
                 }, fail.bind(null, done),
-                { type: 'narrow', item: 'months' });
+                    { type: 'narrow', item: 'months' });
             });
             it('globalization.spec.23 getDateNames using type=wide and item=days options, success callback should be called with a Properties object', function (done) {
                 navigator.globalization.getDateNames(function (a) {
                     checkDateNames(a);
                     done();
                 }, fail.bind(null, done),
-                { type: 'wide', item: 'days' });
+                    { type: 'wide', item: 'days' });
             });
             it('globalization.spec.24 getDateNames using type=wide and item=months options, success callback should be called with a Properties object', function (done) {
                 navigator.globalization.getDateNames(function (a) {
                     checkDateNames(a);
                     done();
                 }, fail.bind(null, done),
-                { type: 'wide', item: 'months' });
+                    { type: 'wide', item: 'months' });
             });
         });
 
@@ -398,7 +398,7 @@ exports.defineAutoTests = function () {
                     checkNumberToString(a);
                     done();
                 }, fail.bind(null, done),
-                { type: 'percent' });
+                    { type: 'percent' });
             });
             it('globalization.spec.32 numberToString using type=currency options, should be called with a Properties object', function (done) {
                 // the numberToString using type=currency is not supported on browser
@@ -410,7 +410,7 @@ exports.defineAutoTests = function () {
                     checkNumberToString(a);
                     done();
                 }, fail.bind(null, done),
-                { type: 'currency' });
+                    { type: 'currency' });
             });
         });
 

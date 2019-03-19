@@ -22,22 +22,22 @@
 var GlobalizationError = require('./GlobalizationError');
 var moment = require('cordova-plugin-globalization.moment');
 
-function getCrossPlatformLocale () {
+function getCrossPlatformLocale() {
     // userLanguage is for IE, which corresponds to selected regional format
     return navigator.userLanguage || navigator.language;
 }
 
-function stdTimezoneOffset (date) {
+function stdTimezoneOffset(date) {
     var jan = new Date(date.getFullYear(), 0, 20);
     var jul = new Date(date.getFullYear(), 6, 20);
     return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
 }
 
-function dst (date) {
+function dst(date) {
     return date.getTimezoneOffset() < stdTimezoneOffset(date);
 }
 
-function dstOffsetAbs (date) {
+function dstOffsetAbs(date) {
     var janOffset = new Date(date.getFullYear(), 0, 20).getTimezoneOffset();
     var julOffset = new Date(date.getFullYear(), 6, 20).getTimezoneOffset();
     if (janOffset < 0) { janOffset = -janOffset; }
@@ -47,7 +47,7 @@ function dstOffsetAbs (date) {
     return offset;
 }
 
-function getWeekDayNames (locale, options) {
+function getWeekDayNames(locale, options) {
     var result = [];
     var date;
     for (var i = 0; i < 7; i++) {
@@ -57,69 +57,69 @@ function getWeekDayNames (locale, options) {
     return result;
 }
 
-function convertToIntlNumberFormatOptions (options) {
+function convertToIntlNumberFormatOptions(options) {
     switch (options.type) {
-    case 'decimal':
-        return { style: 'decimal' };
-    case 'currency':
-        throw '\'currency\' number type is not supported';
-    case 'percent':
-        return { style: 'percent' };
-    default:
-        throw 'The options.type can be \'decimal\', \'percent\' or \'currency\'';
+        case 'decimal':
+            return { style: 'decimal' };
+        case 'currency':
+            throw '\'currency\' number type is not supported';
+        case 'percent':
+            return { style: 'percent' };
+        default:
+            throw 'The options.type can be \'decimal\', \'percent\' or \'currency\'';
     }
 }
 
-function convertToMomentLocalizedFormat (options) {
+function convertToMomentLocalizedFormat(options) {
     var selectorError = 'The options.selector can be \'date\', \'time\' or \'date and time\'';
     var formatLengthError = 'The options.formatLength can be \'short\', \'medium\', \'long\', or \'full\'';
     /* eslint-disable no-unreachable */
     switch (options.formatLength) {
-    case 'short':
-        switch (options.selector) {
-        case 'date and time': return 'lll';
-        case 'date': return 'l';
-        case 'time': return 'LT';
+        case 'short':
+            switch (options.selector) {
+                case 'date and time': return 'lll';
+                case 'date': return 'l';
+                case 'time': return 'LT';
+                default:
+                    throw selectorError;
+            }
+            break;
+        case 'medium':
+            switch (options.selector) {
+                case 'date and time': return 'LLL';
+                case 'date': return 'L';
+                case 'time':
+                    throw '\'time\' selector does not support \'medium\' formatLength';
+                default:
+                    throw selectorError;
+            }
+            break;
+        case 'long':
+            switch (options.selector) {
+                case 'date and time': return 'llll';
+                case 'date': return 'll';
+                case 'time':
+                    throw '\'time\' selector does not support \'long\' formatLength';
+                default:
+                    throw selectorError;
+            }
+            break;
+        case 'full':
+            switch (options.selector) {
+                case 'date and time': return 'LLLL';
+                case 'date': return 'LL';
+                case 'time': return 'LTS';
+                default:
+                    throw selectorError;
+            }
+            break;
         default:
-            throw selectorError;
-        }
-        break;
-    case 'medium':
-        switch (options.selector) {
-        case 'date and time': return 'LLL';
-        case 'date': return 'L';
-        case 'time':
-            throw '\'time\' selector does not support \'medium\' formatLength';
-        default:
-            throw selectorError;
-        }
-        break;
-    case 'long':
-        switch (options.selector) {
-        case 'date and time': return 'llll';
-        case 'date': return 'll';
-        case 'time':
-            throw '\'time\' selector does not support \'long\' formatLength';
-        default:
-            throw selectorError;
-        }
-        break;
-    case 'full':
-        switch (options.selector) {
-        case 'date and time': return 'LLLL';
-        case 'date': return 'LL';
-        case 'time': return 'LTS';
-        default:
-            throw selectorError;
-        }
-        break;
-    default:
-        throw formatLengthError;
+            throw formatLengthError;
     }
 }
 /* eslint-enable no-unreachable */
-function prepareAndGetDateOptions (options) {
-    options = options || {formatLength: 'short', selector: 'date and time'};
+function prepareAndGetDateOptions(options) {
+    options = options || { formatLength: 'short', selector: 'date and time' };
     options.formatLength = options.formatLength || 'short';
     options.selector = options.selector || 'date and time';
 

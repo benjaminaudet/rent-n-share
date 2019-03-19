@@ -324,7 +324,7 @@ interface FileError {
 }
 
 declare var FileError: {
-    new (code: number): FileError;
+    new(code: number): FileError;
     NOT_FOUND_ERR: number;
     SECURITY_ERR: number;
     ABORT_ERR: number;
@@ -373,6 +373,6 @@ interface Cordova {
 
 
 declare enum LocalFileSystem {
-    PERSISTENT=0,
-    TEMPORARY=1
+    PERSISTENT = 0,
+    TEMPORARY = 1
 }

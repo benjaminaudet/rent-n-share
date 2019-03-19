@@ -31,7 +31,7 @@ var PluginManager = require('cordova-common').PluginManager;
 var Q = require('q');
 var util = require('util');
 
-function setupEvents (externalEventEmitter) {
+function setupEvents(externalEventEmitter) {
     if (externalEventEmitter) {
         // This will make the platform internal events visible outside
         events.forwardEventsTo(externalEventEmitter);
@@ -53,7 +53,7 @@ function setupEvents (externalEventEmitter) {
  *   logging purposes. If no EventEmitter provided, all events will be logged to
  *   console
  */
-function Api (platform, platformRootDir, events) {
+function Api(platform, platformRootDir, events) {
     // 'platform' property is required as per PlatformApi spec
     this.platform = platform || 'ios';
     this.root = platformRootDir || path.resolve(__dirname, '..');

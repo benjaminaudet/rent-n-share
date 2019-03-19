@@ -27,7 +27,7 @@ var urlutil = require('cordova/urlutil');
 var isAlertShowing = false;
 var alertStack = [];
 
-function createCSSElem (fileName) {
+function createCSSElem(fileName) {
     var elemId = fileName.substr(0, fileName.lastIndexOf('.')) + '-plugin-style';
     // If the CSS element exists, don't recreate it.
     if (document.getElementById(elemId)) {
@@ -53,7 +53,7 @@ if (typeof toStaticHTML !== 'undefined') {
 
 // Windows does not provide native UI for promp dialog so we use some
 // simple html-based implementation until it is available
-function createPromptDialog (title, message, buttons, defaultText, callback) {
+function createPromptDialog(title, message, buttons, defaultText, callback) {
 
     var isPhone = cordova.platformId === 'windows' && WinJS.Utilities.isPhone;
     var isWindows = !!cordova.platformId.match(/windows/);
@@ -82,7 +82,7 @@ function createPromptDialog (title, message, buttons, defaultText, callback) {
     dlg.querySelector('#prompt-input').setAttribute('placeholder', defaultText);
     dlg.querySelector('#prompt-input').setAttribute('value', defaultText);
 
-    function makeButtonCallback (idx) {
+    function makeButtonCallback(idx) {
         return function () {
             var value = dlg.querySelector('#prompt-input').value || defaultText;
             dlgWrap.parentNode.removeChild(dlgWrap);
@@ -93,7 +93,7 @@ function createPromptDialog (title, message, buttons, defaultText, callback) {
         };
     }
 
-    function addButton (idx, label) {
+    function addButton(idx, label) {
         var button = document.createElement('button');
         button.className = 'dlgButton';
         button.tabIndex = idx;

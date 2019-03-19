@@ -103,11 +103,11 @@ module.exports = {
      */
     beep: function (count) {
         var defaultedCount = count || 1;
-        exec(null, null, 'Notification', 'beep', [ defaultedCount ]);
+        exec(null, null, 'Notification', 'beep', [defaultedCount]);
     }
 };
 
-function convertButtonLabels (buttonLabels) {
+function convertButtonLabels(buttonLabels) {
 
     // Some platforms take an array of button label names.
     // Other platforms take a comma separated list.

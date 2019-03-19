@@ -21,7 +21,7 @@
 
 /* global Windows, WinJS, Vibration */
 
-function checkReqs (actionName, fail) {
+function checkReqs(actionName, fail) {
     if (!(Windows.Phone && Windows.Phone.Devices && Windows.Phone.Devices.Notification && Windows.Phone.Devices.Notification.VibrationDevice) && WinJS.Utilities.isPhone !== true) {
         fail(actionName + ' is unsupported by this platform.');
         return false;
@@ -30,7 +30,7 @@ function checkReqs (actionName, fail) {
     return true;
 }
 
-function tryDoAction (actionName, success, fail, args, action) {
+function tryDoAction(actionName, success, fail, args, action) {
     try {
         if (checkReqs(actionName, fail) !== true) {
             return;
@@ -56,7 +56,7 @@ function tryDoAction (actionName, success, fail, args, action) {
  * @param  {Array} pattern Array of delays
  * @returns {patternParsingResult} result
  */
-function tryParsePatternValues (pattern) {
+function tryParsePatternValues(pattern) {
     var passed = true;
     var failedItem;
 
@@ -88,7 +88,7 @@ function tryParsePatternValues (pattern) {
  * Checks params for vibrateWithPattern function
  * @return {checkPatternReqsResult}
  */
-function checkPatternReqs (args, fail) {
+function checkPatternReqs(args, fail) {
     var patternParsingResult = tryParsePatternValues(args[0]);
     var repeat = args[1];
     var passed = true;
@@ -125,7 +125,7 @@ function checkPatternReqs (args, fail) {
  * @param  {Array} patternCycle Cycled part of the pattern array
  * @return {Promise} Promise chaining single vibrate/pause actions
  */
-function vibratePattern (patternArr, shouldRepeat, fail, patternCycle) {
+function vibratePattern(patternArr, shouldRepeat, fail, patternCycle) {
     return patternArr.reduce(function (previousValue, currentValue, index) {
         if (index % 2 === 0) {
             return previousValue.then(function () {

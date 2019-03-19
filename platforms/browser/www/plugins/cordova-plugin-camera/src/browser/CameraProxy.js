@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-camera.CameraProxy", function(require, exports, module) { /*
+cordova.define("cordova-plugin-camera.CameraProxy", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,107 +19,107 @@ cordova.define("cordova-plugin-camera.CameraProxy", function(require, exports, m
  *
  */
 
-var HIGHEST_POSSIBLE_Z_INDEX = 2147483647;
+    var HIGHEST_POSSIBLE_Z_INDEX = 2147483647;
 
-function takePicture(success, error, opts) {
-    if (opts && opts[2] === 1) {
-        capture(success, error, opts);
-    } else {
-        var input = document.createElement('input');
-        input.style.position = 'relative';
-        input.style.zIndex = HIGHEST_POSSIBLE_Z_INDEX;
-        input.className = 'cordova-camera-select';
-        input.type = 'file';
-        input.name = 'files[]';
+    function takePicture(success, error, opts) {
+        if (opts && opts[2] === 1) {
+            capture(success, error, opts);
+        } else {
+            var input = document.createElement('input');
+            input.style.position = 'relative';
+            input.style.zIndex = HIGHEST_POSSIBLE_Z_INDEX;
+            input.className = 'cordova-camera-select';
+            input.type = 'file';
+            input.name = 'files[]';
 
-        input.onchange = function(inputEvent) {
-            var reader = new FileReader();
-            reader.onload = function(readerEvent) {
-                input.parentNode.removeChild(input);
+            input.onchange = function (inputEvent) {
+                var reader = new FileReader();
+                reader.onload = function (readerEvent) {
+                    input.parentNode.removeChild(input);
 
-                var imageData = readerEvent.target.result;
+                    var imageData = readerEvent.target.result;
 
-                return success(imageData.substr(imageData.indexOf(',') + 1));
+                    return success(imageData.substr(imageData.indexOf(',') + 1));
+                };
+
+                reader.readAsDataURL(inputEvent.target.files[0]);
             };
 
-            reader.readAsDataURL(inputEvent.target.files[0]);
+            document.body.appendChild(input);
+        }
+    }
+
+    function capture(success, errorCallback, opts) {
+        var localMediaStream;
+        var targetWidth = opts[3];
+        var targetHeight = opts[4];
+
+        targetWidth = targetWidth == -1 ? 320 : targetWidth;
+        targetHeight = targetHeight == -1 ? 240 : targetHeight;
+
+        var video = document.createElement('video');
+        var button = document.createElement('button');
+        var parent = document.createElement('div');
+        parent.style.position = 'relative';
+        parent.style.zIndex = HIGHEST_POSSIBLE_Z_INDEX;
+        parent.className = 'cordova-camera-capture';
+        parent.appendChild(video);
+        parent.appendChild(button);
+
+        video.width = targetWidth;
+        video.height = targetHeight;
+        button.innerHTML = 'Capture!';
+
+        button.onclick = function () {
+            // create a canvas and capture a frame from video stream
+            var canvas = document.createElement('canvas');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, targetWidth, targetHeight);
+
+            // convert image stored in canvas to base64 encoded image
+            var imageData = canvas.toDataURL('image/png');
+            imageData = imageData.replace('data:image/png;base64,', '');
+
+            // stop video stream, remove video and button.
+            // Note that MediaStream.stop() is deprecated as of Chrome 47.
+            if (localMediaStream.stop) {
+                localMediaStream.stop();
+            } else {
+                localMediaStream.getTracks().forEach(function (track) {
+                    track.stop();
+                });
+            }
+            parent.parentNode.removeChild(parent);
+
+            return success(imageData);
         };
 
-        document.body.appendChild(input);
-    }
-}
+        navigator.getUserMedia = navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia;
 
-function capture(success, errorCallback, opts) {
-    var localMediaStream;
-    var targetWidth = opts[3];
-    var targetHeight = opts[4];
+        var successCallback = function (stream) {
+            localMediaStream = stream;
+            video.src = window.URL.createObjectURL(localMediaStream);
+            video.play();
 
-    targetWidth = targetWidth == -1?320:targetWidth;
-    targetHeight = targetHeight == -1?240:targetHeight;
+            document.body.appendChild(parent);
+        };
 
-    var video = document.createElement('video');
-    var button = document.createElement('button');
-    var parent = document.createElement('div');
-    parent.style.position = 'relative';
-    parent.style.zIndex = HIGHEST_POSSIBLE_Z_INDEX;
-    parent.className = 'cordova-camera-capture';
-    parent.appendChild(video);
-    parent.appendChild(button);
-
-    video.width = targetWidth;
-    video.height = targetHeight;
-    button.innerHTML = 'Capture!';
-
-    button.onclick = function() {
-        // create a canvas and capture a frame from video stream
-        var canvas = document.createElement('canvas');
-        canvas.width = targetWidth;
-        canvas.height = targetHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0, targetWidth, targetHeight);
-
-        // convert image stored in canvas to base64 encoded image
-        var imageData = canvas.toDataURL('image/png');
-        imageData = imageData.replace('data:image/png;base64,', '');
-
-        // stop video stream, remove video and button.
-        // Note that MediaStream.stop() is deprecated as of Chrome 47.
-        if (localMediaStream.stop) {
-            localMediaStream.stop();
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({ video: true, audio: true }, successCallback, errorCallback);
         } else {
-            localMediaStream.getTracks().forEach(function (track) {
-                track.stop();
-            });
+            alert('Browser does not support camera :(');
         }
-        parent.parentNode.removeChild(parent);
-
-        return success(imageData);
-    };
-
-    navigator.getUserMedia = navigator.getUserMedia ||
-                             navigator.webkitGetUserMedia ||
-                             navigator.mozGetUserMedia ||
-                             navigator.msGetUserMedia;
-
-    var successCallback = function(stream) {
-        localMediaStream = stream;
-        video.src = window.URL.createObjectURL(localMediaStream);
-        video.play();
-
-        document.body.appendChild(parent);
-    };
-
-    if (navigator.getUserMedia) {
-        navigator.getUserMedia({video: true, audio: true}, successCallback, errorCallback);
-    } else {
-        alert('Browser does not support camera :(');
     }
-}
 
-module.exports = {
-    takePicture: takePicture,
-    cleanup: function(){}
-};
+    module.exports = {
+        takePicture: takePicture,
+        cleanup: function () { }
+    };
 
-require("cordova/exec/proxy").add("Camera",module.exports);
+    require("cordova/exec/proxy").add("Camera", module.exports);
 
 });

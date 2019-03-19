@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-file.firefoxFileSystem", function(require, exports, module) { /*
+cordova.define("cordova-plugin-file.firefoxFileSystem", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,15 +19,15 @@ cordova.define("cordova-plugin-file.firefoxFileSystem", function(require, export
  *
 */
 
-/*global FILESYSTEM_PREFIX: true, module*/
+    /*global FILESYSTEM_PREFIX: true, module*/
 
-FILESYSTEM_PREFIX = "file:///";
+    FILESYSTEM_PREFIX = "file:///";
 
-module.exports = {
-    __format__: function(fullPath) {
-        return (FILESYSTEM_PREFIX + this.name + (fullPath[0] === '/' ? '' : '/') + FileSystem.encodeURIPath(fullPath));
-    }
-};
+    module.exports = {
+        __format__: function (fullPath) {
+            return (FILESYSTEM_PREFIX + this.name + (fullPath[0] === '/' ? '' : '/') + FileSystem.encodeURIPath(fullPath));
+        }
+    };
 
 
 });

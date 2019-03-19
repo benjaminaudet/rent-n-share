@@ -139,7 +139,7 @@ interface Contact extends ContactProperties {
 
 declare var Contact: {
     /** Constructor of Contact object */
-    new (id?: string,
+    new(id?: string,
         displayName?: string,
         name?: ContactName,
         nickname?: string,
@@ -164,7 +164,7 @@ interface ContactError {
 }
 
 declare var ContactError: {
-    new (code: number): ContactError;
+    new(code: number): ContactError;
     UNKNOWN_ERROR: number;
     INVALID_ARGUMENT_ERROR: number;
     TIMEOUT_ERROR: number;
@@ -192,7 +192,7 @@ interface ContactName {
 
 declare var ContactName: {
     /** Constructor for ContactName object */
-    new (formatted?: string,
+    new(formatted?: string,
         familyName?: string,
         givenName?: string,
         middleName?: string,
@@ -223,7 +223,7 @@ interface ContactField {
 
 declare var ContactField: {
     /** Constructor for ContactField object */
-    new (type?: string,
+    new(type?: string,
         value?: string,
         pref?: boolean): ContactField
 };
@@ -253,7 +253,7 @@ interface ContactAddress {
 
 declare var ContactAddress: {
     /** Constructor of ContactAddress object */
-    new (pref?: boolean,
+    new(pref?: boolean,
         type?: string,
         formatted?: string,
         streetAddress?: string,
@@ -282,7 +282,7 @@ interface ContactOrganization {
 
 declare var ContactOrganization: {
     /** Constructor for ContactOrganization object */
-    new (pref?: boolean,
+    new(pref?: boolean,
         type?: string,
         name?: string,
         department?: string,
@@ -331,7 +331,7 @@ declare type ContactFieldType =
 
 declare var ContactFindOptions: {
     /** Constructor for ContactFindOptions object */
-    new (filter?: string,
+    new(filter?: string,
         multiple?: boolean,
         desiredFields?: ContactFieldType[]): ContactFindOptions
 };

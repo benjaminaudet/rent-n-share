@@ -38,12 +38,12 @@ module.exports = function (success, fail, args) {
     var uri = args[0] === "/" ? "" : args[0] + "/" + args[1],
         options = args[2],
         onSuccess = function (entry) {
-            if (typeof(success) === 'function') {
+            if (typeof (success) === 'function') {
                 success(entry);
             }
         },
         onFail = function (code) {
-            if (typeof(fail) === 'function') {
+            if (typeof (fail) === 'function') {
                 fail(code);
             }
         };

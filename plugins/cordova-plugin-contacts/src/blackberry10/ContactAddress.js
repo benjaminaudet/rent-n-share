@@ -28,8 +28,8 @@ var ContactAddress = function (properties) {
     this.country = properties && properties.country ? properties.country : "";
 };
 
-Object.defineProperty(ContactAddress, "HOME", {"value": "home"});
-Object.defineProperty(ContactAddress, "WORK", {"value": "work"});
-Object.defineProperty(ContactAddress, "OTHER", {"value": "other"});
+Object.defineProperty(ContactAddress, "HOME", { "value": "home" });
+Object.defineProperty(ContactAddress, "WORK", { "value": "work" });
+Object.defineProperty(ContactAddress, "OTHER", { "value": "other" });
 
 module.exports = ContactAddress;

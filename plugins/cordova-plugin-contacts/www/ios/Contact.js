@@ -26,7 +26,7 @@ var exec = require('cordova/exec'),
  * Provides iOS Contact.display API.
  */
 module.exports = {
-    display : function(errorCB, options) {
+    display: function (errorCB, options) {
         /*
          *    Display a contact using the iOS Contact Picker UI
          *    NOT part of W3C spec so no official documentation
@@ -45,7 +45,7 @@ module.exports = {
             }
         }
         else {
-            exec(null, errorCB, "Contacts","displayContact", [this.id, options]);
+            exec(null, errorCB, "Contacts", "displayContact", [this.id, options]);
         }
     }
 };

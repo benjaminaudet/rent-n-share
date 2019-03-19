@@ -23,9 +23,9 @@ var modulemapper = require('cordova/modulemapper');
 
 var origOpenFunc = modulemapper.getOriginalSymbol(window, 'window.open');
 
-function _empty () {}
+function _empty() { }
 
-function modal (message, callback, title, buttonLabels, domObjects) {
+function modal(message, callback, title, buttonLabels, domObjects) {
     var mainWindow = window;
     var modalWindow = origOpenFunc();
     var modalDocument = modalWindow.document;
@@ -62,20 +62,20 @@ function modal (message, callback, title, buttonLabels, domObjects) {
     }
     modalDocument.body.appendChild(box);
 
-    function addButton (label, index, recommended) {
+    function addButton(label, index, recommended) {
         var thisButtonCallback = makeCallbackButton(index + 1);
         var button = modalDocument.createElement('button');
         button.appendChild(modalDocument.createTextNode(label));
         button.addEventListener('click', thisButtonCallback, false);
         if (recommended) {
-          // TODO: default one listens to Enter key
+            // TODO: default one listens to Enter key
             button.classList.add('recommend');
         }
         menu.appendChild(button);
     }
 
     // TODO: onUnload listens to the cancel key
-    function onUnload () {
+    function onUnload() {
         var result = 0;
         if (modalDocument.getElementById('prompt-input')) {
             result = {
@@ -90,13 +90,13 @@ function modal (message, callback, title, buttonLabels, domObjects) {
     modalWindow.addEventListener('unload', onUnload, false);
 
     // call callback and destroy modal
-    function makeCallbackButton (labelIndex) {
+    function makeCallbackButton(labelIndex) {
         return function () {
             if (modalWindow) {
                 modalWindow.removeEventListener('unload', onUnload, false);
                 modalWindow.close();
             }
-          // checking if prompt
+            // checking if prompt
             var promptInput = modalDocument.getElementById('prompt-input');
             var response;
             if (promptInput) {

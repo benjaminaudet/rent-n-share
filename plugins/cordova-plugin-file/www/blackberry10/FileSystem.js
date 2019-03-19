@@ -28,7 +28,7 @@
 var info = require("cordova-plugin-file.bb10FileSystemInfo");
 
 module.exports = {
-    __format__: function(fullPath) {
+    __format__: function (fullPath) {
         var path;
         switch (this.name) {
             case 'temporary':

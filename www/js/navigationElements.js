@@ -58,5 +58,5 @@ export default [
     url: '/chat',
     auth: true
   },
-  
+
 ]

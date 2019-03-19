@@ -77,7 +77,7 @@ exports.defineAutoTests = function () {
             setTimeout(done, 2000);
         });
 
-        function verifyEvent (evt, type) {
+        function verifyEvent(evt, type) {
             expect(evt).toBeDefined();
             expect(evt.type).toEqual(type);
             // `exit` event does not have url field, browser returns null url for CORS requests
@@ -86,7 +86,7 @@ exports.defineAutoTests = function () {
             }
         }
 
-        function verifyLoadErrorEvent (evt) {
+        function verifyLoadErrorEvent(evt) {
             expect(evt).toBeDefined();
             expect(evt.type).toEqual('loaderror');
             expect(evt.url).toEqual(badUrl);
@@ -153,7 +153,7 @@ exports.defineAutoTests = function () {
 
 exports.defineManualTests = function (contentEl, createActionButton) {
 
-    function doOpen (url, target, params, numExpectedRedirects, useWindowOpen) {
+    function doOpen(url, target, params, numExpectedRedirects, useWindowOpen) {
         numExpectedRedirects = numExpectedRedirects || 0;
         useWindowOpen = useWindowOpen || false;
         console.log('Opening ' + url);
@@ -161,7 +161,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         var counts;
         var lastLoadStartURL;
         var wasReset = false;
-        function reset () {
+        function reset() {
             counts = {
                 'loaderror': 0,
                 'loadstart': 0,
@@ -190,7 +190,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
             return;
         }
 
-        function logEvent (e) {
+        function logEvent(e) {
             console.log('IAB event=' + JSON.stringify(e));
             counts[e.type]++;
             // Verify that event.url gets updated on redirects.
@@ -231,7 +231,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         return iab;
     }
 
-    function doHookOpen (url, target, params, numExpectedRedirects) {
+    function doHookOpen(url, target, params, numExpectedRedirects) {
         var originalFunc = window.open;
         var wasClobbered = window.hasOwnProperty('open');
         window.open = cordova.InAppBrowser.open;
@@ -248,7 +248,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         }
     }
 
-    function openWithStyle (url, cssUrl, useCallback) {
+    function openWithStyle(url, cssUrl, useCallback) {
         var iab = doOpen(url, '_blank', 'location=yes');
         var callback = function (results) {
             if (results && results.length === 0) {
@@ -270,7 +270,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         }
     }
 
-    function openWithScript (url, jsUrl, useCallback) {
+    function openWithScript(url, jsUrl, useCallback) {
         var iab = doOpen(url, '_blank', 'location=yes');
         if (jsUrl) {
             iab.addEventListener('loadstop', function (event) {
@@ -286,10 +286,10 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         } else {
             iab.addEventListener('loadstop', function (event) {
                 var code = '(function(){\n' +
-                  '    var header = document.getElementById("header");\n' +
-                  '    header.innerHTML = "Script literal successfully injected";\n' +
-                  '    return "abc";\n' +
-                  '})()';
+                    '    var header = document.getElementById("header");\n' +
+                    '    header.innerHTML = "Script literal successfully injected";\n' +
+                    '    return "abc";\n' +
+                    '})()';
                 iab.executeScript({ code: code }, useCallback && function (results) {
                     if (results && results.length === 1 && results[0] === 'abc') {
                         alert('Results verified'); // eslint-disable-line no-undef
@@ -303,7 +303,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }
     var hiddenwnd = null;
     var loadlistener = function (event) { alert('background window loaded '); }; // eslint-disable-line no-undef
-    function openHidden (url, startHidden) {
+    function openHidden(url, startHidden) {
         var shopt = (startHidden) ? 'hidden=yes' : '';
         hiddenwnd = cordova.InAppBrowser.open(url, 'random_string', shopt);
         if (!hiddenwnd) {
@@ -312,12 +312,12 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         }
         if (startHidden) hiddenwnd.addEventListener('loadstop', loadlistener);
     }
-    function showHidden () {
+    function showHidden() {
         if (hiddenwnd) {
             hiddenwnd.show();
         }
     }
-    function closeHidden () {
+    function closeHidden() {
         if (hiddenwnd) {
             hiddenwnd.removeEventListener('loadstop', loadlistener);
             hiddenwnd.close();

@@ -19,7 +19,7 @@
  *
 */
 
-(function() {
+(function () {
     //For browser platform: not all browsers use this file.
     function checkBrowser() {
         if (cordova.platformId === "browser" && require('./isChrome')()) {
@@ -45,9 +45,9 @@
      * @param successCallback  invoked with a FileSystem object
      * @param errorCallback  invoked if error occurs retrieving file system
      */
-    var requestFileSystem = function(type, size, successCallback, errorCallback) {
+    var requestFileSystem = function (type, size, successCallback, errorCallback) {
         argscheck.checkArgs('nnFF', 'requestFileSystem', arguments);
-        var fail = function(code) {
+        var fail = function (code) {
             if (errorCallback) {
                 errorCallback(new FileError(code));
             }
@@ -57,10 +57,10 @@
             fail(FileError.SYNTAX_ERR);
         } else {
             // if successful, return a FileSystem object
-            var success = function(file_system) {
+            var success = function (file_system) {
                 if (file_system) {
                     if (successCallback) {
-                        fileSystems.getFs(file_system.name, function(fs) {
+                        fileSystems.getFs(file_system.name, function (fs) {
                             // This should happen only on platforms that haven't implemented requestAllFileSystems (windows)
                             if (!fs) {
                                 fs = new FileSystem(file_system.name, file_system.root);

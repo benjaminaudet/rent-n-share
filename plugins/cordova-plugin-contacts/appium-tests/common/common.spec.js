@@ -127,14 +127,14 @@ describe('Contacts UI Automation Tests', function () {
             .context(webviewContext)
             .executeAsync(function (pID, cb) {
                 navigator._appiumPromises[pID].promise
-                .then(function (contact) {
-                    // for some reason Appium cannot get Date object
-                    // let's make birthday a string then
-                    contact.birthday = contact.birthday.toDateString();
-                    cb(contact);
-                }, function (err) {
-                    cb('ERROR: ' + err);
-                });
+                    .then(function (contact) {
+                        // for some reason Appium cannot get Date object
+                        // let's make birthday a string then
+                        contact.birthday = contact.birthday.toDateString();
+                        cb(contact);
+                    }, function (err) {
+                        cb('ERROR: ' + err);
+                    });
             }, [promiseId])
             .then(function (result) {
                 if (typeof result === 'string' && result.indexOf('ERROR:') === 0) {
@@ -197,8 +197,8 @@ describe('Contacts UI Automation Tests', function () {
                         return;
                     }
 
-                   var nextToRemove;
-                   if (removes.length > 0) {
+                    var nextToRemove;
+                    if (removes.length > 0) {
                         nextToRemove = removes.shift();
                     }
 
@@ -295,12 +295,12 @@ describe('Contacts UI Automation Tests', function () {
                                     // a) remove use of autoAcceptAlerts appium capability since it no longer functions in XCUITest
                                     // b) can remove this entire then() clause, as we do not need to explicitly handle the acceptAlert
                                     //    failure callback, since we will be guaranteed to hit the permission dialog on startup.
-                                 }, function noAlert() {
-                                     // in case the contacts permission alert never showed up: no problem, don't freak out.
-                                     // This can happen if:
-                                     // a) The application-under-test already had contacts permissions granted to it
-                                     // b) Appium's autoAcceptAlerts capability is provided (and functioning)
-                                 });
+                                }, function noAlert() {
+                                    // in case the contacts permission alert never showed up: no problem, don't freak out.
+                                    // This can happen if:
+                                    // a) The application-under-test already had contacts permissions granted to it
+                                    // b) Appium's autoAcceptAlerts capability is provided (and functioning)
+                                });
                         }
 
                         // Android

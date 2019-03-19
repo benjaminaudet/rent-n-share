@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-vibration.notification", function(require, exports, module) { /*
+cordova.define("cordova-plugin-vibration.notification", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,100 +19,100 @@ cordova.define("cordova-plugin-vibration.notification", function(require, export
  *
 */
 
-var exec = require('cordova/exec');
-
-/**
- * Provides access to the vibration mechanism on the device.
- */
-
-module.exports = {
+    var exec = require('cordova/exec');
 
     /**
-     * Vibrates the device for a given amount of time or for a given pattern or immediately cancels any ongoing vibrations (depending on the parameter).
-     *
-     * @param {Integer} param       The number of milliseconds to vibrate (if 0, cancels vibration)
-     *
-     *
-     * @param {Array of Integer} param    Pattern with which to vibrate the device.
-     *                                      Pass in an array of integers that
-     *                                      are the durations for which to
-     *                                      turn on or off the vibrator in
-     *                                      milliseconds. The FIRST value
-     *                                      indicates the
-     *                                      number of milliseconds for which
-     *                                      to keep the vibrator ON before
-     *                                      turning it off. The NEXT value indicates the
-     *                                      number of milliseconds for which
-     *                                      to keep the vibrator OFF before
-     *                                      turning it on. Subsequent values
-     *                                      alternate between durations in
-     *                                      milliseconds to turn the vibrator
-     *                                      off or to turn the vibrator on.
-     *                                      (if empty, cancels vibration)
+     * Provides access to the vibration mechanism on the device.
      */
-    vibrate: function (param) {
-        /* Aligning with w3c spec */
 
-        // vibrate
-        if ((typeof param === 'number') && param !== 0) {
-            exec(null, null, 'Vibration', 'vibrate', [param]);
+    module.exports = {
 
-        // vibrate with array ( i.e. vibrate([3000]) )
-        } else if ((typeof param === 'object') && param.length === 1) {
-            // cancel if vibrate([0])
-            if (param[0] === 0) {
-                exec(null, null, 'Vibration', 'cancelVibration', []);
+        /**
+         * Vibrates the device for a given amount of time or for a given pattern or immediately cancels any ongoing vibrations (depending on the parameter).
+         *
+         * @param {Integer} param       The number of milliseconds to vibrate (if 0, cancels vibration)
+         *
+         *
+         * @param {Array of Integer} param    Pattern with which to vibrate the device.
+         *                                      Pass in an array of integers that
+         *                                      are the durations for which to
+         *                                      turn on or off the vibrator in
+         *                                      milliseconds. The FIRST value
+         *                                      indicates the
+         *                                      number of milliseconds for which
+         *                                      to keep the vibrator ON before
+         *                                      turning it off. The NEXT value indicates the
+         *                                      number of milliseconds for which
+         *                                      to keep the vibrator OFF before
+         *                                      turning it on. Subsequent values
+         *                                      alternate between durations in
+         *                                      milliseconds to turn the vibrator
+         *                                      off or to turn the vibrator on.
+         *                                      (if empty, cancels vibration)
+         */
+        vibrate: function (param) {
+            /* Aligning with w3c spec */
 
-            // else vibrate
-            } else {
-                exec(null, null, 'Vibration', 'vibrate', [param[0]]);
-            }
+            // vibrate
+            if ((typeof param === 'number') && param !== 0) {
+                exec(null, null, 'Vibration', 'vibrate', [param]);
 
-        // vibrate with a pattern
-        } else if ((typeof param === 'object') && param.length > 1) {
-            var repeat = -1; // no repeat
-            exec(null, null, 'Vibration', 'vibrateWithPattern', [param, repeat]);
+                // vibrate with array ( i.e. vibrate([3000]) )
+            } else if ((typeof param === 'object') && param.length === 1) {
+                // cancel if vibrate([0])
+                if (param[0] === 0) {
+                    exec(null, null, 'Vibration', 'cancelVibration', []);
 
-        // cancel vibration (param = 0 or [])
-        } else { exec(null, null, 'Vibration', 'cancelVibration', []); }
+                    // else vibrate
+                } else {
+                    exec(null, null, 'Vibration', 'vibrate', [param[0]]);
+                }
 
-        return true;
-    },
+                // vibrate with a pattern
+            } else if ((typeof param === 'object') && param.length > 1) {
+                var repeat = -1; // no repeat
+                exec(null, null, 'Vibration', 'vibrateWithPattern', [param, repeat]);
 
-    /**
-     * Vibrates the device with a given pattern.
-     *
-     * @param {Array of Integer} pattern    Pattern with which to vibrate the device.
-     *                                      Pass in an array of integers that
-     *                                      are the durations for which to
-     *                                      turn on or off the vibrator in
-     *                                      milliseconds. The first value
-     *                                      indicates the number of milliseconds
-     *                                      to wait before turning the vibrator
-     *                                      on. The next value indicates the
-     *                                      number of milliseconds for which
-     *                                      to keep the vibrator on before
-     *                                      turning it off. Subsequent values
-     *                                      alternate between durations in
-     *                                      milliseconds to turn the vibrator
-     *                                      off or to turn the vibrator on.
-     *
-     * @param {Integer} repeat              Optional index into the pattern array at which
-     *                                      to start repeating (will repeat until canceled),
-     *                                      or -1 for no repetition (default).
-     */
-    vibrateWithPattern: function (pattern, repeat) {
-        repeat = (typeof repeat !== 'undefined') ? repeat : -1;
-        pattern = pattern.unshift(0); // add a 0 at beginning for backwards compatibility from w3c spec
-        exec(null, null, 'Vibration', 'vibrateWithPattern', [pattern, repeat]);
-    },
+                // cancel vibration (param = 0 or [])
+            } else { exec(null, null, 'Vibration', 'cancelVibration', []); }
 
-    /**
-     * Immediately cancels any currently running vibration.
-     */
-    cancelVibration: function () {
-        exec(null, null, 'Vibration', 'cancelVibration', []);
-    }
-};
+            return true;
+        },
+
+        /**
+         * Vibrates the device with a given pattern.
+         *
+         * @param {Array of Integer} pattern    Pattern with which to vibrate the device.
+         *                                      Pass in an array of integers that
+         *                                      are the durations for which to
+         *                                      turn on or off the vibrator in
+         *                                      milliseconds. The first value
+         *                                      indicates the number of milliseconds
+         *                                      to wait before turning the vibrator
+         *                                      on. The next value indicates the
+         *                                      number of milliseconds for which
+         *                                      to keep the vibrator on before
+         *                                      turning it off. Subsequent values
+         *                                      alternate between durations in
+         *                                      milliseconds to turn the vibrator
+         *                                      off or to turn the vibrator on.
+         *
+         * @param {Integer} repeat              Optional index into the pattern array at which
+         *                                      to start repeating (will repeat until canceled),
+         *                                      or -1 for no repetition (default).
+         */
+        vibrateWithPattern: function (pattern, repeat) {
+            repeat = (typeof repeat !== 'undefined') ? repeat : -1;
+            pattern = pattern.unshift(0); // add a 0 at beginning for backwards compatibility from w3c spec
+            exec(null, null, 'Vibration', 'vibrateWithPattern', [pattern, repeat]);
+        },
+
+        /**
+         * Immediately cancels any currently running vibration.
+         */
+        cancelVibration: function () {
+            exec(null, null, 'Vibration', 'cancelVibration', []);
+        }
+    };
 
 });

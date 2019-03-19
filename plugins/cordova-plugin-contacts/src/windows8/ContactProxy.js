@@ -73,14 +73,14 @@ function convertToContact(windowsContact) {
 }
 
 module.exports = {
-    pickContact: function(win, fail, args) {
+    pickContact: function (win, fail, args) {
         var picker = new Windows.ApplicationModel.Contacts.ContactPicker();
 
         function success(con) {
             // if contact was not picked
             if (!con) {
                 if (fail) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         fail(new Error("User did not pick a contact."));
                     }, 0);
                 }
@@ -104,7 +104,7 @@ module.exports = {
         }
     },
 
-    save:function(win,fail,args){
+    save: function (win, fail, args) {
         if (console && console.error) {
             console.error("Error : Windows 8 does not support creating/saving contacts");
         }
@@ -115,12 +115,12 @@ module.exports = {
         }
     },
 
-    search: function(win, fail, args) {
+    search: function (win, fail, args) {
         if (console && console.error) {
             console.error("Error : Windows 8 does not support searching contacts");
         }
         if (fail) {
-            setTimeout(function() {
+            setTimeout(function () {
                 fail(new Error("Contact search not supported on Windows 8"));
             }, 0);
         }

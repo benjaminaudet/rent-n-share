@@ -35,14 +35,14 @@ document.addEventListener('l10n_loaded', function () {
     });
 });
 
-function callIfL10nReady (callback) {
+function callIfL10nReady(callback) {
     if (is_l10n_ready) {
         return callback();
     }
     document.addEventListener('l10n_ready', callback);
 }
 
-function loadFile (elementName, attributes, callback) {
+function loadFile(elementName, attributes, callback) {
     var e = document.createElement(elementName);
     for (var attrName in attributes) {
         if (attributes.hasOwnProperty(attrName)) {
@@ -59,53 +59,56 @@ function loadFile (elementName, attributes, callback) {
     document.head.appendChild(e);
 }
 
-function loadDependencies () {
-// Adding globalization file to the HEAD section
-// <link rel="resource" type="application/l10n" href="locales/date.ini" />
+function loadDependencies() {
+    // Adding globalization file to the HEAD section
+    // <link rel="resource" type="application/l10n" href="locales/date.ini" />
 
     loadFile('link', {
         'rel': 'resource',
         'type': 'application/l10n',
-        'href': 'locales/date.ini'}, function () {});
+        'href': 'locales/date.ini'
+    }, function () { });
     loadFile('script', {
         'type': 'text/javascript',
-        'src': 'js/l10n.js'},
-    function () {
-        loadFile('script', {
-            'type': 'text/javascript',
-            'src': 'js/l10n_date.js'},
+        'src': 'js/l10n.js'
+    },
         function () {
-            document.dispatchEvent(l10n_loaded);
+            loadFile('script', {
+                'type': 'text/javascript',
+                'src': 'js/l10n_date.js'
+            },
+                function () {
+                    document.dispatchEvent(l10n_loaded);
+                });
         });
-    });
 }
 
 loadDependencies();
 
-function getPreferredLanguage (successCB, errorCB) {
+function getPreferredLanguage(successCB, errorCB) {
     // WARNING: this isn't perfect - there is a difference between UI language
     // and preferred language, however it doesn't happen too often.
     callIfL10nReady(function () {
-        successCB({value: navigator.mozL10n.language.code});
+        successCB({ value: navigator.mozL10n.language.code });
     });
 }
 
-function getLocaleName (successCB, errorCB) {
+function getLocaleName(successCB, errorCB) {
     callIfL10nReady(function () {
         successCB(navigator.mozL10n.language.code);
     });
 }
 
-function dateToString (successCB, errorCB, params) {
+function dateToString(successCB, errorCB, params) {
     var date = new Date(params[0].date);
     var options = params[0].options;
 
     callIfL10nReady(function () {
         var f = new navigator.mozL10n.DateTimeFormat();
-        successCB({'value': _getStringFromDate(f, date, options)});
+        successCB({ 'value': _getStringFromDate(f, date, options) });
     });
 
-    function _getStringFromDate (f, date, options) {
+    function _getStringFromDate(f, date, options) {
         var format = navigator.mozL10n.get('shortDateTimeFormat');
         if (options) {
             if (options.selector === 'date') {
@@ -128,7 +131,7 @@ function dateToString (successCB, errorCB, params) {
     }
 }
 
-function stringToDate (successCB, errorCB, params) {
+function stringToDate(successCB, errorCB, params) {
     var date;
     var dateString = params[0].dateString;
     var options = params[0].options;
@@ -172,11 +175,11 @@ function stringToDate (successCB, errorCB, params) {
     successCB(dateObj);
 }
 
-function getDatePattern (successCB, failureCB, options) {
+function getDatePattern(successCB, failureCB, options) {
     failureCB(GlobalizationError.UNKNOWN_ERROR, 'unsupported');
 }
 
-function getDateNames (successCB, failureCB, params) {
+function getDateNames(successCB, failureCB, params) {
     callIfL10nReady(function () {
         var version = 'long';
         var item = 'month';
@@ -197,7 +200,7 @@ function getDateNames (successCB, failureCB, params) {
         for (var i = 0; i <= limit; i++) {
             arr.push(navigator.mozL10n.get(item + '-' + i + '-' + version));
         }
-        successCB({'value': arr});
+        successCB({ 'value': arr });
     });
 }
 
@@ -212,33 +215,33 @@ Date.prototype.isDayLightSavingsTime = function () { // eslint-disable-line no-e
     return this.getTimezoneOffset() < this.stdTimezoneOffset();
 };
 
-function isDayLightSavingsTime (successCB, failureCB, params) {
+function isDayLightSavingsTime(successCB, failureCB, params) {
     var date = new Date(params[0].date);
-    successCB({'dst': date.isDayLightSavingsTime()});
+    successCB({ 'dst': date.isDayLightSavingsTime() });
 }
 
-function getFirstDayOfWeek (successCB, failureCB) {
+function getFirstDayOfWeek(successCB, failureCB) {
     callIfL10nReady(function () {
         var firstDay = navigator.mozL10n.get('weekStartsOnMonday');
         // Sunday: 1
         // Monday: 2
-        successCB({'value': 1 + parseInt(firstDay)});
+        successCB({ 'value': 1 + parseInt(firstDay) });
     });
 }
 
-function numberToString (number, successCB, failureCB) {
+function numberToString(number, successCB, failureCB) {
     failureCB(GlobalizationError.UNKNOWN_ERROR, 'unsupported');
 }
 
-function stringToNumber (numberString, successCB, failureCB, options) {
+function stringToNumber(numberString, successCB, failureCB, options) {
     failureCB(GlobalizationError.UNKNOWN_ERROR, 'unsupported');
 }
 
-function getNumberPattern (successCB, failureCB, options) {
+function getNumberPattern(successCB, failureCB, options) {
     failureCB(GlobalizationError.UNKNOWN_ERROR, 'unsupported');
 }
 
-function getCurrencyPattern (currencyCode, successCB, failureCB) {
+function getCurrencyPattern(currencyCode, successCB, failureCB) {
     failureCB(GlobalizationError.UNKNOWN_ERROR, 'unsupported');
 }
 

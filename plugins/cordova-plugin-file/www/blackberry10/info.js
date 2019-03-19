@@ -29,8 +29,8 @@
  */
 
 var info = {
-    persistentPath: "", 
-    temporaryPath: "", 
+    persistentPath: "",
+    temporaryPath: "",
     localPath: "",
     MAX_SIZE: 64 * 1024 * 1024 * 1024
 };

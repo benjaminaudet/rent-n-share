@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-media-capture.CaptureImageOptions", function(require, exports, module) { /*
+cordova.define("cordova-plugin-media-capture.CaptureImageOptions", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,14 +19,14 @@ cordova.define("cordova-plugin-media-capture.CaptureImageOptions", function(requ
  *
 */
 
-/**
- * Encapsulates all image capture operation configuration options.
- */
-var CaptureImageOptions = function(){
-    // Upper limit of images user can take. Value must be equal or greater than 1.
-    this.limit = 1;
-};
+    /**
+     * Encapsulates all image capture operation configuration options.
+     */
+    var CaptureImageOptions = function () {
+        // Upper limit of images user can take. Value must be equal or greater than 1.
+        this.limit = 1;
+    };
 
-module.exports = CaptureImageOptions;
+    module.exports = CaptureImageOptions;
 
 });

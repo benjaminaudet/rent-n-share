@@ -155,7 +155,7 @@ function resolveNative(success, fail, path, fsType, options, size) {
                             },
                             function (dirError) {
                                 //path cannot be resolved
-                                if (fileError.code === FileError.INVALID_MODIFICATION_ERR && 
+                                if (fileError.code === FileError.INVALID_MODIFICATION_ERR &&
                                     options.exclusive) {
                                     //mobile-spec expects this error code
                                     fail(FileError.PATH_EXISTS_ERR);

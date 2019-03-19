@@ -23,7 +23,7 @@ var exec = require('cordova/exec');
 var argscheck = require('cordova/argscheck');
 var GlobalizationError = require('./GlobalizationError');
 
-function convertStringToDateOptions (override) {
+function convertStringToDateOptions(override) {
     var options = { formatLength: 'short', selector: 'date and time' };
 
     if (override) {
@@ -45,7 +45,7 @@ function convertStringToDateOptions (override) {
     return options;
 }
 
-function convertStringToNumberOptions (override) {
+function convertStringToNumberOptions(override) {
     var options = { type: 'decimal' };
     // TODO: make function
     if (override) {
@@ -56,14 +56,14 @@ function convertStringToNumberOptions (override) {
         }
     }
 
-    var types = [ 'decimal', 'percent', 'currency' ];
+    var types = ['decimal', 'percent', 'currency'];
     options.type = types.indexOf(options.type);
     if (options.type === -1) { options.type = 0; }
 
     return options;
 }
 
-function isInt (n) {
+function isInt(n) {
     return n % 1 === 0;
 }
 
@@ -71,7 +71,7 @@ module.exports = {
     isDayLightSavingsTime: function (date, successCB, failureCB) {
         argscheck.checkArgs('dfF', 'Globalization.isDayLightSavingsTime', arguments);
 
-        exec(successCB, failureCB, 'Globalization', 'isDayLightSavingsTime', [ { time_t: date.getTime() } ]);
+        exec(successCB, failureCB, 'Globalization', 'isDayLightSavingsTime', [{ time_t: date.getTime() }]);
     },
 
     dateToString: function (date, successCB, failureCB, override) {
@@ -79,7 +79,7 @@ module.exports = {
 
         var options = convertStringToDateOptions(override);
         exec(successCB, failureCB, 'Globalization', 'dateToString',
-            [ { time_t: date.getTime(), formatLength: options.formatLength, selector: options.selector } ]);
+            [{ time_t: date.getTime(), formatLength: options.formatLength, selector: options.selector }]);
 
     },
 
@@ -88,7 +88,7 @@ module.exports = {
 
         var options = convertStringToDateOptions(override);
         exec(successCB, failureCB, 'Globalization', 'stringToDate',
-            [ { dateString: dateString, formatLength: options.formatLength, selector: options.selector } ]);
+            [{ dateString: dateString, formatLength: options.formatLength, selector: options.selector }]);
     },
 
     getDateNames: function (successCB, failureCB, override) {
@@ -114,7 +114,7 @@ module.exports = {
         if (options.item === -1) { options.item = 0; }
         if (options.type === -1) { options.type = 0; }
 
-        exec(successCB, failureCB, 'Globalization', 'getDateNames', [ options ]);
+        exec(successCB, failureCB, 'Globalization', 'getDateNames', [options]);
     },
 
     numberToString: function (number, successCB, failureCB, override) {
@@ -123,28 +123,28 @@ module.exports = {
         var options = convertStringToNumberOptions(override);
 
         exec(successCB, failureCB, 'Globalization', 'numberToString',
-            [ { type: options.type, isInt: isInt(number), number: number } ]);
+            [{ type: options.type, isInt: isInt(number), number: number }]);
     },
 
     stringToNumber: function (numberString, successCB, failureCB, override) {
         argscheck.checkArgs('sfFO', 'Globalization.stringToNumber', arguments);
 
         var options = convertStringToNumberOptions(override);
-        exec(successCB, failureCB, 'Globalization', 'stringToNumber', [ options.type, numberString ]);
+        exec(successCB, failureCB, 'Globalization', 'stringToNumber', [options.type, numberString]);
     },
 
     getDatePattern: function (successCB, failureCB, override) {
         argscheck.checkArgs('fFO', 'Globalization.getDatePattern', arguments);
 
         var options = convertStringToDateOptions(override);
-        exec(successCB, failureCB, 'Globalization', 'getDatePattern', [ options.formatLength, options.selector ]);
+        exec(successCB, failureCB, 'Globalization', 'getDatePattern', [options.formatLength, options.selector]);
     },
 
     getNumberPattern: function (successCB, failureCB, override) {
         argscheck.checkArgs('fFO', 'getNumberPattern', arguments);
 
         var options = convertStringToNumberOptions(override);
-        Cordova.exec(successCB, failureCB, 'Globalization', 'getNumberPattern', [ options.type ]);
+        Cordova.exec(successCB, failureCB, 'Globalization', 'getNumberPattern', [options.type]);
     },
 
     getCurrencyPattern: function (currencyCode, successCB, failureCB) {

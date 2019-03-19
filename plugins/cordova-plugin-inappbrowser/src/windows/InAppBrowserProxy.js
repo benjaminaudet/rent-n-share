@@ -41,10 +41,10 @@ var browserWrap,
 // http://msdn.microsoft.com/en-us/library/windows/apps/dn301831.aspx
 var isWebViewAvailable = cordova.platformId === 'windows';
 
-function attachNavigationEvents (element, callback) {
+function attachNavigationEvents(element, callback) {
     if (isWebViewAvailable) {
         element.addEventListener('MSWebViewNavigationStarting', function (e) {
-            callback({ type: 'loadstart', url: e.uri }, {keepCallback: true});
+            callback({ type: 'loadstart', url: e.uri }, { keepCallback: true });
         });
 
         element.addEventListener('MSWebViewNavigationCompleted', function (e) {
@@ -78,15 +78,15 @@ function attachNavigationEvents (element, callback) {
         });
     } else {
         var onError = function () {
-            callback({ type: 'loaderror', url: this.contentWindow.location }, {keepCallback: true});
+            callback({ type: 'loaderror', url: this.contentWindow.location }, { keepCallback: true });
         };
 
         element.addEventListener('unload', function () {
-            callback({ type: 'loadstart', url: this.contentWindow.location }, {keepCallback: true});
+            callback({ type: 'loadstart', url: this.contentWindow.location }, { keepCallback: true });
         });
 
         element.addEventListener('load', function () {
-            callback({ type: 'loadstop', url: this.contentWindow.location }, {keepCallback: true});
+            callback({ type: 'loadstop', url: this.contentWindow.location }, { keepCallback: true });
         });
 
         element.addEventListener('error', onError);
@@ -364,7 +364,7 @@ var IAB = {
     }
 };
 
-function injectCSS (webView, cssCode, callback) {
+function injectCSS(webView, cssCode, callback) {
     // This will automatically escape all thing that we need (quotes, slashes, etc.)
     var escapedCode = JSON.stringify(cssCode);
     var evalWrapper = '(function(d){var c=d.createElement(\'style\');c.innerHTML=%s;d.head.appendChild(c);})(document)'

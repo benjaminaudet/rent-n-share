@@ -18,24 +18,24 @@ var _self = {},
 	_ID = "cordova-plugin-vibrate-intense",
 	exec = cordova.require("cordova/exec");
 
-	// These methods are called by your App's JavaScript
-	// They make WebWorks function calls to the methods
-	// in the index.js of the Extension
+// These methods are called by your App's JavaScript
+// They make WebWorks function calls to the methods
+// in the index.js of the Extension
 
 
 
-	// Asynchronous with sending and returning a JSON object
-	_self.vibration_request = function (input, callback) {
-		var success = function (data, response) {
-				var json = JSON.parse(data);
-				if (typeof callback === 'function')
-				callback(json);
-			},
-			fail = function (data, response) {
-				console.log("Error: " + data);
-			};
-		exec(success, fail, _ID, "vibration_request", { input: input });
-	};
+// Asynchronous with sending and returning a JSON object
+_self.vibration_request = function (input, callback) {
+	var success = function (data, response) {
+		var json = JSON.parse(data);
+		if (typeof callback === 'function')
+			callback(json);
+	},
+		fail = function (data, response) {
+			console.log("Error: " + data);
+		};
+	exec(success, fail, _ID, "vibration_request", { input: input });
+};
 
 
 module.exports = _self;

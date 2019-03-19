@@ -558,7 +558,7 @@ var globalization = {
 
 module.exports = globalization;
 
-function lineArgsFromArray (args) {
+function lineArgsFromArray(args) {
     var cmd = '';
 
     if ('callbackId' in args) { cmd += decodeURIComponent(args.callbackId); }
@@ -570,7 +570,7 @@ function lineArgsFromArray (args) {
     return cmd;
 }
 
-function cmdLineForMethod (method, args) {
+function cmdLineForMethod(method, args) {
     var cmd = lineArgsFromArray(args);
     if (cmd.length > 0) { return method + ' ' + cmd; } else { return method; }
 }

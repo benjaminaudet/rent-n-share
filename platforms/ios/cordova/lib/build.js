@@ -57,7 +57,7 @@ var buildFlagMatchers = {
  *
  * @return {Promise}
  */
-function getDefaultSimulatorTarget () {
+function getDefaultSimulatorTarget() {
     return require('./list-emulator-build-targets').run()
         .then(function (emulators) {
             var targetEmulator;
@@ -169,7 +169,7 @@ module.exports.run = function (buildOpts) {
             var buildOutputDir = path.join(projectPath, 'build', (buildOpts.device ? 'device' : 'emulator'));
 
             // remove the build/device folder before building
-            return spawn('rm', [ '-rf', buildOutputDir ], projectPath)
+            return spawn('rm', ['-rf', buildOutputDir], projectPath)
                 .then(function () {
                     var xcodebuildArgs = getXcodeBuildArgs(projectName, projectPath, configuration, buildOpts.device, buildOpts.buildFlag, emulatorTarget);
                     return spawn('xcodebuild', xcodebuildArgs, projectPath);
@@ -186,7 +186,7 @@ module.exports.run = function (buildOpts) {
             };
 
             var bundleIdentifier = projectFile.parse(locations).getPackageName();
-            var exportOptions = {'compileBitcode': false, 'method': 'development'};
+            var exportOptions = { 'compileBitcode': false, 'method': 'development' };
 
             if (buildOpts.packageType) {
                 exportOptions.method = buildOpts.packageType;
@@ -201,7 +201,7 @@ module.exports.run = function (buildOpts) {
             }
 
             if (buildOpts.provisioningProfile && bundleIdentifier) {
-                exportOptions.provisioningProfiles = { [ bundleIdentifier ]: String(buildOpts.provisioningProfile) };
+                exportOptions.provisioningProfiles = { [bundleIdentifier]: String(buildOpts.provisioningProfile) };
                 exportOptions.signingStyle = 'manual';
             }
 
@@ -214,17 +214,17 @@ module.exports.run = function (buildOpts) {
 
             var buildOutputDir = path.join(projectPath, 'build', 'device');
 
-            function checkSystemRuby () {
+            function checkSystemRuby() {
                 var ruby_cmd = shell.which('ruby');
 
                 if (ruby_cmd !== '/usr/bin/ruby') {
                     events.emit('warn', 'Non-system Ruby in use. This may cause packaging to fail.\n' +
-                  'If you use RVM, please run `rvm use system`.\n' +
-                  'If you use chruby, please run `chruby system`.');
+                        'If you use RVM, please run `rvm use system`.\n' +
+                        'If you use chruby, please run `chruby system`.');
                 }
             }
 
-            function packageArchive () {
+            function packageArchive() {
                 var xcodearchiveArgs = getXcodeArchiveArgs(projectName, projectPath, buildOutputDir, exportOptionsPath, buildOpts.automaticProvisioning);
                 return spawn('xcodebuild', xcodearchiveArgs, projectPath);
             }
@@ -240,7 +240,7 @@ module.exports.run = function (buildOpts) {
  * @param  {String} projectPath Path where to search project
  * @return {Promise}            Promise either fulfilled with project name or rejected
  */
-function findXCodeProjectIn (projectPath) {
+function findXCodeProjectIn(projectPath) {
     // 'Searching for Xcode project in ' + projectPath);
     var xcodeProjFiles = shell.ls(projectPath).filter(function (name) {
         return path.extname(name) === '.xcodeproj';
@@ -270,7 +270,7 @@ module.exports.findXCodeProjectIn = findXCodeProjectIn;
  * @param  {String}  emulatorTarget Target for emulator (rather than default)
  * @return {Array}                  Array of arguments that could be passed directly to spawn method
  */
-function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, buildFlags, emulatorTarget) {
+function getXcodeBuildArgs(projectName, projectPath, configuration, isDevice, buildFlags, emulatorTarget) {
     var xcodebuildArgs;
     var options;
     var buildActions;
@@ -297,7 +297,7 @@ function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, b
             '-destination', customArgs.destination || 'generic/platform=iOS',
             '-archivePath', customArgs.archivePath || projectName + '.xcarchive'
         ];
-        buildActions = [ 'archive' ];
+        buildActions = ['archive'];
         settings = [
             customArgs.configuration_build_dir || 'CONFIGURATION_BUILD_DIR=' + path.join(projectPath, 'build', 'device'),
             customArgs.shared_precomps_dir || 'SHARED_PRECOMPS_DIR=' + path.join(projectPath, 'build', 'sharedpch')
@@ -316,7 +316,7 @@ function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, b
             '-sdk', customArgs.sdk || 'iphonesimulator',
             '-destination', customArgs.destination || 'platform=iOS Simulator,name=' + emulatorTarget
         ];
-        buildActions = [ 'build' ];
+        buildActions = ['build'];
         settings = [
             customArgs.configuration_build_dir || 'CONFIGURATION_BUILD_DIR=' + path.join(projectPath, 'build', 'emulator'),
             customArgs.shared_precomps_dir || 'SHARED_PRECOMPS_DIR=' + path.join(projectPath, 'build', 'sharedpch')
@@ -340,7 +340,7 @@ function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, b
  * @param  {Boolean} autoProvisioning   Whether to allow Xcode to automatically update provisioning
  * @return {Array}                      Array of arguments that could be passed directly to spawn method
  */
-function getXcodeArchiveArgs (projectName, projectPath, outputPath, exportOptionsPath, autoProvisioning) {
+function getXcodeArchiveArgs(projectName, projectPath, outputPath, exportOptionsPath, autoProvisioning) {
     return [
         '-exportArchive',
         '-archivePath', projectName + '.xcarchive',
@@ -349,7 +349,7 @@ function getXcodeArchiveArgs (projectName, projectPath, outputPath, exportOption
     ].concat(autoProvisioning ? ['-allowProvisioningUpdates'] : []);
 }
 
-function parseBuildFlag (buildFlag, args) {
+function parseBuildFlag(buildFlag, args) {
     var matched;
     for (var key in buildFlagMatchers) {
         var found = buildFlag.match(buildFlagMatchers[key]);
@@ -377,7 +377,7 @@ function parseBuildFlag (buildFlag, args) {
 }
 
 // help/usage function
-module.exports.help = function help () {
+module.exports.help = function help() {
     console.log('');
     console.log('Usage: build [--debug | --release] [--archs=\"<list of architectures...>\"]');
     console.log('             [--device | --simulator] [--codeSignIdentity=\"<identity>\"]');

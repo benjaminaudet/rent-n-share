@@ -40,17 +40,17 @@ module.exports = function (success, fail, args) {
         dir = args[1],
         options = args[2],
         onSuccess = function (entry) {
-            if (typeof(success) === 'function') {
+            if (typeof (success) === 'function') {
                 success(entry);
             }
         },
         onFail = function (error) {
-            if (typeof(fail) === 'function') {
+            if (typeof (fail) === 'function') {
                 if (error && error.code) {
                     //set error codes expected by mobile-spec tests
-                    if (error.code === FileError.INVALID_MODIFICATION_ERR  && options.exclusive) {
+                    if (error.code === FileError.INVALID_MODIFICATION_ERR && options.exclusive) {
                         fail(FileError.PATH_EXISTS_ERR);
-                    } else if ( error.code === FileError.NOT_FOUND_ERR && dir.indexOf(':') > 0) {
+                    } else if (error.code === FileError.NOT_FOUND_ERR && dir.indexOf(':') > 0) {
                         fail(FileError.ENCODING_ERR);
                     } else {
                         fail(error.code);

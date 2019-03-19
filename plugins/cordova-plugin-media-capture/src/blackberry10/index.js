@@ -30,7 +30,7 @@ var INTERNAL_ERROR_CODE = 0,
 function capture(action, options, result, webview) {
     var limit = options.limit || 1,
         fail = function (error) {
-            result.callbackError({code: INTERNAL_ERROR_CODE});
+            result.callbackError({ code: INTERNAL_ERROR_CODE });
         },
         onCaptured = function (path) {
             var sb = webview.setFileSystemSandbox;
@@ -50,23 +50,23 @@ function capture(action, options, result, webview) {
             if (response.data && response.data !== "") {
                 onCaptured(response.data);
             } else {
-                result.callbackError({code: NO_MEDIA_FILES_ERROR_CODE });
+                result.callbackError({ code: NO_MEDIA_FILES_ERROR_CODE });
             }
         },
         onCancelled = function () {
-            result.callbackError({code: NO_MEDIA_FILES_ERROR_CODE });
+            result.callbackError({ code: NO_MEDIA_FILES_ERROR_CODE });
         },
         onInvoked = function (error) {
             if (error) {
-                result.callbackError({code: APPLICATION_BUSY_ERROR_CODE});
+                result.callbackError({ code: APPLICATION_BUSY_ERROR_CODE });
             }
         };
 
     if (limit < 0) {
-        result.error({code: INVALID_ARGUMENT_ERROR_CODE});
+        result.error({ code: INVALID_ARGUMENT_ERROR_CODE });
     } else if (action === "audio") {
         window.qnx.webplatform.getApplication().invocation.invoke(
-            { 
+            {
                 target: "sys.apps.audiorecorder",
                 action: "bb.action.CAPTURE"
             },
@@ -101,7 +101,7 @@ module.exports = {
         var result = new PluginResult(args, env),
             options = args[0] === "undefined" ? {} : JSON.parse(decodeURIComponent(args[0]));
 
-        capture("photo", options,  result, env.webview);
+        capture("photo", options, result, env.webview);
     },
     captureVideo: function (win, fail, args, env) {
         var result = new PluginResult(args, env),

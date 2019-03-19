@@ -68,27 +68,29 @@ module.exports = {
         var Pnp = Windows.Devices.Enumeration.Pnp;
 
         Pnp.PnpObject.findAllAsync(Pnp.PnpObjectType.device,
-                                [DEVICE_DRIVER_VERSION_KEY, DEVICE_CLASS_KEY],
-                                ROOT_CONTAINER_QUERY)
-        .then(function (rootDevices) {
-            for (var i = 0; i < rootDevices.length; i++) {
-                var rootDevice = rootDevices[i];
-                if (!rootDevice.properties) continue;
-                if (rootDevice.properties[DEVICE_CLASS_KEY_NO_SEMICOLON] === HAL_DEVICE_CLASS) {
-                    versionString = rootDevice.properties[DEVICE_DRIVER_VERSION_KEY];
-                    break;
+            [DEVICE_DRIVER_VERSION_KEY, DEVICE_CLASS_KEY],
+            ROOT_CONTAINER_QUERY)
+            .then(function (rootDevices) {
+                for (var i = 0; i < rootDevices.length; i++) {
+                    var rootDevice = rootDevices[i];
+                    if (!rootDevice.properties) continue;
+                    if (rootDevice.properties[DEVICE_CLASS_KEY_NO_SEMICOLON] === HAL_DEVICE_CLASS) {
+                        versionString = rootDevice.properties[DEVICE_DRIVER_VERSION_KEY];
+                        break;
+                    }
                 }
-            }
 
-            setTimeout(function () {
-                win({ platform: devicePlatform,
-                    version: versionString,
-                    uuid: deviceId,
-                    isVirtual: isVirtual,
-                    model: model,
-                    manufacturer: manufacturer});
-            }, 0);
-        });
+                setTimeout(function () {
+                    win({
+                        platform: devicePlatform,
+                        version: versionString,
+                        uuid: deviceId,
+                        isVirtual: isVirtual,
+                        model: model,
+                        manufacturer: manufacturer
+                    });
+                }, 0);
+            });
     }
 
 }; // exports

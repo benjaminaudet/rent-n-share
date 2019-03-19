@@ -22,10 +22,10 @@
 /* globals qnx, FileError, PluginResult */
 
 var PictureSourceType = {
-        PHOTOLIBRARY : 0,    // Choose image from picture library (same as SAVEDPHOTOALBUM for Android)
-        CAMERA : 1,          // Take picture from camera
-        SAVEDPHOTOALBUM : 2  // Choose image from picture library (same as PHOTOLIBRARY for Android)
-    },
+    PHOTOLIBRARY: 0,    // Choose image from picture library (same as SAVEDPHOTOALBUM for Android)
+    CAMERA: 1,          // Take picture from camera
+    SAVEDPHOTOALBUM: 2  // Choose image from picture library (same as PHOTOLIBRARY for Android)
+},
     DestinationType = {
         DATA_URL: 0,         // Return base64 encoded string
         FILE_URI: 1,         // Return file uri (content://media/external/images/media/2 for Android)
@@ -48,7 +48,7 @@ window.qnx.webplatform.getApplication().invocation.queryTargets(
 );
 
 //open a webview with getUserMedia camera card implementation when camera card not available
-function showCameraDialog (done, cancel, fail) {
+function showCameraDialog(done, cancel, fail) {
     var wv = qnx.webplatform.createWebView(function () {
         wv.url = 'local:///chrome/camera.html';
         wv.allowQnxObject = true;
@@ -90,7 +90,7 @@ function imgName() {
     var date = new Date(),
         pad = function (n) { return n < 10 ? '0' + n : n; };
     return 'IMG_' + date.getFullYear() + pad(date.getMonth() + 1) + pad(date.getDate()) + '_' +
-            pad(date.getHours()) + pad(date.getMinutes()) + pad(date.getSeconds()) + '.png';
+        pad(date.getHours()) + pad(date.getMinutes()) + pad(date.getSeconds()) + '.png';
 }
 
 //convert dataURI to Blob
@@ -129,25 +129,25 @@ function encodeBase64(filePath, callback) {
             var msg = "An error occured: ";
 
             switch (err.code) {
-            case FileError.NOT_FOUND_ERR:
-                msg += "File or directory not found";
-                break;
+                case FileError.NOT_FOUND_ERR:
+                    msg += "File or directory not found";
+                    break;
 
-            case FileError.NOT_READABLE_ERR:
-                msg += "File or directory not readable";
-                break;
+                case FileError.NOT_READABLE_ERR:
+                    msg += "File or directory not readable";
+                    break;
 
-            case FileError.PATH_EXISTS_ERR:
-                msg += "File or directory already exists";
-                break;
+                case FileError.PATH_EXISTS_ERR:
+                    msg += "File or directory already exists";
+                    break;
 
-            case FileError.TYPE_MISMATCH_ERR:
-                msg += "Invalid file type";
-                break;
+                case FileError.TYPE_MISMATCH_ERR:
+                    msg += "Invalid file type";
+                    break;
 
-            default:
-                msg += "Unknown Error";
-                break;
+                default:
+                    msg += "Unknown Error";
+                    break;
             }
 
             // set it back to original value
@@ -169,7 +169,7 @@ function encodeBase64(filePath, callback) {
         },
         onInitFs = function (fs) {
             window.qnx.webplatform.getController().setFileSystemSandbox = false;
-            fs.root.getFile(filePath, {create: false}, gotFile, errorHandler);
+            fs.root.getFile(filePath, { create: false }, gotFile, errorHandler);
         };
 
     window.webkitRequestFileSystem(window.TEMPORARY, 10 * 1024 * 1024, onInitFs, errorHandler); // set size to 10MB max
@@ -204,22 +204,22 @@ module.exports = {
                 }
             };
 
-        switch(sourceType) {
-        case PictureSourceType.CAMERA:
-            if (invokeAvailable) {
-                window.qnx.webplatform.getApplication().cards.camera.open("photo", done, cancel, invoked);
-            } else {
-                showCameraDialog(done, cancel, fail);
-            }
-            break;
+        switch (sourceType) {
+            case PictureSourceType.CAMERA:
+                if (invokeAvailable) {
+                    window.qnx.webplatform.getApplication().cards.camera.open("photo", done, cancel, invoked);
+                } else {
+                    showCameraDialog(done, cancel, fail);
+                }
+                break;
 
-        case PictureSourceType.PHOTOLIBRARY:
-        case PictureSourceType.SAVEDPHOTOALBUM:
-            window.qnx.webplatform.getApplication().cards.filePicker.open({
-                mode: "Picker",
-                type: ["picture"]
-            }, done, cancel, invoked);
-            break;
+            case PictureSourceType.PHOTOLIBRARY:
+            case PictureSourceType.SAVEDPHOTOALBUM:
+                window.qnx.webplatform.getApplication().cards.filePicker.open({
+                    mode: "Picker",
+                    type: ["picture"]
+                }, done, cancel, invoked);
+                break;
         }
 
         result.noResult(true);

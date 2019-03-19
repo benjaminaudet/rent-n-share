@@ -34,7 +34,7 @@ if (cordova.platformId !== 'browser' && typeof navigator !== 'undefined') {
     });
 }
 
-function NetworkConnection () {
+function NetworkConnection() {
     this.type = 'unknown';
 }
 
@@ -78,14 +78,14 @@ channel.onCordovaReady.subscribe(function () {
             channel.onCordovaConnectionReady.fire();
         }
     },
-    function (e) {
-        // If we can't get the network info we should still tell Cordova
-        // to fire the deviceready event.
-        if (channel.onCordovaConnectionReady.state !== 2) {
-            channel.onCordovaConnectionReady.fire();
-        }
-        console.log('Error initializing Network Connection: ' + e);
-    });
+        function (e) {
+            // If we can't get the network info we should still tell Cordova
+            // to fire the deviceready event.
+            if (channel.onCordovaConnectionReady.state !== 2) {
+                channel.onCordovaConnectionReady.fire();
+            }
+            console.log('Error initializing Network Connection: ' + e);
+        });
 });
 
 module.exports = me;

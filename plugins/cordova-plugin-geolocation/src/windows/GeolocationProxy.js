@@ -16,9 +16,9 @@
 
 /* global Windows, WinJS */
 
-var PositionError   = require('./PositionError');
-var callbacks       = {};
-var locs            = {};
+var PositionError = require('./PositionError');
+var callbacks = {};
+var locs = {};
 
 // constants
 var FALLBACK_EPSILON = 0.001;
@@ -49,13 +49,13 @@ function ensureAndCreateLocator() {
 function createErrorCode(loc) {
     switch (loc.locationStatus) {
         case Windows.Devices.Geolocation.PositionStatus.initializing:
-            // This status indicates that a location device is still initializing
+        // This status indicates that a location device is still initializing
         case Windows.Devices.Geolocation.PositionStatus.noData:
-            // No location data is currently available
+        // No location data is currently available
         case Windows.Devices.Geolocation.PositionStatus.notInitialized:
-            // This status indicates that the app has not yet requested
-            // location data by calling GetGeolocationAsync() or
-            // registering an event handler for the positionChanged event.
+        // This status indicates that the app has not yet requested
+        // location data by calling GetGeolocationAsync() or
+        // registering an event handler for the positionChanged event.
         case Windows.Devices.Geolocation.PositionStatus.notAvailable:
             // Location is not available on this version of Windows
             return PositionError.POSITION_UNAVAILABLE;
@@ -159,8 +159,8 @@ module.exports = {
             };
 
             loc.desiredAccuracy = highAccuracy ?
-                    Windows.Devices.Geolocation.PositionAccuracy.high :
-                    Windows.Devices.Geolocation.PositionAccuracy.default;
+                Windows.Devices.Geolocation.PositionAccuracy.high :
+                Windows.Devices.Geolocation.PositionAccuracy.default;
 
             if (cordova.platformId == 'windows') {
                 // 'positionchanged' event fails with error below if movementThreshold is not set
@@ -185,7 +185,7 @@ module.exports = {
     clearWatch: function (success, fail, args, env) {
         var clientId = args[0];
         var callback = callbacks[clientId];
-        var loc      = locs[clientId];
+        var loc = locs[clientId];
 
         if (callback && loc) {
             loc.removeEventListener("positionchanged", callback.pos);

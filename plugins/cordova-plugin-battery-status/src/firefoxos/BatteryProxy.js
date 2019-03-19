@@ -39,11 +39,11 @@ var Battery = {
         Battery.updateBatteryStatus(_callBack); // send a battery status event
 
         mozBattery.addEventListener('chargingchange', function () {
-            _callBack({level: (mozBattery.level * 100), isPlugged: mozBattery.charging});
+            _callBack({ level: (mozBattery.level * 100), isPlugged: mozBattery.charging });
         });
 
         mozBattery.addEventListener('levelchange', function () {
-            _callBack({level: (mozBattery.level * 100), isPlugged: mozBattery.charging});
+            _callBack({ level: (mozBattery.level * 100), isPlugged: mozBattery.charging });
         });
     },
 
@@ -54,7 +54,7 @@ var Battery = {
     },
 
     updateBatteryStatus: function (_callBack) {
-        _callBack({level: (mozBattery.level * 100), isPlugged: mozBattery.charging});
+        _callBack({ level: (mozBattery.level * 100), isPlugged: mozBattery.charging });
     }
 };
 

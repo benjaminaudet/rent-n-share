@@ -151,7 +151,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         timeout = setTimeout(resetVibrateOn, 45000); // if user doesn't cancel vibrate, reset vibrateOn var after 45 seconds
     };
 
-    function resetVibrateOn () {
+    function resetVibrateOn() {
         vibrateOn = false;
     }
 

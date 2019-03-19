@@ -43,7 +43,7 @@ var Battery = function () {
     }
 };
 
-function handlers () {
+function handlers() {
     return battery.channels.batterystatus.numHandlers +
         battery.channels.batterylow.numHandlers +
         battery.channels.batterycritical.numHandlers;
@@ -55,7 +55,7 @@ function handlers () {
  * appropriately (and hopefully save on battery life!).
  */
 Battery.onHasSubscribersChange = function () {
-  // If we just registered the first handler, make sure native listener is started.
+    // If we just registered the first handler, make sure native listener is started.
     if (this.numHandlers === 1 && handlers() === 1) {
         exec(battery._status, battery._error, 'Battery', 'start', []);
     } else if (handlers() === 0) {

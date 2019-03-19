@@ -223,9 +223,9 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     function getMetadataWin(metadata) {
         var strMetadata =
-        "duration = " + metadata.duration + '\n' +
-        "width = " + metadata.width + '\n' +
-        "height = " + metadata.height;
+            "duration = " + metadata.duration + '\n' +
+            "width = " + metadata.width + '\n' +
+            "height = " + metadata.height;
         log(strMetadata);
     }
 

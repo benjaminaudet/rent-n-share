@@ -251,7 +251,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
             //cleanup
             //rename moved file back to original name so other tests can reference image
-            resolveLocalFileSystemURL(destDirEntry.nativeURL+'moved_file.png', function(fileEntry) {
+            resolveLocalFileSystemURL(destDirEntry.nativeURL + 'moved_file.png', function (fileEntry) {
                 fileEntry.moveTo(destDirEntry, origName, logCallback('FileEntry.moveTo', true), logCallback('FileEntry.moveTo', false));
                 console.log('Cleanup: successfully renamed file back to original name');
             }, function () {
@@ -259,7 +259,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
             });
 
             //remove copied file
-            resolveLocalFileSystemURL(destDirEntry.nativeURL+'copied_file.png', function(fileEntry) {
+            resolveLocalFileSystemURL(destDirEntry.nativeURL + 'copied_file.png', function (fileEntry) {
                 fileEntry.remove(logCallback('FileEntry.remove', true), logCallback('FileEntry.remove', false));
                 console.log('Cleanup: successfully removed copied file');
             }, function () {
@@ -396,11 +396,11 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     /******************************************************************************/
 
     var info_div = '<h1>Camera</h1>' +
-            '<div id="info">' +
-            '<b>Status:</b> <div id="camera_status"></div>' +
-            'img: <img width="100" id="camera_image">' +
-            'canvas: <canvas id="canvas" width="1" height="1"></canvas>' +
-            '</div>',
+        '<div id="info">' +
+        '<b>Status:</b> <div id="camera_status"></div>' +
+        'img: <img width="100" id="camera_image">' +
+        'canvas: <canvas id="canvas" width="1" height="1"></canvas>' +
+        '</div>',
         options_div = '<h2>Cordova Camera API Options</h2>' +
             '<div id="image-options">' +
             createOptionsEl('sourceType', Camera.PictureSourceType, camPictureSourceTypeDefault) +
@@ -456,7 +456,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     // We need to wrap this code due to Windows security restrictions
     // see http://msdn.microsoft.com/en-us/library/windows/apps/hh465380.aspx#differences for details
     if (window.MSApp && window.MSApp.execUnsafeLocalFunction) {
-        MSApp.execUnsafeLocalFunction(function() {
+        MSApp.execUnsafeLocalFunction(function () {
             contentEl.innerHTML = info_div + options_div + getpicture_div + test_procedure + inputs_div + actions_div;
         });
     } else {

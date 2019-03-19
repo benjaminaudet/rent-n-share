@@ -28,7 +28,7 @@
  * @param hasPhoneNumber boolean used to filter the search and only return contacts that have a phone number informed
  */
 
-var ContactFindOptions = function(filter, multiple, desiredFields, hasPhoneNumber) {
+var ContactFindOptions = function (filter, multiple, desiredFields, hasPhoneNumber) {
     this.filter = filter || '';
     this.multiple = (typeof multiple != 'undefined' ? multiple : false);
     this.desiredFields = typeof desiredFields != 'undefined' ? desiredFields : [];

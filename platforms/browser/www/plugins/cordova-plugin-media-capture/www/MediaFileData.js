@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-media-capture.MediaFileData", function(require, exports, module) { /*
+cordova.define("cordova-plugin-media-capture.MediaFileData", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,23 +19,23 @@ cordova.define("cordova-plugin-media-capture.MediaFileData", function(require, e
  *
 */
 
-/**
- * MediaFileData encapsulates format information of a media file.
- *
- * @param {DOMString} codecs
- * @param {long} bitrate
- * @param {long} height
- * @param {long} width
- * @param {float} duration
- */
-var MediaFileData = function(codecs, bitrate, height, width, duration){
-    this.codecs = codecs || null;
-    this.bitrate = bitrate || 0;
-    this.height = height || 0;
-    this.width = width || 0;
-    this.duration = duration || 0;
-};
+    /**
+     * MediaFileData encapsulates format information of a media file.
+     *
+     * @param {DOMString} codecs
+     * @param {long} bitrate
+     * @param {long} height
+     * @param {long} width
+     * @param {float} duration
+     */
+    var MediaFileData = function (codecs, bitrate, height, width, duration) {
+        this.codecs = codecs || null;
+        this.bitrate = bitrate || 0;
+        this.height = height || 0;
+        this.width = width || 0;
+        this.duration = duration || 0;
+    };
 
-module.exports = MediaFileData;
+    module.exports = MediaFileData;
 
 });

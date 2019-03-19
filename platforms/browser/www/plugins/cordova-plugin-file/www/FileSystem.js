@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-file.FileSystem", function(require, exports, module) { /*
+cordova.define("cordova-plugin-file.FileSystem", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,39 +19,39 @@ cordova.define("cordova-plugin-file.FileSystem", function(require, exports, modu
  *
 */
 
-var DirectoryEntry = require('./DirectoryEntry');
+    var DirectoryEntry = require('./DirectoryEntry');
 
-/**
- * An interface representing a file system
- *
- * @constructor
- * {DOMString} name the unique name of the file system (readonly)
- * {DirectoryEntry} root directory of the file system (readonly)
- */
-var FileSystem = function(name, root) {
-    this.name = name;
-    if (root) {
-        this.root = new DirectoryEntry(root.name, root.fullPath, this, root.nativeURL);
-    } else {
-        this.root = new DirectoryEntry(this.name, '/', this);
-    }
-};
+    /**
+     * An interface representing a file system
+     *
+     * @constructor
+     * {DOMString} name the unique name of the file system (readonly)
+     * {DirectoryEntry} root directory of the file system (readonly)
+     */
+    var FileSystem = function (name, root) {
+        this.name = name;
+        if (root) {
+            this.root = new DirectoryEntry(root.name, root.fullPath, this, root.nativeURL);
+        } else {
+            this.root = new DirectoryEntry(this.name, '/', this);
+        }
+    };
 
-FileSystem.prototype.__format__ = function(fullPath, nativeUrl) {
-    return fullPath;
-};
+    FileSystem.prototype.__format__ = function (fullPath, nativeUrl) {
+        return fullPath;
+    };
 
-FileSystem.prototype.toJSON = function() {
-    return "<FileSystem: " + this.name + ">";
-};
+    FileSystem.prototype.toJSON = function () {
+        return "<FileSystem: " + this.name + ">";
+    };
 
-// Use instead of encodeURI() when encoding just the path part of a URI rather than an entire URI.
-FileSystem.encodeURIPath = function(path) {
-    // Because # is a valid filename character, it must be encoded to prevent part of the
-    // path from being parsed as a URI fragment.
-    return encodeURI(path).replace(/#/g, '%23');
-};
+    // Use instead of encodeURI() when encoding just the path part of a URI rather than an entire URI.
+    FileSystem.encodeURIPath = function (path) {
+        // Because # is a valid filename character, it must be encoded to prevent part of the
+        // path from being parsed as a URI fragment.
+        return encodeURI(path).replace(/#/g, '%23');
+    };
 
-module.exports = FileSystem;
+    module.exports = FileSystem;
 
 });

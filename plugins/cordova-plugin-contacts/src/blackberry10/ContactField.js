@@ -23,10 +23,10 @@ var ContactField = function (type, value) {
     this.value = value || "";
 };
 
-Object.defineProperty(ContactField, "HOME", {"value": "home"});
-Object.defineProperty(ContactField, "WORK", {"value": "work"});
-Object.defineProperty(ContactField, "OTHER", {"value": "other"});
-Object.defineProperty(ContactField, "MOBILE", {"value": "mobile"});
-Object.defineProperty(ContactField, "DIRECT", {"value": "direct"});
+Object.defineProperty(ContactField, "HOME", { "value": "home" });
+Object.defineProperty(ContactField, "WORK", { "value": "work" });
+Object.defineProperty(ContactField, "OTHER", { "value": "other" });
+Object.defineProperty(ContactField, "MOBILE", { "value": "mobile" });
+Object.defineProperty(ContactField, "DIRECT", { "value": "direct" });
 
 module.exports = ContactField;

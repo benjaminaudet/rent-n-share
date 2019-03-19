@@ -86,13 +86,13 @@ describe('Camera tests Android.', function () {
     // you can add more options to test more scenarios
     function generateOptions() {
         var sourceTypes = [
-                cameraConstants.PictureSourceType.CAMERA,
-                cameraConstants.PictureSourceType.PHOTOLIBRARY
-            ];
+            cameraConstants.PictureSourceType.CAMERA,
+            cameraConstants.PictureSourceType.PHOTOLIBRARY
+        ];
         var destinationTypes = cameraConstants.DestinationType;
         var encodingTypes = cameraConstants.EncodingType;
-        var allowEditOptions = [ true, false ];
-        var correctOrientationOptions = [ true, false ];
+        var allowEditOptions = [true, false];
+        var correctOrientationOptions = [true, false];
 
         return cameraHelper.generateSpecs(sourceTypes, destinationTypes, encodingTypes, allowEditOptions, correctOrientationOptions);
     }
@@ -115,7 +115,7 @@ describe('Camera tests Android.', function () {
                 }
                 // selecting a picture from gallery
                 if (options.hasOwnProperty('sourceType') &&
-                        (options.sourceType === cameraConstants.PictureSourceType.PHOTOLIBRARY ||
+                    (options.sourceType === cameraConstants.PictureSourceType.PHOTOLIBRARY ||
                         options.sourceType === cameraConstants.PictureSourceType.SAVEDPHOTOALBUM)) {
                     var tapTile = new wd.TouchAction();
                     var swipeRight = new wd.TouchAction();
@@ -125,9 +125,9 @@ describe('Camera tests Android.', function () {
                             y: Math.round(screenHeight / 4)
                         });
                     swipeRight
-                        .press({x: 10, y: Math.round(screenHeight / 4)})
+                        .press({ x: 10, y: Math.round(screenHeight / 4) })
                         .wait(300)
-                        .moveTo({x: Math.round(screenWidth - (screenWidth / 8)), y: 0})
+                        .moveTo({ x: Math.round(screenWidth - (screenWidth / 8)), y: 0 })
                         .wait(1500)
                         .release()
                         .wait(1000);
@@ -197,7 +197,7 @@ describe('Camera tests Android.', function () {
     function deleteImage() {
         var holdTile = new wd.TouchAction();
         holdTile
-            .press({x: Math.round(screenWidth / 4), y: Math.round(screenHeight / 5)})
+            .press({ x: Math.round(screenWidth / 4), y: Math.round(screenHeight / 5) })
             .wait(1000)
             .release();
         return driver
@@ -219,7 +219,7 @@ describe('Camera tests Android.', function () {
     function getDriver() {
         driver = wdHelper.getDriver('Android');
         return driver.getWebviewContext()
-            .then(function(context) {
+            .then(function (context) {
                 webviewContext = context;
                 return driver.context(webviewContext);
             })
@@ -248,10 +248,10 @@ describe('Camera tests Android.', function () {
                         // success means we're still in native app
                         return driver
                             .deviceKeyEvent(BACK_BUTTON);
-                        }, function () {
-                            // error means we're already in webview
-                            return driver;
-                        });
+                    }, function () {
+                        // error means we're already in webview
+                        return driver;
+                    });
             })
             .then(function () {
                 // doing it inside a function because otherwise 
@@ -287,7 +287,7 @@ describe('Camera tests Android.', function () {
             .fail(function () {
                 return recreateSession()
                     .then(spec)
-                    .fail(function() {
+                    .fail(function () {
                         return recreateSession()
                             .then(spec);
                     });
@@ -401,8 +401,10 @@ describe('Camera tests Android.', function () {
         it('camera.ui.spec.2 Selecting only videos', function (done) {
             checkSession(done);
             var spec = function () {
-                var options = { sourceType: cameraConstants.PictureSourceType.PHOTOLIBRARY,
-                                mediaType: cameraConstants.MediaType.VIDEO };
+                var options = {
+                    sourceType: cameraConstants.PictureSourceType.PHOTOLIBRARY,
+                    mediaType: cameraConstants.MediaType.VIDEO
+                };
                 return driver
                     .then(function () {
                         return getPicture(options, true);
@@ -447,10 +449,10 @@ describe('Camera tests Android.', function () {
                                         // success means we're still in native app
                                         return driver
                                             .deviceKeyEvent(BACK_BUTTON);
-                                        }, function () {
-                                            // error means we're already in webview
-                                            return driver;
-                                        });
+                                    }, function () {
+                                        // error means we're already in webview
+                                        return driver;
+                                    });
                             }, function () {
                                 // error means we're already in webview
                                 return driver;

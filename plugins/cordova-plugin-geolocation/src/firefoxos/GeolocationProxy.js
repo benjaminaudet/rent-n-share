@@ -18,17 +18,17 @@
  * under the License.
  *
 */
-           
+
 // latest geolocation spec can be found here: http://www.w3.org/TR/geolocation-API/
 
 var idsMap = {};
 
 module.exports = {
-    getLocation: function(success, error, args) {
+    getLocation: function (success, error, args) {
         var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
         function successCallback(position) {
-          // Cordova is creating Position object using just coords
-          success(position.coords);
+            // Cordova is creating Position object using just coords
+            success(position.coords);
         }
         geo.getCurrentPosition(successCallback, error, {
             enableHighAccuracy: args[0],
@@ -36,11 +36,11 @@ module.exports = {
         });
     },
 
-    addWatch: function(success, error, args) {
-        var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');        
+    addWatch: function (success, error, args) {
+        var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
         var id = args[0];
         function successCallback(position) {
-          success(position.coords);
+            success(position.coords);
         }
         var nativeId = geo.watchPosition(successCallback, error, {
             enableHighAccuracy: args[1]
@@ -49,16 +49,16 @@ module.exports = {
         idsMap[id] = nativeId;
     },
 
-    clearWatch: function(success, error, args) {
+    clearWatch: function (success, error, args) {
         var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
         var id = args[0];
 
-        if(id in idsMap) {
+        if (id in idsMap) {
             geo.clearWatch(idsMap[id]);
             delete idsMap[id];
         }
 
-        if(success) {
+        if (success) {
             success();
         }
     }

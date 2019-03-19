@@ -24,12 +24,14 @@
 module.exports = {
     getInfo: function (win, fail, args) {
         Cordova.exec(function (model, cordova, platform, uuid, version) {
-            win({name: name, // eslint-disable-line no-undef
+            win({
+                name: name, // eslint-disable-line no-undef
                 model: model,
                 cordova: cordova,
                 platform: platform,
                 uuid: uuid,
-                version: version});
+                version: version
+            });
         }, null, 'com.cordova.Device', 'getInfo', []);
     }
 };

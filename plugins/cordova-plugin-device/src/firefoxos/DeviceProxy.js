@@ -25,7 +25,7 @@
 // https://developer.mozilla.org/en-US/docs/Gecko_user_agent_string_reference
 
 // Should be replaced when better conversion to Firefox OS Version is available
-function convertVersionNumber (ver) {
+function convertVersionNumber(ver) {
     var hashVersion = {
         '18.0': '1.0.1',
         '18.1': '1.1',
@@ -42,7 +42,7 @@ function convertVersionNumber (ver) {
     return (rver);
 
 }
-function getVersion () {
+function getVersion() {
     if (navigator.userAgent.match(/(mobile|tablet)/i)) {
         var ffVersionArray = (navigator.userAgent.match(/Firefox\/([\d]+\.[\w]?\.?[\w]+)/));
         if (ffVersionArray.length === 2) {
@@ -52,7 +52,7 @@ function getVersion () {
     return (null);
 }
 
-function getModel () {
+function getModel() {
     var uaArray = navigator.userAgent.split(/\s*[;)(]\s*/);
     if (navigator.userAgent.match(/(mobile|tablet)/i)) {
         if (uaArray.length === 5) {

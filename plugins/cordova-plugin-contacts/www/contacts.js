@@ -40,7 +40,7 @@ var contacts = {
      * @param {ContactFindOptions} options that can be applied to contact searching
      * @return array of Contacts matching search criteria
      */
-    find: function(fields, successCB, errorCB, options) {
+    find: function (fields, successCB, errorCB, options) {
         argscheck.checkArgs('afFO', 'contacts.find', arguments);
         if (!fields.length) {
             if (errorCB) {
@@ -49,7 +49,7 @@ var contacts = {
         } else {
             // missing 'options' param means return all contacts
             options = options || { filter: '', multiple: true };
-            var win = function(result) {
+            var win = function (result) {
                 var cs = [];
                 for (var i = 0, l = result.length; i < l; i++) {
                     cs.push(convertUtils.toCordovaFormat(contacts.create(result[i])));
@@ -59,7 +59,7 @@ var contacts = {
             exec(win, errorCB, "Contacts", "search", [fields, options]);
         }
     },
-    
+
     /**
      * This function picks contact from phone using contact picker UI
      * @returns new Contact object
@@ -84,7 +84,7 @@ var contacts = {
      * @param properties an object whose properties will be examined to create a new Contact
      * @returns new Contact object
      */
-    create: function(properties) {
+    create: function (properties) {
         argscheck.checkArgs('O', 'contacts.create', arguments);
         var contact = new Contact();
         for (var i in properties) {

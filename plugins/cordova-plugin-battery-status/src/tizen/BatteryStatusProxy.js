@@ -27,7 +27,7 @@ module.exports = {
     start: function (successCallback, errorCallback) {
         var batterySuccessCallback = function (power) {
             if (successCallback) {
-                successCallback({level: Math.round(power.level * 100), isPlugged: power.isCharging});
+                successCallback({ level: Math.round(power.level * 100), isPlugged: power.isCharging });
             }
         };
 

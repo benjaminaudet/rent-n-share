@@ -33,14 +33,14 @@ var info = require('cordova-plugin-file.bb10FileSystemInfo'),
 
 module.exports = function (native) {
     var entry = {
-            nativeEntry: native,
-            isDirectory: !!native.isDirectory,
-            isFile: !!native.isFile,
-            name: native.name,
-            fullPath: native.fullPath,
-            filesystemName: native.filesystem.name,
-            nativeURL: native.toURL()
-        },
+        nativeEntry: native,
+        isDirectory: !!native.isDirectory,
+        isFile: !!native.isFile,
+        name: native.name,
+        fullPath: native.fullPath,
+        filesystemName: native.filesystem.name,
+        nativeURL: native.toURL()
+    },
         persistentPath = info.persistentPath.substring(7),
         temporaryPath = info.temporaryPath.substring(7);
     //fix bb10 webkit incorrect nativeURL

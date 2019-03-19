@@ -54,7 +54,7 @@ module.exports = function (success, fail, args) {
         requestAnimationFrame(function () {
             var reader = fs.nativeEntry.createReader(),
                 entries = [],
-                readEntries = function() {
+                readEntries = function () {
                     reader.readEntries(function (results) {
                         if (!results.length) {
                             onSuccess(entries.sort().map(createEntryFromNative));

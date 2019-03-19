@@ -40,12 +40,12 @@ var resolve = cordova.require('cordova-plugin-file.resolveLocalFileSystemURIProx
 module.exports = function (success, fail, args) {
     var uri = args[0],
         onSuccess = function (entry) {
-            if (typeof(success) === 'function') {
+            if (typeof (success) === 'function') {
                 success(entry);
             }
         },
         onFail = function (error) {
-            if (typeof(fail) === 'function') {
+            if (typeof (fail) === 'function') {
                 if (error.code) {
                     fail(error.code);
                 } else {

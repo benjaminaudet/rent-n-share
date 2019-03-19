@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-media-capture.helpers", function(require, exports, module) { /*
+cordova.define("cordova-plugin-media-capture.helpers", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,27 +19,27 @@ cordova.define("cordova-plugin-media-capture.helpers", function(require, exports
  *
 */
 
-var MediaFile = require('./MediaFile');
+    var MediaFile = require('./MediaFile');
 
-function wrapMediaFiles(pluginResult) {
-    var mediaFiles = [];
-    var i;
-    for (i = 0; i < pluginResult.length; i++) {
-        var mediaFile = new MediaFile();
-        mediaFile.name = pluginResult[i].name;
+    function wrapMediaFiles(pluginResult) {
+        var mediaFiles = [];
+        var i;
+        for (i = 0; i < pluginResult.length; i++) {
+            var mediaFile = new MediaFile();
+            mediaFile.name = pluginResult[i].name;
 
-        // Backwards compatibility
-        mediaFile.localURL = pluginResult[i].localURL || pluginResult[i].fullPath;
-        mediaFile.fullPath = pluginResult[i].fullPath;
-        mediaFile.type = pluginResult[i].type;
-        mediaFile.lastModifiedDate = pluginResult[i].lastModifiedDate;
-        mediaFile.size = pluginResult[i].size;
-        mediaFiles.push(mediaFile);
+            // Backwards compatibility
+            mediaFile.localURL = pluginResult[i].localURL || pluginResult[i].fullPath;
+            mediaFile.fullPath = pluginResult[i].fullPath;
+            mediaFile.type = pluginResult[i].type;
+            mediaFile.lastModifiedDate = pluginResult[i].lastModifiedDate;
+            mediaFile.size = pluginResult[i].size;
+            mediaFiles.push(mediaFile);
+        }
+        return mediaFiles;
     }
-    return mediaFiles;
-}
 
-module.exports = {
-    wrapMediaFiles: wrapMediaFiles
-};
+    module.exports = {
+        wrapMediaFiles: wrapMediaFiles
+    };
 });

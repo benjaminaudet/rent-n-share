@@ -58,7 +58,7 @@ module.exports = function (success, fail, args) {
                     onSuccess(this.result);
                 };
                 reader.onerror = onFail;
-                reader.readAsDataURL(file); 
+                reader.readAsDataURL(file);
             }, onFail);
         });
     }, fail, [uri]);

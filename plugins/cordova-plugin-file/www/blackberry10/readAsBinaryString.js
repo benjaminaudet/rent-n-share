@@ -61,7 +61,7 @@ module.exports = function (success, fail, args) {
                     onSuccess(this.result.substring(start, end));
                 };
                 reader.onerror = onFail;
-                reader.readAsBinaryString(file); 
+                reader.readAsBinaryString(file);
             }, onFail);
         });
     }, fail, [uri]);

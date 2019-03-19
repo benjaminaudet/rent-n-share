@@ -25,7 +25,7 @@ var Connection = require('./Connection');
 var type = navigator.onLine ? Connection.UNKNOWN : Connection.NONE;
 
 // Subscribe to 'native' online/offline events
-function onStatusChange (evt) {
+function onStatusChange(evt) {
     type = navigator.onLine ? Connection.UNKNOWN : Connection.NONE;
     // force async
     setTimeout(function () {

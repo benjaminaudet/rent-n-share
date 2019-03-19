@@ -75,8 +75,8 @@ describe('Camera tests iOS.', function () {
         var sourceTypes = cameraConstants.PictureSourceType;
         var destinationTypes = cameraConstants.DestinationType;
         var encodingTypes = cameraConstants.EncodingType;
-        var allowEditOptions = [ true, false ];
-        var correctOrientationOptions = [ true, false ];
+        var allowEditOptions = [true, false];
+        var correctOrientationOptions = [true, false];
 
         return cameraHelper.generateSpecs(sourceTypes, destinationTypes, encodingTypes, allowEditOptions, correctOrientationOptions);
     }
@@ -102,7 +102,7 @@ describe('Camera tests iOS.', function () {
             return driver
                 .context(CONTEXT_NATIVE_APP)
                 .elementsByXPath('//XCUIElementTypeCell')
-                .then(function(photos) {
+                .then(function (photos) {
                     if (photos.length == 0) {
                         return driver
                             .sleep(0) // driver.source is not a function o.O
@@ -217,7 +217,7 @@ describe('Camera tests iOS.', function () {
         failedToStart = true;
         driver = wdHelper.getDriver('iOS');
         return wdHelper.getWebviewContext(driver)
-            .then(function(context) {
+            .then(function (context) {
                 webviewContext = context;
                 return driver.context(webviewContext);
             })
@@ -303,8 +303,10 @@ describe('Camera tests iOS.', function () {
         it('camera.ui.spec.1 Selecting only videos', function (done) {
             checkSession(done);
             specsRun += 1;
-            var options = { sourceType: cameraConstants.PictureSourceType.PHOTOLIBRARY,
-                            mediaType: cameraConstants.MediaType.VIDEO };
+            var options = {
+                sourceType: cameraConstants.PictureSourceType.PHOTOLIBRARY,
+                mediaType: cameraConstants.MediaType.VIDEO
+            };
             driver
                 // skip ui unteractions
                 .then(function () { return getPicture(options, false, true); })
@@ -323,8 +325,10 @@ describe('Camera tests iOS.', function () {
                 pending('Camera is not available on iOS simulator');
             }
             specsRun += 1;
-            var options = { sourceType: cameraConstants.PictureSourceType.CAMERA,
-                            saveToPhotoAlbum: false };
+            var options = {
+                sourceType: cameraConstants.PictureSourceType.CAMERA,
+                saveToPhotoAlbum: false
+            };
             driver
                 .then(function () {
                     return getPicture(options, true);

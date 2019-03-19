@@ -150,11 +150,11 @@ exports.get_ios_sim_version = function () {
  */
 exports.get_tool_version = function (toolName) {
     switch (toolName) {
-    case 'xcodebuild': return exports.get_apple_xcode_version();
-    case 'ios-sim': return exports.get_ios_sim_version();
-    case 'ios-deploy': return exports.get_ios_deploy_version();
-    case 'pod': return exports.get_cocoapods_version();
-    default: return Q.reject(toolName + ' is not valid tool name. Valid names are: \'xcodebuild\', \'ios-sim\', \'ios-deploy\', and \'pod\'');
+        case 'xcodebuild': return exports.get_apple_xcode_version();
+        case 'ios-sim': return exports.get_ios_sim_version();
+        case 'ios-deploy': return exports.get_ios_deploy_version();
+        case 'pod': return exports.get_cocoapods_version();
+        default: return Q.reject(toolName + ' is not valid tool name. Valid names are: \'xcodebuild\', \'ios-sim\', \'ios-deploy\', and \'pod\'');
     }
 };
 
@@ -167,7 +167,7 @@ exports.get_tool_version = function (toolName) {
  *                                    positive otherwise and 0 if versions are equal.
  */
 exports.compareVersions = function (version1, version2) {
-    function parseVer (version) {
+    function parseVer(version) {
         return version.split('.').map(function (value) {
             // try to convert version segment to Number
             var parsed = Number(value);

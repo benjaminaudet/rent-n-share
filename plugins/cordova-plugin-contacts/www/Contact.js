@@ -67,9 +67,9 @@ var Contact = function (id, displayName, name, nickname, phoneNumbers, emails, a
 * @param successCB success callback
 * @param errorCB error callback
 */
-Contact.prototype.remove = function(successCB, errorCB) {
+Contact.prototype.remove = function (successCB, errorCB) {
     argscheck.checkArgs('FF', 'Contact.remove', arguments);
-    var fail = errorCB && function(code) {
+    var fail = errorCB && function (code) {
         errorCB(new ContactError(code));
     };
     if (this.id === null) {
@@ -85,7 +85,7 @@ Contact.prototype.remove = function(successCB, errorCB) {
 * With the contact ID set to null.
 * @return copy of this Contact
 */
-Contact.prototype.clone = function() {
+Contact.prototype.clone = function () {
     var clonedContact = utils.clone(this);
     clonedContact.id = null;
     clonedContact.rawId = null;
@@ -115,12 +115,12 @@ Contact.prototype.clone = function() {
 * @param successCB success callback
 * @param errorCB error callback
 */
-Contact.prototype.save = function(successCB, errorCB) {
+Contact.prototype.save = function (successCB, errorCB) {
     argscheck.checkArgs('FFO', 'Contact.save', arguments);
-    var fail = errorCB && function(code) {
+    var fail = errorCB && function (code) {
         errorCB(new ContactError(code));
     };
-    var success = function(result) {
+    var success = function (result) {
         if (result) {
             if (successCB) {
                 var fullContact = require('./contacts').create(result);

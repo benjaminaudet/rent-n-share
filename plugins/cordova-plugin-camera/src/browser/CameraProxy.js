@@ -32,9 +32,9 @@ function takePicture(success, error, opts) {
         input.type = 'file';
         input.name = 'files[]';
 
-        input.onchange = function(inputEvent) {
+        input.onchange = function (inputEvent) {
             var reader = new FileReader();
-            reader.onload = function(readerEvent) {
+            reader.onload = function (readerEvent) {
                 input.parentNode.removeChild(input);
 
                 var imageData = readerEvent.target.result;
@@ -54,8 +54,8 @@ function capture(success, errorCallback, opts) {
     var targetWidth = opts[3];
     var targetHeight = opts[4];
 
-    targetWidth = targetWidth == -1?320:targetWidth;
-    targetHeight = targetHeight == -1?240:targetHeight;
+    targetWidth = targetWidth == -1 ? 320 : targetWidth;
+    targetHeight = targetHeight == -1 ? 240 : targetHeight;
 
     var video = document.createElement('video');
     var button = document.createElement('button');
@@ -70,7 +70,7 @@ function capture(success, errorCallback, opts) {
     video.height = targetHeight;
     button.innerHTML = 'Capture!';
 
-    button.onclick = function() {
+    button.onclick = function () {
         // create a canvas and capture a frame from video stream
         var canvas = document.createElement('canvas');
         canvas.width = targetWidth;
@@ -96,11 +96,11 @@ function capture(success, errorCallback, opts) {
     };
 
     navigator.getUserMedia = navigator.getUserMedia ||
-                             navigator.webkitGetUserMedia ||
-                             navigator.mozGetUserMedia ||
-                             navigator.msGetUserMedia;
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
 
-    var successCallback = function(stream) {
+    var successCallback = function (stream) {
         localMediaStream = stream;
         video.src = window.URL.createObjectURL(localMediaStream);
         video.play();
@@ -109,7 +109,7 @@ function capture(success, errorCallback, opts) {
     };
 
     if (navigator.getUserMedia) {
-        navigator.getUserMedia({video: true, audio: true}, successCallback, errorCallback);
+        navigator.getUserMedia({ video: true, audio: true }, successCallback, errorCallback);
     } else {
         alert('Browser does not support camera :(');
     }
@@ -117,7 +117,7 @@ function capture(success, errorCallback, opts) {
 
 module.exports = {
     takePicture: takePicture,
-    cleanup: function(){}
+    cleanup: function () { }
 };
 
-require("cordova/exec/proxy").add("Camera",module.exports);
+require("cordova/exec/proxy").add("Camera", module.exports);

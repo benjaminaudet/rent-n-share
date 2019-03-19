@@ -112,7 +112,7 @@ function convertToContact(windowsContact) {
     // returned is a file, a blob url can be made 
     var contactPhoto = windowsContact.thumbnail;
     if (contactPhoto && contactPhoto.path) {
-        contact.photos = [new ContactField('url', URL.createObjectURL(contactPhoto) , false)];
+        contact.photos = [new ContactField('url', URL.createObjectURL(contactPhoto), false)];
     }
 
     return contact;
@@ -123,7 +123,7 @@ var contactsNS = Windows.ApplicationModel.Contacts;
 
 function cdvContactToWindowsContact(contact) {
     var result = new contactsNS.Contact();
-    
+
     // name first
     if (contact.name) {
         result.displayNameOverride = contact.name.formatted;
@@ -133,32 +133,32 @@ function cdvContactToWindowsContact(contact) {
         result.honorificNamePrefix = contact.name.honorificPrefix;
         result.honorificNameSuffix = contact.name.honorificSuffix;
     }
-    
+
     result.nickname = contact.nickname;
-    
+
     // phone numbers
     if (contact.phoneNumbers) {
-        contact.phoneNumbers.forEach(function(contactPhone) {
+        contact.phoneNumbers.forEach(function (contactPhone) {
             var resultPhone = new contactsNS.ContactPhone();
             resultPhone.description = contactPhone.type;
             resultPhone.number = contactPhone.value;
             result.phones.push(resultPhone);
         });
     }
-    
+
     // emails
     if (contact.emails) {
-        contact.emails.forEach(function(contactEmail) {
+        contact.emails.forEach(function (contactEmail) {
             var resultEmail = new contactsNS.ContactEmail();
             resultEmail.description = contactEmail.type;
             resultEmail.address = contactEmail.value;
             result.emails.push(resultEmail);
         });
     }
-    
+
     // Addresses
     if (contact.addresses) {
-        contact.addresses.forEach(function(contactAddress) {
+        contact.addresses.forEach(function (contactAddress) {
             var address = new contactsNS.ContactAddress();
             address.description = contactAddress.type;
             address.streetAddress = contactAddress.streetAddress;
@@ -169,20 +169,20 @@ function cdvContactToWindowsContact(contact) {
             result.addresses.push(address);
         });
     }
-    
+
     // IMs
     if (contact.ims) {
-        contact.ims.forEach(function(contactIM) {
+        contact.ims.forEach(function (contactIM) {
             var acct = new contactsNS.ContactConnectedServiceAccount();
             acct.serviceName = contactIM.type;
             acct.id = contactIM.value;
             result.connectedServiceAccounts.push(acct);
         });
     }
-    
+
     // JobInfo 
     if (contact.organizations) {
-        contact.organizations.forEach(function(contactOrg) {
+        contact.organizations.forEach(function (contactOrg) {
             var job = new contactsNS.ContactJobInfo();
             job.companyName = contactOrg.name;
             job.department = contactOrg.department;
@@ -191,17 +191,17 @@ function cdvContactToWindowsContact(contact) {
             result.jobInfo.push(job);
         });
     }
-    
+
     result.notes = contact.note;
-    
+
     if (contact.photos) {
-        var eligiblePhotos = contact.photos.filter(function(photo) { 
+        var eligiblePhotos = contact.photos.filter(function (photo) {
             return typeof photo.value !== 'undefined';
         });
         if (eligiblePhotos.length > 0) {
             var supportedPhoto = eligiblePhotos[0];
             var path = supportedPhoto.value;
-            
+
             try {
                 var streamRef;
                 if (/^([a-z][a-z0-9+\-.]*):\/\//i.test(path)) {
@@ -216,7 +216,7 @@ function cdvContactToWindowsContact(contact) {
             }
         }
     }
-    
+
     return result;
 }
 
@@ -258,9 +258,9 @@ module.exports = {
             // On WP8.1 fields set in resulted Contact object depends on desiredFieldsWithContactFieldType property of contact picker
             // so we retrieve full contact by its' Id
             contactsNS.ContactManager.requestStoreAsync().done(function (contactStore) {
-                contactStore.getContactAsync(contact.id).done(function(con) {
+                contactStore.getContactAsync(contact.id).done(function (con) {
                     win(convertToContact(con));
-                }, function() {
+                }, function () {
                     fail(new ContactError(ContactError.UNKNOWN_ERROR));
                 });
             }, function () {
@@ -275,49 +275,49 @@ module.exports = {
             // On Windows Phone 8.1 this can be implemented using native class library 
             // See Windows.Phone.PersonalInformation namespace
             // http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.phone.personalinformation.aspx
-    
+
             //We don't need to create Error object here since it will be created at navigator.contacts.find() method
             if (fail) {
                 fail(ContactError.NOT_SUPPORTED_ERROR);
             }
             return;
         }
-        
+
         var winContact = cdvContactToWindowsContact(args[0]);
-        
-        contactsNS.ContactManager.requestStoreAsync(contactsNS.ContactStoreAccessType.appContactsReadWrite).then(function(store) {
-                return store.findContactListsAsync().then(function(lists) {
-                        if (lists.length > 0) {
-                            return lists[0];    
-                        } else {
-                            return store.createContactListAsync('');
-                        }
-                    }, function(error) {
-                        return store.createContactListAsync('');
-                    });
-            }).then(function(list) {
-                return list.saveContactAsync(winContact);
-            }).done(function(result) {
-                win(convertToContact(winContact));
-            }, function(error) {
-                fail(error);
+
+        contactsNS.ContactManager.requestStoreAsync(contactsNS.ContactStoreAccessType.appContactsReadWrite).then(function (store) {
+            return store.findContactListsAsync().then(function (lists) {
+                if (lists.length > 0) {
+                    return lists[0];
+                } else {
+                    return store.createContactListAsync('');
+                }
+            }, function (error) {
+                return store.createContactListAsync('');
             });
+        }).then(function (list) {
+            return list.saveContactAsync(winContact);
+        }).done(function (result) {
+            win(convertToContact(winContact));
+        }, function (error) {
+            fail(error);
+        });
     },
-    
-    remove: function(win, fail, args) {
+
+    remove: function (win, fail, args) {
         if (typeof contactsNS.ContactList === 'undefined') {
             // Not supported yet since WinJS API do not provide methods to manage contactStore
             // On Windows Phone 8.1 this can be implemented using native class library 
             // See Windows.Phone.PersonalInformation namespace
             // http://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.phone.personalinformation.aspx
-    
+
             //We don't need to create Error object here since it will be created at navigator.contacts.find() method
             if (fail) {
                 fail(ContactError.NOT_SUPPORTED_ERROR);
             }
             return;
         }
-        
+
         // This is a complicated scenario because in Win10, there is a notion of 'app contacts' vs 'global contacts'.
         // search() returns all global contacts, which are "aggregate contacts", so the IDs of contacts that Cordova
         // creates never match the IDs of the contacts returned from search().
@@ -329,57 +329,57 @@ module.exports = {
         //  - Enumerate the raw contacts and see if there is a raw contact whose parent list matches the app-list
         //  - If so, remove the raw contact from the app-list
         //  - If any of this fails, the operation fails
-        WinJS.Promise.join([contactsNS.ContactManager.requestStoreAsync(contactsNS.ContactStoreAccessType.appContactsReadWrite), 
-                            contactsNS.ContactManager.requestStoreAsync(contactsNS.ContactStoreAccessType.allContactsReadOnly)]).then(function(stores) {
-                var readOnlyStore = stores[1];
-                var writableStore = stores[0];
-                
-                var storeReader = writableStore.getContactReader();
-                return storeReader.readBatchAsync().then(function(batch) {
-                    if (batch.status !== contactsNS.ContactBatchStatus.success) {
-                        // Couldn't read contacts store
-                        throw new ContactError(ContactError.IO_ERROR);
-                    }
-                    
-                    var candidates = batch.contacts.filter(function(testContact) {
-                        return testContact.id === args[0];
-                    });
-                    
-                    if (candidates.length === 0) {
-                        // No matching contact from aggregate store
-                        throw new ContactError(ContactError.IO_ERROR);
-                    }
-                    
-                    return candidates[0];
-                }).then(function(contactToDelete) {
-                    return readOnlyStore.aggregateContactManager.findRawContactsAsync(contactToDelete);
-                }).then(function(rawContacts) {
-                    return writableStore.findContactListsAsync().then(function(lists) {
-                        var deleteList = null;
-                        var deleteContact = null;
-                        var matched = lists.some(function(list) {
-                            for (var i = 0; i < rawContacts.length; i++) {
-                                if (rawContacts[i].contactListId === list.id) {
-                                    deleteList = list;
-                                    deleteContact = rawContacts[i];
-                                    return true;
-                                }
-                            }
-                            return false;
-                        });
-                        
-                        if (!matched) {
-                            throw new ContactError(ContactError.IO_ERROR);
-                        }
-                        
-                        return deleteList.deleteContactAsync(deleteContact);
-                    });
+        WinJS.Promise.join([contactsNS.ContactManager.requestStoreAsync(contactsNS.ContactStoreAccessType.appContactsReadWrite),
+        contactsNS.ContactManager.requestStoreAsync(contactsNS.ContactStoreAccessType.allContactsReadOnly)]).then(function (stores) {
+            var readOnlyStore = stores[1];
+            var writableStore = stores[0];
+
+            var storeReader = writableStore.getContactReader();
+            return storeReader.readBatchAsync().then(function (batch) {
+                if (batch.status !== contactsNS.ContactBatchStatus.success) {
+                    // Couldn't read contacts store
+                    throw new ContactError(ContactError.IO_ERROR);
+                }
+
+                var candidates = batch.contacts.filter(function (testContact) {
+                    return testContact.id === args[0];
                 });
-            }).done(function() {
-                win();
-            }, function(error) {
-                fail(error);
+
+                if (candidates.length === 0) {
+                    // No matching contact from aggregate store
+                    throw new ContactError(ContactError.IO_ERROR);
+                }
+
+                return candidates[0];
+            }).then(function (contactToDelete) {
+                return readOnlyStore.aggregateContactManager.findRawContactsAsync(contactToDelete);
+            }).then(function (rawContacts) {
+                return writableStore.findContactListsAsync().then(function (lists) {
+                    var deleteList = null;
+                    var deleteContact = null;
+                    var matched = lists.some(function (list) {
+                        for (var i = 0; i < rawContacts.length; i++) {
+                            if (rawContacts[i].contactListId === list.id) {
+                                deleteList = list;
+                                deleteContact = rawContacts[i];
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+
+                    if (!matched) {
+                        throw new ContactError(ContactError.IO_ERROR);
+                    }
+
+                    return deleteList.deleteContactAsync(deleteContact);
+                });
             });
+        }).done(function () {
+            win();
+        }, function (error) {
+            fail(error);
+        });
     },
 
     search: function (win, fail, options) {
@@ -418,10 +418,10 @@ module.exports = {
                     });
                 }
                 win(result);
-            }, function() {
+            }, function () {
                 fail(new ContactError(ContactError.UNKNOWN_ERROR));
             });
-        }, function() {
+        }, function () {
             fail(new ContactError(ContactError.UNKNOWN_ERROR));
         });
     }

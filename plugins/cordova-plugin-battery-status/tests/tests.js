@@ -353,7 +353,7 @@ exports.defineAutoTests = function () {
 exports.defineManualTests = function (contentEl, createActionButton) {
 
     /* Battery */
-    function updateInfo (info) {
+    function updateInfo(info) {
         document.getElementById('levelValue').innerText = info.level;
         document.getElementById('pluggedValue').innerText = info.isPlugged;
         if (info.level > 5) {
@@ -364,40 +364,40 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         }
     }
 
-    function batteryLow (info) {
+    function batteryLow(info) {
         document.getElementById('lowValue').innerText = 'true';
     }
 
-    function batteryCritical (info) {
+    function batteryCritical(info) {
         document.getElementById('criticalValue').innerText = 'true';
     }
 
-    function addBattery () {
+    function addBattery() {
         window.addEventListener('batterystatus', updateInfo, false);
     }
 
-    function removeBattery () {
+    function removeBattery() {
         window.removeEventListener('batterystatus', updateInfo, false);
     }
 
-    function addLow () {
+    function addLow() {
         window.addEventListener('batterylow', batteryLow, false);
     }
 
-    function removeLow () {
+    function removeLow() {
         window.removeEventListener('batterylow', batteryLow, false);
     }
 
-    function addCritical () {
+    function addCritical() {
         window.addEventListener('batterycritical', batteryCritical, false);
     }
 
-    function removeCritical () {
+    function removeCritical() {
         window.removeEventListener('batterycritical', batteryCritical, false);
     }
 
     // Generate Dynamic Table
-    function generateTable (tableId, rows, cells, elements) {
+    function generateTable(tableId, rows, cells, elements) {
         var table = document.createElement('table');
         for (var r = 0; r < rows; r++) {
             var row = table.insertRow(r);

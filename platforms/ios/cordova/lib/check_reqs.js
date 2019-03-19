@@ -24,7 +24,7 @@ const shell = require('shelljs');
 const util = require('util');
 const versions = require('./versions');
 
-const SUPPORTED_OS_PLATFORMS = [ 'darwin' ];
+const SUPPORTED_OS_PLATFORMS = ['darwin'];
 
 const XCODEBUILD_MIN_VERSION = '7.0.0';
 const XCODEBUILD_NOT_FOUND_MESSAGE =
@@ -68,11 +68,11 @@ module.exports.check_os = function () {
         Q.reject('Cordova tooling for iOS requires Apple macOS');
 };
 
-function os_platform_is_supported () {
+function os_platform_is_supported() {
     return (SUPPORTED_OS_PLATFORMS.indexOf(process.platform) !== -1);
 }
 
-function check_cocoapod_tool (toolChecker) {
+function check_cocoapod_tool(toolChecker) {
     toolChecker = toolChecker || checkTool;
     if (os_platform_is_supported()) { // CB-12856
         return toolChecker('pod', COCOAPODS_MIN_VERSION, COCOAPODS_NOT_FOUND_MESSAGE, 'CocoaPods');
@@ -142,7 +142,7 @@ module.exports.check_cocoapods = function (toolChecker) {
  * @param  {String} toolFriendlyName  Friendly name of the tool, to report to the user. Optional.
  * @return {Promise}           Returns a promise either resolved with tool version or rejected
  */
-function checkTool (tool, minVersion, message, toolFriendlyName) {
+function checkTool(tool, minVersion, message, toolFriendlyName) {
     toolFriendlyName = toolFriendlyName || tool;
 
     // Check whether tool command is available at all
@@ -157,7 +157,7 @@ function checkTool (tool, minVersion, message, toolFriendlyName) {
         return versions.compareVersions(version, minVersion) >= 0 ?
             Q.resolve({ 'version': version }) :
             Q.reject('Cordova needs ' + toolFriendlyName + ' version ' + minVersion +
-              ' or greater, you have version ' + version + '. ' + (message || ''));
+                ' or greater, you have version ' + version + '. ' + (message || ''));
     });
 }
 

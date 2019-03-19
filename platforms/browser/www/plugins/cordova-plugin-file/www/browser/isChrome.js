@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-file.isChrome", function(require, exports, module) { /*
+cordova.define("cordova-plugin-file.isChrome", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,10 +19,10 @@ cordova.define("cordova-plugin-file.isChrome", function(require, exports, module
  *
  */
 
-module.exports = function () {
-    // window.webkitRequestFileSystem and window.webkitResolveLocalFileSystemURL are available only in Chrome and
-    // possibly a good flag to indicate that we're running in Chrome
-    return window.webkitRequestFileSystem && window.webkitResolveLocalFileSystemURL;
-};
+    module.exports = function () {
+        // window.webkitRequestFileSystem and window.webkitResolveLocalFileSystemURL are available only in Chrome and
+        // possibly a good flag to indicate that we're running in Chrome
+        return window.webkitRequestFileSystem && window.webkitResolveLocalFileSystemURL;
+    };
 
 });

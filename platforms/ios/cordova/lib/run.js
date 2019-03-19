@@ -78,7 +78,7 @@ module.exports.run = function (runOptions) {
                         var ipafile = path.join(buildOutputDir, projectName + '.ipa');
 
                         // unpack the existing platform/ios/build/device/appname.ipa (zipfile), will create a Payload folder
-                        return spawn('unzip', [ '-o', '-qq', ipafile ], buildOutputDir);
+                        return spawn('unzip', ['-o', '-qq', ipafile], buildOutputDir);
                     })
                     .then(function () {
                         // Uncompress IPA (zip file)
@@ -87,14 +87,14 @@ module.exports.run = function (runOptions) {
                         var payloadFolder = path.join(buildOutputDir, 'Payload');
 
                         // delete the existing platform/ios/build/device/appname.app
-                        return spawn('rm', [ '-rf', appFile ], buildOutputDir)
+                        return spawn('rm', ['-rf', appFile], buildOutputDir)
                             .then(function () {
                                 // move the platform/ios/build/device/Payload/appname.app to parent
-                                return spawn('mv', [ '-f', appFileInflated, buildOutputDir ], buildOutputDir);
+                                return spawn('mv', ['-f', appFileInflated, buildOutputDir], buildOutputDir);
                             })
                             .then(function () {
                                 // delete the platform/ios/build/device/Payload folder
-                                return spawn('rm', [ '-rf', payloadFolder ], buildOutputDir);
+                                return spawn('rm', ['-rf', payloadFolder], buildOutputDir);
                             });
                     })
                     .then(function () {
@@ -128,7 +128,7 @@ module.exports.listEmulators = listEmulators;
  *
  * @return {Array} array with unsupported args for the 'run' command
  */
-function filterSupportedArgs (args) {
+function filterSupportedArgs(args) {
     var filtered = [];
     var sargs = ['--device', '--emulator', '--nobuild', '--list', '--target', '--debug', '--release'];
     var re = new RegExp(sargs.join('|'));
@@ -148,7 +148,7 @@ function filterSupportedArgs (args) {
  * Checks if any iOS device is connected
  * @return {Promise} Fullfilled when any device is connected, rejected otherwise
  */
-function checkDeviceConnected () {
+function checkDeviceConnected() {
     return spawn('ios-deploy', ['-c', '-t', '1']);
 }
 
@@ -158,7 +158,7 @@ function checkDeviceConnected () {
  * @param  {String} appPath Path to application package
  * @return {Promise}        Resolves when deploy succeeds otherwise rejects
  */
-function deployToDevice (appPath, target, extraArgs) {
+function deployToDevice(appPath, target, extraArgs) {
     // Deploying to device...
     if (target) {
         return spawn('ios-deploy', ['--justlaunch', '-d', '-b', appPath, '-i', target].concat(extraArgs));
@@ -173,7 +173,7 @@ function deployToDevice (appPath, target, extraArgs) {
  * @param  {String} target  Target device type
  * @return {Promise}        Resolves when deploy succeeds otherwise rejects
  */
-function deployToSim (appPath, target) {
+function deployToSim(appPath, target) {
     // Select target device for emulator. Default is 'iPhone-6'
     if (!target) {
         return require('./list-emulator-images').run()
@@ -194,13 +194,13 @@ function deployToSim (appPath, target) {
     }
 }
 
-function startSim (appPath, target) {
+function startSim(appPath, target) {
     var logPath = path.join(cordovaPath, 'console.log');
 
     return iossim.launch(appPath, 'com.apple.CoreSimulator.SimDeviceType.' + target, logPath, '--exit');
 }
 
-function listDevices () {
+function listDevices() {
     return require('./list-devices').run()
         .then(function (devices) {
             events.emit('log', 'Available iOS Devices:');
@@ -210,7 +210,7 @@ function listDevices () {
         });
 }
 
-function listEmulators () {
+function listEmulators() {
     return require('./list-emulator-images').run()
         .then(function (emulators) {
             events.emit('log', 'Available iOS Simulators:');

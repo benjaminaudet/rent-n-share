@@ -26,7 +26,7 @@ var Connection = require('./Connection');
 var winNetConn = Windows.Networking.Connectivity;
 var networkInfo = winNetConn.NetworkInformation;
 
-function getCurrrentConnectionType () {
+function getCurrrentConnectionType() {
 
     var profile = networkInfo.getInternetConnectionProfile();
 
@@ -47,19 +47,19 @@ function getCurrrentConnectionType () {
     var connectionType;
 
     switch (interfaceType) {
-    case 71:
-        connectionType = Connection.WIFI;
-        break;
-    case 6:
-        connectionType = Connection.ETHERNET;
-        break;
-    case 243: // (3GPP WWAN) // Fallthrough is intentional
-    case 244: // (3GPP2 WWAN)
-        connectionType = Connection.CELL_3G;
-        break;
-    default:
-        connectionType = Connection.UNKNOWN;
-        break;
+        case 71:
+            connectionType = Connection.WIFI;
+            break;
+        case 6:
+            connectionType = Connection.ETHERNET;
+            break;
+        case 243: // (3GPP WWAN) // Fallthrough is intentional
+        case 244: // (3GPP2 WWAN)
+            connectionType = Connection.CELL_3G;
+            break;
+        default:
+            connectionType = Connection.UNKNOWN;
+            break;
     }
 
     return connectionType;

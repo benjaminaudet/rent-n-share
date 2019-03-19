@@ -31,7 +31,7 @@ var exec = require('cordova/exec'),
  * @param {CaptureVideoOptions} options
  */
 function _capture(type, successCallback, errorCallback, options) {
-    var win = function(pluginResult) {
+    var win = function (pluginResult) {
         successCallback(helpers.wrapMediaFiles(pluginResult));
     };
     exec(win, errorCallback, "Capture", type, [options]);
@@ -54,7 +54,7 @@ function Capture() {
  * @param {Function} errorCB
  * @param {CaptureAudioOptions} options
  */
-Capture.prototype.captureAudio = function(successCallback, errorCallback, options){
+Capture.prototype.captureAudio = function (successCallback, errorCallback, options) {
     _capture("captureAudio", successCallback, errorCallback, options);
 };
 
@@ -65,7 +65,7 @@ Capture.prototype.captureAudio = function(successCallback, errorCallback, option
  * @param {Function} errorCB
  * @param {CaptureImageOptions} options
  */
-Capture.prototype.captureImage = function(successCallback, errorCallback, options){
+Capture.prototype.captureImage = function (successCallback, errorCallback, options) {
     _capture("captureImage", successCallback, errorCallback, options);
 };
 
@@ -76,7 +76,7 @@ Capture.prototype.captureImage = function(successCallback, errorCallback, option
  * @param {Function} errorCB
  * @param {CaptureVideoOptions} options
  */
-Capture.prototype.captureVideo = function(successCallback, errorCallback, options){
+Capture.prototype.captureVideo = function (successCallback, errorCallback, options) {
     _capture("captureVideo", successCallback, errorCallback, options);
 };
 

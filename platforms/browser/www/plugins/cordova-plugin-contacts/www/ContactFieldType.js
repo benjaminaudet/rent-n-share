@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-contacts.ContactFieldType", function(require, exports, module) { /*
+cordova.define("cordova-plugin-contacts.ContactFieldType", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,33 +23,33 @@ cordova.define("cordova-plugin-contacts.ContactFieldType", function(require, exp
     // Some field names are platform specific
 
     var fieldType = {
-        addresses:      "addresses",
-        birthday:       "birthday",
-        categories:     "categories",
-        country:        "country",
-        department:     "department",
-        displayName:    "displayName",
-        emails:         "emails",
-        familyName:     "familyName",
-        formatted:      "formatted",
-        givenName:      "givenName",
+        addresses: "addresses",
+        birthday: "birthday",
+        categories: "categories",
+        country: "country",
+        department: "department",
+        displayName: "displayName",
+        emails: "emails",
+        familyName: "familyName",
+        formatted: "formatted",
+        givenName: "givenName",
         honorificPrefix: "honorificPrefix",
         honorificSuffix: "honorificSuffix",
-        id:             "id",
-        ims:            "ims",
-        locality:       "locality",
-        middleName:     "middleName",
-        name:           "name",
-        nickname:       "nickname",
-        note:           "note",
-        organizations:  "organizations",
-        phoneNumbers:   "phoneNumbers",
-        photos:         "photos",
-        postalCode:     "postalCode",
-        region:         "region",
-        streetAddress:  "streetAddress",
-        title:          "title",
-        urls:           "urls"
+        id: "id",
+        ims: "ims",
+        locality: "locality",
+        middleName: "middleName",
+        name: "name",
+        nickname: "nickname",
+        note: "note",
+        organizations: "organizations",
+        phoneNumbers: "phoneNumbers",
+        photos: "photos",
+        postalCode: "postalCode",
+        region: "region",
+        streetAddress: "streetAddress",
+        title: "title",
+        urls: "urls"
     };
 
     module.exports = fieldType;

@@ -23,7 +23,7 @@ module.exports = function (quantity) {
     var count = 0;
     var beepObj;
 
-    function callback () {
+    function callback() {
         if (--count > 0) {
             play();
         } else {
@@ -32,7 +32,7 @@ module.exports = function (quantity) {
         }
     }
 
-    function play () {
+    function play() {
         // create new object every time due to strage playback behaviour
         beepObj = new Audio('local:///chrome/plugin/cordova-plugin-dialogs/notification-beep.wav'); // eslint-disable-line no-undef
         beepObj.addEventListener('ended', callback);

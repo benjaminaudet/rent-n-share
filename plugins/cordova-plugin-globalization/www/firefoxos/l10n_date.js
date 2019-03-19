@@ -43,7 +43,7 @@ navigator.mozL10n.DateTimeFormat = function (locales, options) {
     var _ = navigator.mozL10n.get;
 
     // https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date/toLocaleFormat
-    function localeFormat (d, format) {
+    function localeFormat(d, format) {
         var tokens = format.match(/(%E.|%O.|%.)/g);
 
         for (var i = 0; tokens && i < tokens.length; i++) {
@@ -51,51 +51,51 @@ navigator.mozL10n.DateTimeFormat = function (locales, options) {
 
             // http://pubs.opengroup.org/onlinepubs/007908799/xsh/strftime.html
             switch (tokens[i]) {
-            // localized day/month names
-            case '%a':
-                value = _('weekday-' + d.getDay() + '-short');
-                break;
-            case '%A':
-                value = _('weekday-' + d.getDay() + '-long');
-                break;
-            case '%b':
-            case '%h':
-                value = _('month-' + d.getMonth() + '-short');
-                break;
-            case '%B':
-                value = _('month-' + d.getMonth() + '-long');
-                break;
-            case '%Eb':
-                value = _('month-' + d.getMonth() + '-genitive');
-                break;
+                // localized day/month names
+                case '%a':
+                    value = _('weekday-' + d.getDay() + '-short');
+                    break;
+                case '%A':
+                    value = _('weekday-' + d.getDay() + '-long');
+                    break;
+                case '%b':
+                case '%h':
+                    value = _('month-' + d.getMonth() + '-short');
+                    break;
+                case '%B':
+                    value = _('month-' + d.getMonth() + '-long');
+                    break;
+                case '%Eb':
+                    value = _('month-' + d.getMonth() + '-genitive');
+                    break;
 
-            // like %H, but in 12-hour format and without any leading zero
-            case '%I':
-                value = d.getHours() % 12 || 12;
-                break;
+                // like %H, but in 12-hour format and without any leading zero
+                case '%I':
+                    value = d.getHours() % 12 || 12;
+                    break;
 
-            // like %d, without any leading zero
-            case '%e':
-                value = d.getDate();
-                break;
+                // like %d, without any leading zero
+                case '%e':
+                    value = d.getDate();
+                    break;
 
-            // %p: 12 hours format (AM/PM)
-            case '%p':
-                value = d.getHours() < 12 ? _('time_am') : _('time_pm');
-                break;
+                // %p: 12 hours format (AM/PM)
+                case '%p':
+                    value = d.getHours() < 12 ? _('time_am') : _('time_pm');
+                    break;
 
-            // localized date/time strings
-            case '%c':
-            case '%x':
-            case '%X':
-            // ensure the localized format string doesn't contain any %c|%x|%X
-                var tmp = _('dateTimeFormat_' + tokens[i]);
-                if (tmp && !(/(%c|%x|%X)/).test(tmp)) {
-                    value = localeFormat(d, tmp);
-                }
-                break;
+                // localized date/time strings
+                case '%c':
+                case '%x':
+                case '%X':
+                    // ensure the localized format string doesn't contain any %c|%x|%X
+                    var tmp = _('dateTimeFormat_' + tokens[i]);
+                    if (tmp && !(/(%c|%x|%X)/).test(tmp)) {
+                        value = localeFormat(d, tmp);
+                    }
+                    break;
 
-            // other tokens don't require any localization
+                // other tokens don't require any localization
             }
 
             format = format.replace(tokens[i], value || d.toLocaleFormat(tokens[i]));
@@ -107,7 +107,7 @@ navigator.mozL10n.DateTimeFormat = function (locales, options) {
     /**
     * Returns the parts of a number of seconds
     */
-    function relativeParts (seconds) {
+    function relativeParts(seconds) {
         seconds = Math.abs(seconds);
         var descriptors = {};
         var units = [
@@ -142,16 +142,16 @@ navigator.mozL10n.DateTimeFormat = function (locales, options) {
     * @param {String} useCompactFormat whether to use a compact display format.
     * @param {Number} maxDiff returns a formatted date if the diff is greater.
     */
-    function prettyDate (time, useCompactFormat, maxDiff) {
+    function prettyDate(time, useCompactFormat, maxDiff) {
         maxDiff = maxDiff || 86400 * 10; // default = 10 days
 
         switch (time.constructor) {
-        case String: // timestamp
-            time = parseInt(time);
-            break;
-        case Date:
-            time = time.getTime();
-            break;
+            case String: // timestamp
+                time = parseInt(time);
+                break;
+            case Date:
+                time = time.getTime();
+                break;
         }
 
         var secDiff = (Date.now() - time) / 1000;
@@ -181,13 +181,13 @@ navigator.mozL10n.DateTimeFormat = function (locales, options) {
 
     // API
     return {
-        localeDateString: function localeDateString (d) {
+        localeDateString: function localeDateString(d) {
             return localeFormat(d, '%x');
         },
-        localeTimeString: function localeTimeString (d) {
+        localeTimeString: function localeTimeString(d) {
             return localeFormat(d, '%X');
         },
-        localeString: function localeString (d) {
+        localeString: function localeString(d) {
             return localeFormat(d, '%c');
         },
         localeFormat: localeFormat,

@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-contacts.ContactsProxy", function(require, exports, module) { /*
+cordova.define("cordova-plugin-contacts.ContactsProxy", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,17 +19,17 @@ cordova.define("cordova-plugin-contacts.ContactsProxy", function(require, export
  *
 */
 
-function notSupported() {
-    console.log('Contacts is not supported');
-    return false;
-}
+    function notSupported() {
+        console.log('Contacts is not supported');
+        return false;
+    }
 
-module.exports = {
-    create: notSupported,
-    find: notSupported,
-    pickContact: notSupported
-};
+    module.exports = {
+        create: notSupported,
+        find: notSupported,
+        pickContact: notSupported
+    };
 
-require('cordova/exec/proxy').add('Contacts', module.exports);
+    require('cordova/exec/proxy').add('Contacts', module.exports);
 
 });

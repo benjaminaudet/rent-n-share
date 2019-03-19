@@ -37,18 +37,18 @@
     var eventWasThrown = false;
 
     if (!window.requestFileSystem) {
-        window.requestFileSystem = function(type, size, win, fail) {
+        window.requestFileSystem = function (type, size, win, fail) {
             if (fail) {
                 fail("Not supported");
             }
         };
     } else {
-        window.requestFileSystem(window.TEMPORARY, 1, createFileEntryFunctions, function() {});
+        window.requestFileSystem(window.TEMPORARY, 1, createFileEntryFunctions, function () { });
     }
 
     if (!window.resolveLocalFileSystemURL) {
-        window.resolveLocalFileSystemURL = function(url, win, fail) {
-            if(fail) {
+        window.resolveLocalFileSystemURL = function (url, win, fail) {
+            if (fail) {
                 fail("Not supported");
             }
         };
@@ -58,10 +58,10 @@
     // Cordova-specific (cdvfile://) universal way.
     // Aligns with specification: http://www.w3.org/TR/2011/WD-file-system-api-20110419/#widl-LocalFileSystem-resolveLocalFileSystemURL
     var nativeResolveLocalFileSystemURL = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL;
-    window.resolveLocalFileSystemURL = function(url, win, fail) {
+    window.resolveLocalFileSystemURL = function (url, win, fail) {
         /* If url starts with `cdvfile` then we need convert it to Chrome real url first:
           cdvfile://localhost/persistent/path/to/file -> filesystem:file://persistent/path/to/file */
-        if (url.trim().substr(0,7) === "cdvfile") {
+        if (url.trim().substr(0, 7) === "cdvfile") {
             /* Quirk:
             Plugin supports cdvfile://localhost (local resources) only.
             I.e. external resources are not supported via cdvfile. */
@@ -83,7 +83,7 @@
                 if (indexPersistent !== -1) {
                     // cdvfile://localhost/persistent/path/to/file -> filesystem:file://persistent/path/to/file
                     // or filesystem:http://localhost:8080/persistent/path/to/file
-                    result =  prefix + 'persistent' + url.substr(indexPersistent + 10);
+                    result = prefix + 'persistent' + url.substr(indexPersistent + 10);
                     nativeResolveLocalFileSystemURL(result, win, fail);
                     return;
                 }
@@ -107,7 +107,7 @@
     };
 
     function createFileEntryFunctions(fs) {
-        fs.root.getFile('todelete_658674_833_4_cdv', {create: true}, function(fileEntry) {
+        fs.root.getFile('todelete_658674_833_4_cdv', { create: true }, function (fileEntry) {
             var fileEntryType = Object.getPrototypeOf(fileEntry);
             var entryType = Object.getPrototypeOf(fileEntryType);
 
@@ -126,7 +126,7 @@
                 return this.toURL();
             };
 
-            entryType.toInternalURL = function() {
+            entryType.toInternalURL = function () {
                 if (this.toURL().indexOf("persistent") > -1) {
                     return "cdvfile://localhost/persistent" + this.fullPath;
                 }
@@ -136,30 +136,30 @@
                 }
             };
 
-            entryType.setMetadata = function(win, fail /*, metadata*/) {
+            entryType.setMetadata = function (win, fail /*, metadata*/) {
                 if (fail) {
                     fail("Not supported");
                 }
             };
 
-            fileEntry.createWriter(function(writer) {
+            fileEntry.createWriter(function (writer) {
                 var originalWrite = writer.write;
                 var writerProto = Object.getPrototypeOf(writer);
-                writerProto.write = function(blob) {
-                    if(blob instanceof Blob) {
+                writerProto.write = function (blob) {
+                    if (blob instanceof Blob) {
                         originalWrite.apply(this, [blob]);
                     } else {
                         var realBlob = new Blob([blob]);
                         originalWrite.apply(this, [realBlob]);
-                   }
+                    }
                 };
 
-                fileEntry.remove(function(){ entryFunctionsCreated = true; }, function(){ /* empty callback */ });
-          });
+                fileEntry.remove(function () { entryFunctionsCreated = true; }, function () { /* empty callback */ });
+            });
         });
     }
 
-    window.initPersistentFileSystem = function(size, win, fail) {
+    window.initPersistentFileSystem = function (size, win, fail) {
         if (navigator.webkitPersistentStorage) {
             navigator.webkitPersistentStorage.requestQuota(size, win, fail);
             return;
@@ -170,10 +170,10 @@
 
     window.isFilePluginReadyRaised = function () { return eventWasThrown; };
 
-    window.initPersistentFileSystem(PERSISTENT_FS_QUOTA, function() {
+    window.initPersistentFileSystem(PERSISTENT_FS_QUOTA, function () {
         console.log('Persistent fs quota granted');
         quotaWasRequested = true;
-    }, function(e){
+    }, function (e) {
         console.log('Error occured while trying to request Persistent fs quota: ' + JSON.stringify(e));
     });
 

@@ -26,14 +26,14 @@
 var cameraConstants = require('../../www/CameraConstants');
 
 function findKeyByValue(set, value) {
-   for (var k in set) {
-      if (set.hasOwnProperty(k)) {
-         if (set[k] == value) {
-            return k;
-         }
-      }
-   }
-   return undefined;
+    for (var k in set) {
+        if (set.hasOwnProperty(k)) {
+            if (set[k] == value) {
+                return k;
+            }
+        }
+    }
+    return undefined;
 }
 
 function getDescription(spec) {
@@ -127,7 +127,7 @@ module.exports.checkPicture = function (pid, options, cb) {
     // https://github.com/apache/cordova-plugin-camera/#ios-quirks-1
     var skipFileTypeCheckiOS = isIos && options.destinationType === Camera.DestinationType.NATIVE_URI &&
         (options.sourceType === Camera.PictureSourceType.PHOTOLIBRARY ||
-         options.sourceType === Camera.PictureSourceType.SAVEDPHOTOALBUM);
+            options.sourceType === Camera.PictureSourceType.SAVEDPHOTOALBUM);
 
     var skipFileTypeCheck = skipFileTypeCheckAndroid || skipFileTypeCheckiOS;
 
@@ -200,10 +200,10 @@ module.exports.checkPicture = function (pid, options, cb) {
     function verifyFile(entry) {
         try {
             var reader = new FileReader();
-            reader.onloadend = function(e) {
+            reader.onloadend = function (e) {
                 var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
                 var header = '';
-                for(var i = 0; i < arr.length; i++) {
+                for (var i = 0; i < arr.length; i++) {
                     header += arr[i].toString(16);
                 }
                 var actualType = 'unknown';
@@ -281,8 +281,7 @@ module.exports.checkPicture = function (pid, options, cb) {
                 try {
                     // aspect ratio is preserved so only one dimension should match
                     if ((typeof options.targetWidth === 'number' && imgEl.naturalWidth !== options.targetWidth) &&
-                        (typeof options.targetHeight === 'number' && imgEl.naturalHeight !== options.targetHeight))
-                    {
+                        (typeof options.targetHeight === 'number' && imgEl.naturalHeight !== options.targetHeight)) {
                         done('ERROR: Wrong image size: ' + imgEl.naturalWidth + 'x' + imgEl.naturalHeight +
                             '. Requested size: ' + options.targetWidth + 'x' + options.targetHeight);
                     } else {

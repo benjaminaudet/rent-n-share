@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-network-information.NetworkInfoProxy", function(require, exports, module) { /*
+cordova.define("cordova-plugin-network-information.NetworkInfoProxy", function (require, exports, module) { /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -18,31 +18,31 @@ cordova.define("cordova-plugin-network-information.NetworkInfoProxy", function(r
  *
 */
 
-var cordova = require('cordova');
-var proxy = require('cordova/exec/proxy');
-var Connection = require('./Connection');
+    var cordova = require('cordova');
+    var proxy = require('cordova/exec/proxy');
+    var Connection = require('./Connection');
 
-var type = navigator.onLine ? Connection.UNKNOWN : Connection.NONE;
+    var type = navigator.onLine ? Connection.UNKNOWN : Connection.NONE;
 
-// Subscribe to 'native' online/offline events
-function onStatusChange (evt) {
-    type = navigator.onLine ? Connection.UNKNOWN : Connection.NONE;
-    // force async
-    setTimeout(function () {
-        cordova.fireDocumentEvent(evt.type);
-    }, 0);
-}
-
-window.addEventListener('online', onStatusChange);
-window.addEventListener('offline', onStatusChange);
-
-proxy.add('NetworkStatus', {
-    getConnectionInfo: function (cbSuccess) {
+    // Subscribe to 'native' online/offline events
+    function onStatusChange(evt) {
+        type = navigator.onLine ? Connection.UNKNOWN : Connection.NONE;
         // force async
         setTimeout(function () {
-            cbSuccess(type);
+            cordova.fireDocumentEvent(evt.type);
         }, 0);
     }
-});
+
+    window.addEventListener('online', onStatusChange);
+    window.addEventListener('offline', onStatusChange);
+
+    proxy.add('NetworkStatus', {
+        getConnectionInfo: function (cbSuccess) {
+            // force async
+            setTimeout(function () {
+                cbSuccess(type);
+            }, 0);
+        }
+    });
 
 });

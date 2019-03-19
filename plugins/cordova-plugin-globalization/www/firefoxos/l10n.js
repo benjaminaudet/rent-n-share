@@ -25,7 +25,7 @@
     'use strict';
 
     /* jshint validthis:true */
-    function L10nError (message, id, loc) {
+    function L10nError(message, id, loc) {
         this.name = 'L10nError';
         this.message = message;
         this.id = id;
@@ -37,7 +37,7 @@
     /* jshint browser:true */
 
     var io = {
-        load: function load (url, callback, sync) {
+        load: function load(url, callback, sync) {
             var xhr = new XMLHttpRequest(); // eslint-disable-line no-undef
 
             if (xhr.overrideMimeType) {
@@ -46,7 +46,7 @@
 
             xhr.open('GET', url, !sync);
 
-            xhr.addEventListener('load', function io_load (e) {
+            xhr.addEventListener('load', function io_load(e) {
                 if (e.target.status === 200 || e.target.status === 0) {
                     callback(null, e.target.responseText);
                 } else {
@@ -64,7 +64,7 @@
             }
         },
 
-        loadJSON: function loadJSON (url, callback) {
+        loadJSON: function loadJSON(url, callback) {
             var xhr = new XMLHttpRequest(); // eslint-disable-line no-undef
 
             if (xhr.overrideMimeType) {
@@ -74,7 +74,7 @@
             xhr.open('GET', url);
 
             xhr.responseType = 'json';
-            xhr.addEventListener('load', function io_loadjson (e) {
+            xhr.addEventListener('load', function io_loadjson(e) {
                 if (e.target.status === 200 || e.target.status === 0) {
                     callback(null, e.target.response);
                 } else {
@@ -93,9 +93,9 @@
         }
     };
 
-    function EventEmitter () {}
+    function EventEmitter() { }
 
-    EventEmitter.prototype.emit = function ee_emit () {
+    EventEmitter.prototype.emit = function ee_emit() {
         if (!this._listeners) {
             return;
         }
@@ -112,7 +112,7 @@
         }
     };
 
-    EventEmitter.prototype.addEventListener = function ee_add (type, listener) {
+    EventEmitter.prototype.addEventListener = function ee_add(type, listener) {
         if (!this._listeners) {
             this._listeners = {};
         }
@@ -122,7 +122,7 @@
         this._listeners[type].push(listener);
     };
 
-    EventEmitter.prototype.removeEventListener = function ee_rm (type, listener) {
+    EventEmitter.prototype.removeEventListener = function ee_rm(type, listener) {
         if (!this._listeners) {
             return;
         }
@@ -136,7 +136,7 @@
         typeListeners.splice(pos, 1);
     };
 
-    function getPluralRule (lang) {
+    function getPluralRule(lang) {
         var locales2rules = {
             'af': 3,
             'ak': 4,
@@ -311,10 +311,10 @@
         };
 
         // utility functions for plural rules methods
-        function isIn (n, list) {
+        function isIn(n, list) {
             return list.indexOf(n) !== -1;
         }
-        function isBetween (n, start, end) {
+        function isBetween(n, start, end) {
             return typeof n === typeof start && start <= n && n <= end;
         }
 
@@ -428,8 +428,8 @@
                     return 'few';
                 }
                 if ((n % 10) === 0 ||
-            (isBetween((n % 10), 5, 9)) ||
-            (isBetween((n % 100), 11, 14))) {
+                    (isBetween((n % 10), 5, 9)) ||
+                    (isBetween((n % 100), 11, 14))) {
                     return 'many';
                 }
                 if ((n % 10) === 1 && (n % 100) !== 11) {
@@ -451,8 +451,8 @@
                     return 'few';
                 }
                 if ((n !== 1 && (isBetween((n % 10), 0, 1))) ||
-            ((isBetween((n % 10), 5, 9))) ||
-            ((isBetween((n % 100), 12, 14)))) {
+                    ((isBetween((n % 10), 5, 9))) ||
+                    ((isBetween((n % 100), 12, 14)))) {
                     return 'many';
                 }
                 if (n === 1) {
@@ -590,7 +590,7 @@
 
     var parsePatterns;
 
-    function parse (ctx, source) {
+    function parse(ctx, source) {
         var ast = {};
         /* eslint-disable no-useless-escape */
         if (!parsePatterns) {
@@ -633,7 +633,7 @@
         return ast;
     }
 
-    function setEntityValue (id, attr, key, value, ast) {
+    function setEntityValue(id, attr, key, value, ast) {
         var obj = ast;
         var prop = id;
 
@@ -642,7 +642,7 @@
                 obj[id] = {};
             }
             if (typeof (obj[id]) === 'string') {
-                obj[id] = {'_': obj[id]};
+                obj[id] = { '_': obj[id] };
             }
             obj = obj[id];
             prop = attr;
@@ -654,14 +654,14 @@
         }
 
         if (!(prop in obj)) {
-            obj[prop] = {'_': {}};
+            obj[prop] = { '_': {} };
         } else if (typeof (obj[prop]) === 'string') {
-            obj[prop] = {'_index': parseMacro(obj[prop]), '_': {}};
+            obj[prop] = { '_index': parseMacro(obj[prop]), '_': {} };
         }
         obj[prop]._[key] = value;
     }
 
-    function parseEntity (id, value, ast) {
+    function parseEntity(id, value, ast) {
         var name, key;
 
         var pos = id.indexOf('[');
@@ -677,7 +677,7 @@
 
         if (nameElements.length > 2) {
             throw new Error('Error in ID: "' + name + '".' +
-                      ' Nested attributes are not supported.');
+                ' Nested attributes are not supported.');
         }
 
         var attr;
@@ -691,24 +691,24 @@
         setEntityValue(name, attr, key, unescapeString(value), ast);
     }
 
-    function unescapeControlCharacters (str) {
+    function unescapeControlCharacters(str) {
         return str.replace(parsePatterns.controlChars, '$1');
     }
 
-    function unescapeUnicode (str) {
+    function unescapeUnicode(str) {
         return str.replace(parsePatterns.unicode, function (match, token) {
             return unescape('%u' + '0000'.slice(token.length) + token);
         });
     }
 
-    function unescapeString (str) {
+    function unescapeString(str) {
         if (str.lastIndexOf('\\') !== -1) {
             str = unescapeControlCharacters(str);
         }
         return unescapeUnicode(str);
     }
 
-    function parseMacro (str) {
+    function parseMacro(str) {
         var match = str.match(parsePatterns.macro);
         if (!match) {
             throw new L10nError('Malformed macro');
@@ -720,7 +720,7 @@
     var MAX_PLACEABLES = 100;
     var rePlaceables = /\{\{\s*(.+?)\s*\}\}/g;
 
-    function Entity (id, node, env) {
+    function Entity(id, node, env) {
         this.id = id;
         this.env = env;
         // the dirty guard prevents cyclic or recursive references from other
@@ -744,7 +744,7 @@
         }
     }
 
-    Entity.prototype.resolve = function E_resolve (ctxdata) {
+    Entity.prototype.resolve = function E_resolve(ctxdata) {
         if (this.dirty) {
             return undefined;
         }
@@ -761,7 +761,7 @@
         return val;
     };
 
-    Entity.prototype.toString = function E_toString (ctxdata) {
+    Entity.prototype.toString = function E_toString(ctxdata) {
         try {
             return this.resolve(ctxdata);
         } catch (e) {
@@ -769,7 +769,7 @@
         }
     };
 
-    Entity.prototype.valueOf = function E_valueOf (ctxdata) {
+    Entity.prototype.valueOf = function E_valueOf(ctxdata) {
         if (!this.attributes) {
             return this.toString(ctxdata);
         }
@@ -788,10 +788,10 @@
         return entity;
     };
 
-    function subPlaceable (ctxdata, env, match, id) {
+    function subPlaceable(ctxdata, env, match, id) {
         if (ctxdata && ctxdata.hasOwnProperty(id) &&
-        (typeof ctxdata[id] === 'string' ||
-         (typeof ctxdata[id] === 'number' && !isNaN(ctxdata[id])))) {
+            (typeof ctxdata[id] === 'string' ||
+                (typeof ctxdata[id] === 'number' && !isNaN(ctxdata[id])))) {
             return ctxdata[id];
         }
 
@@ -804,8 +804,8 @@
                 // prevent Billion Laughs attacks
                 if (value.length >= MAX_PLACEABLE_LENGTH) {
                     throw new L10nError('Too many characters in placeable (' +
-                              value.length + ', max allowed is ' +
-                              MAX_PLACEABLE_LENGTH + ')');
+                        value.length + ', max allowed is ' +
+                        MAX_PLACEABLE_LENGTH + ')');
                 }
                 return value;
             }
@@ -813,13 +813,13 @@
         return match;
     }
 
-    function interpolate (ctxdata, env, str) {
+    function interpolate(ctxdata, env, str) {
         var placeablesCount = 0;
         var value = str.replace(rePlaceables, function (match, id) {
             // prevent Quadratic Blowup attacks
             if (placeablesCount++ >= MAX_PLACEABLES) {
                 throw new L10nError('Too many placeables (' + placeablesCount +
-                            ', max allowed is ' + MAX_PLACEABLES + ')');
+                    ', max allowed is ' + MAX_PLACEABLES + ')');
             }
             return subPlaceable(ctxdata, env, match, id);
         });
@@ -827,14 +827,14 @@
         return value;
     }
 
-    function resolve (ctxdata, env, expr, index) {
+    function resolve(ctxdata, env, expr, index) {
         if (typeof expr === 'string') {
             return interpolate(ctxdata, env, expr);
         }
 
         if (typeof expr === 'boolean' ||
-        typeof expr === 'number' ||
-        !expr) {
+            typeof expr === 'number' ||
+            !expr) {
             return expr;
         }
 
@@ -868,7 +868,7 @@
         return undefined;
     }
 
-    function compile (env, ast) {
+    function compile(env, ast) {
         env = env || {};
         for (var id in ast) {
             if (ast.hasOwnProperty(id)) {
@@ -878,7 +878,7 @@
         return env;
     }
 
-    function Locale (id, ctx) {
+    function Locale(id, ctx) {
         this.id = id;
         this.ctx = ctx;
         this.isReady = false;
@@ -887,7 +887,7 @@
         };
     }
 
-    Locale.prototype.getEntry = function L_getEntry (id) {
+    Locale.prototype.getEntry = function L_getEntry(id) {
 
         var entries = this.entries;
 
@@ -902,14 +902,14 @@
         return entries[id] = new Entity(id, entries[id], entries); // eslint-disable-line no-return-assign
     };
 
-    Locale.prototype.build = function L_build (callback) {
+    Locale.prototype.build = function L_build(callback) {
         var sync = !callback;
         var ctx = this.ctx;
         var self = this;
 
         var l10nLoads = ctx.resLinks.length;
 
-        function onL10nLoaded (err) {
+        function onL10nLoaded(err) {
             if (err) {
                 ctx._emitter.emit('error', err);
             }
@@ -926,14 +926,14 @@
             return;
         }
 
-        function onJSONLoaded (err, json) {
+        function onJSONLoaded(err, json) {
             if (!err && json) {
                 self.addAST(json);
             }
             onL10nLoaded(err);
         }
 
-        function onPropLoaded (err, source) {
+        function onPropLoaded(err, source) {
             if (!err && source) {
                 var ast = parse(ctx, source);
                 self.addAST(ast);
@@ -946,12 +946,12 @@
             var type = path.substr(path.lastIndexOf('.') + 1);
 
             switch (type) {
-            case 'json':
-                io.loadJSON(path, onJSONLoaded, sync);
-                break;
-            case 'properties':
-                io.load(path, onPropLoaded, sync);
-                break;
+                case 'json':
+                    io.loadJSON(path, onJSONLoaded, sync);
+                    break;
+                case 'properties':
+                    io.load(path, onPropLoaded, sync);
+                    break;
             }
         }
     };
@@ -973,7 +973,7 @@
         return entry.valueOf(ctxdata);
     };
 
-    function Context (id) {
+    function Context(id) {
 
         this.id = id;
         this.isReady = false;
@@ -987,7 +987,7 @@
 
         // Getting translations
 
-        function getWithFallback (id) {
+        function getWithFallback(id) {
 
             if (!this.isReady) {
                 throw new L10nError('Context not ready');
@@ -1016,7 +1016,7 @@
             return null;
         }
 
-        this.get = function get (id, ctxdata) {
+        this.get = function get(id, ctxdata) {
             var entry = getWithFallback.call(this, id);
             if (entry === null) {
                 return '';
@@ -1025,7 +1025,7 @@
             return entry.toString(ctxdata) || '';
         };
 
-        this.getEntity = function getEntity (id, ctxdata) {
+        this.getEntity = function getEntity(id, ctxdata) {
             var entry = getWithFallback.call(this, id);
             if (entry === null) {
                 return null;
@@ -1036,7 +1036,7 @@
 
         // Helpers
 
-        this.getLocale = function getLocale (code) {
+        this.getLocale = function getLocale(code) {
 
             var locales = this.locales;
             if (locales[code]) {
@@ -1048,16 +1048,16 @@
 
         // Getting ready
 
-        function negotiate (available, requested, defaultLocale) {
+        function negotiate(available, requested, defaultLocale) {
             if (available.indexOf(requested[0]) === -1 ||
-          requested[0] === defaultLocale) {
+                requested[0] === defaultLocale) {
                 return [defaultLocale];
             } else {
                 return [requested[0], defaultLocale];
             }
         }
 
-        function freeze (supported) {
+        function freeze(supported) {
             var locale = this.getLocale(supported[0]);
             if (locale.isReady) {
                 setReady.call(this, supported);
@@ -1066,13 +1066,13 @@
             }
         }
 
-        function setReady (supported) {
+        function setReady(supported) {
             this.supportedLocales = supported;
             this.isReady = true;
             this._emitter.emit('ready');
         }
 
-        this.requestLocales = function requestLocales () {
+        this.requestLocales = function requestLocales() {
             if (this.isLoading && !this.isReady) {
                 throw new L10nError('Context not ready');
             }
@@ -1086,22 +1086,22 @@
 
         // Events
 
-        this.addEventListener = function addEventListener (type, listener) {
+        this.addEventListener = function addEventListener(type, listener) {
             this._emitter.addEventListener(type, listener);
         };
 
-        this.removeEventListener = function removeEventListener (type, listener) {
+        this.removeEventListener = function removeEventListener(type, listener) {
             this._emitter.removeEventListener(type, listener);
         };
 
-        this.ready = function ready (callback) {
+        this.ready = function ready(callback) {
             if (this.isReady) {
                 setTimeout(callback);
             }
             this.addEventListener('ready', callback);
         };
 
-        this.once = function once (callback) {
+        this.once = function once(callback) {
             if (this.isReady) {
                 setTimeout(callback);
                 return;
@@ -1116,12 +1116,12 @@
 
         // Errors
 
-        function warning (e) {
+        function warning(e) {
             this._emitter.emit('warning', e);
             return e;
         }
 
-        function error (e) {
+        function error(e) {
             this._emitter.emit('error', e);
             return e;
         }
@@ -1144,37 +1144,37 @@
 
     navigator.mozL10n = {
         ctx: new Context(),
-        get: function get (id, ctxdata) {
+        get: function get(id, ctxdata) {
             return navigator.mozL10n.ctx.get(id, ctxdata);
         },
-        localize: function localize (element, id, args) {
+        localize: function localize(element, id, args) {
             return localizeElement.call(navigator.mozL10n, element, id, args);
         },
         translate: function () {
-        // XXX: Remove after removing obsolete calls. Bugs 992473 and 1020136
+            // XXX: Remove after removing obsolete calls. Bugs 992473 and 1020136
         },
         translateFragment: function (fragment) {
             return translateFragment.call(navigator.mozL10n, fragment);
         },
         setAttributes: setL10nAttributes,
         getAttributes: getL10nAttributes,
-        ready: function ready (callback) {
+        ready: function ready(callback) {
             return navigator.mozL10n.ctx.ready(callback);
         },
-        once: function once (callback) {
+        once: function once(callback) {
             return navigator.mozL10n.ctx.once(callback);
         },
-        get readyState () {
+        get readyState() {
             return navigator.mozL10n.ctx.isReady ? 'complete' : 'loading';
         },
         language: {
-            set code (lang) {
+            set code(lang) {
                 navigator.mozL10n.ctx.requestLocales(lang);
             },
-            get code () {
+            get code() {
                 return navigator.mozL10n.ctx.supportedLocales[0];
             },
-            get direction () {
+            get direction() {
                 return getDirection(navigator.mozL10n.ctx.supportedLocales[0]);
             }
         },
@@ -1203,7 +1203,7 @@
         navigator.mozL10n.ctx.addEventListener('warning', console.warn);
     }
 
-    function getDirection (lang) {
+    function getDirection(lang) {
         return (rtlList.indexOf(lang) >= 0) ? 'rtl' : 'ltr';
     }
 
@@ -1213,14 +1213,14 @@
         'complete': 2
     };
 
-    function waitFor (state, callback) {
+    function waitFor(state, callback) {
         state = readyStates[state];
         if (readyStates[document.readyState] >= state) {
             callback();
             return;
         }
 
-        document.addEventListener('readystatechange', function l10n_onrsc () {
+        document.addEventListener('readystatechange', function l10n_onrsc() {
             if (readyStates[document.readyState] >= state) {
                 document.removeEventListener('readystatechange', l10n_onrsc);
                 callback();
@@ -1251,7 +1251,7 @@
 
     }
 
-    function pretranslate () {
+    function pretranslate() {
         if (inlineLocalization.call(this)) {
             waitFor('interactive', function () {
                 window.setTimeout(initResources.bind(this));
@@ -1261,10 +1261,10 @@
         }
     }
 
-    function inlineLocalization () {
+    function inlineLocalization() {
         var script = document.documentElement
             .querySelector('script[type="application/l10n"]' +
-            '[lang="' + navigator.language + '"]');
+                '[lang="' + navigator.language + '"]');
         if (!script) {
             return false;
         }
@@ -1289,7 +1289,7 @@
         return true;
     }
 
-    function initResources () {
+    function initResources() {
         var resLinks = document.head
             .querySelectorAll('link[type="application/l10n"]');
         var iniLinks = [];
@@ -1310,7 +1310,7 @@
             return;
         }
 
-        function onIniLoaded (err) {
+        function onIniLoaded(err) {
             if (err) {
                 this.ctx._emitter.emit('error', err);
             }
@@ -1324,14 +1324,14 @@
         }
     }
 
-    function initLocale () {
+    function initLocale() {
         this.ctx.requestLocales(navigator.language);
-        window.addEventListener('languagechange', function l10n_langchange () {
+        window.addEventListener('languagechange', function l10n_langchange() {
             navigator.mozL10n.language.code = navigator.language;
         });
     }
 
-    function localizeMutations (mutations) {
+    function localizeMutations(mutations) {
         var mutation;
 
         for (var i = 0; i < mutations.length; i++) {
@@ -1360,13 +1360,13 @@
         }
     }
 
-    function onMutations (mutations, self) {
+    function onMutations(mutations, self) {
         self.disconnect();
         localizeMutations.call(this, mutations);
         self.observe(document, moConfig);
     }
 
-    function onReady () {
+    function onReady() {
         if (!isPretranslated) {
             translateDocument.call(this);
         }
@@ -1380,7 +1380,7 @@
         fireLocalizedEvent.call(this);
     }
 
-    function fireLocalizedEvent () {
+    function fireLocalizedEvent() {
         var event = new CustomEvent('localized', { // eslint-disable-line no-undef
             'bubbles': false,
             'cancelable': false,
@@ -1391,7 +1391,7 @@
         window.dispatchEvent(event);
     }
 
-    function loadINI (url, callback) {
+    function loadINI(url, callback) {
         var ctx = this.ctx;
         io.load(url, function (err, source) {
             var pos = ctx.resLinks.indexOf(url);
@@ -1415,7 +1415,7 @@
         });
     }
 
-    function relativePath (baseUrl, url) {
+    function relativePath(baseUrl, url) {
         if (url[0] === '/') {
             return url;
         }
@@ -1436,7 +1436,7 @@
         'entry': /[\r\n]+/
     };
 
-    function parseINI (source, iniPath) {
+    function parseINI(source, iniPath) {
         var entries = source.split(iniPatterns.entry);
         var locales = ['en-US'];
         var genericSection = true;
@@ -1466,13 +1466,13 @@
         };
     }
 
-    function translateDocument () {
+    function translateDocument() {
         document.documentElement.lang = this.language.code;
         document.documentElement.dir = this.language.direction;
         translateFragment.call(this, document.documentElement);
     }
 
-    function translateFragment (element) {
+    function translateFragment(element) {
         if (element.hasAttribute('data-l10n-id')) {
             translateElement.call(this, element);
         }
@@ -1483,25 +1483,25 @@
         }
     }
 
-    function setL10nAttributes (element, id, args) {
+    function setL10nAttributes(element, id, args) {
         element.setAttribute('data-l10n-id', id);
         if (args) {
             element.setAttribute('data-l10n-args', JSON.stringify(args));
         }
     }
 
-    function getL10nAttributes (element) {
+    function getL10nAttributes(element) {
         return {
             id: element.getAttribute('data-l10n-id'),
             args: JSON.parse(element.getAttribute('data-l10n-args'))
         };
     }
 
-    function getTranslatableChildren (element) {
+    function getTranslatableChildren(element) {
         return element ? element.querySelectorAll('*[data-l10n-id]') : [];
     }
 
-    function localizeElement (element, id, args) {
+    function localizeElement(element, id, args) {
         if (!id) {
             element.removeAttribute('data-l10n-id');
             element.removeAttribute('data-l10n-args');
@@ -1517,7 +1517,7 @@
         }
     }
 
-    function translateElement (element) {
+    function translateElement(element) {
         var l10n = getL10nAttributes(element);
 
         if (!l10n.id) {
@@ -1556,7 +1556,7 @@
         return true;
     }
 
-    function setTextContent (element, text) {
+    function setTextContent(element, text) {
         // standard case: no element children
         if (!element.firstElementChild) {
             element.textContent = text;
@@ -1569,7 +1569,7 @@
         var reNotBlank = /\S/;
         for (var child = element.firstChild; child; child = child.nextSibling) {
             if (child.nodeType === Node.TEXT_NODE && // eslint-disable-line no-undef
-          reNotBlank.test(child.nodeValue)) {
+                reNotBlank.test(child.nodeValue)) {
                 if (found) {
                     child.nodeValue = '';
                 } else {

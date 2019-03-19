@@ -17,7 +17,7 @@
 var vibration,
 	resultObjs = {},
 	threadCallback = null,
-   _utils = require("../../lib/utils");
+	_utils = require("../../lib/utils");
 
 module.exports = {
 
@@ -27,9 +27,9 @@ module.exports = {
 
 	// These methods call into JNEXT.vibration which handles the
 	// communication through the JNEXT plugin to vibration_js.cpp
-	
+
 	// Request vibration function
-	
+
 	vibration_request: function (success, fail, args, env) {
 		var result = new PluginResult(args, env);
 		resultObjs[result.callbackId] = result;
@@ -73,16 +73,16 @@ JNEXT.Vibration = function () {
 	self.vibration_request = function (callbackId, input) {
 		return JNEXT.invoke(self.m_id, "vibration_request " + callbackId + " " + JSON.stringify(input));
 	};
-// Fired by the Event framework (used by asynchronous callbacks)
-    self.onEvent = function (strData) {
-        var arData = strData.split(" "),
-            callbackId = arData[0],
+	// Fired by the Event framework (used by asynchronous callbacks)
+	self.onEvent = function (strData) {
+		var arData = strData.split(" "),
+			callbackId = arData[0],
 			result = resultObjs[callbackId],
-            data = arData.slice(1, arData.length).join(" ");
- 
-			result.callbackOk(data, false);
-			delete resultObjs[callbackId];
-    };
+			data = arData.slice(1, arData.length).join(" ");
+
+		result.callbackOk(data, false);
+		delete resultObjs[callbackId];
+	};
 
 	// ************************
 	// End of methods to edit

@@ -22,7 +22,7 @@
 /**
  * The CaptureError interface encapsulates all errors in the Capture API.
  */
-var CaptureError = function(c) {
+var CaptureError = function (c) {
    this.code = c || null;
 };
 

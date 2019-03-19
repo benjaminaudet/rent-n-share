@@ -21,7 +21,7 @@
 
 /* global PluginResult */
 
-function getModelName () {
+function getModelName() {
     var modelName = window.qnx.webplatform.device.modelName;
     // Pre 10.2 (meaning Z10 or Q10)
     if (typeof modelName === 'undefined') {
@@ -32,7 +32,7 @@ function getModelName () {
                 modelName = 'Q5';
             }
         } else if ((window.screen.height === 1280 && window.screen.width === 768) ||
-                   (window.screen.height === 768 && window.screen.width === 1280)) {
+            (window.screen.height === 768 && window.screen.width === 1280)) {
             modelName = 'Z10';
         } else {
             modelName = window.qnx.webplatform.deviceName;
@@ -42,7 +42,7 @@ function getModelName () {
     return modelName;
 }
 
-function getUUID () {
+function getUUID() {
     var uuid = '';
     try {
         // Must surround by try catch because this will throw if the app is missing permissions

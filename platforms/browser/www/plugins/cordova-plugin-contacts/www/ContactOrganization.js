@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-contacts.ContactOrganization", function(require, exports, module) { /*
+cordova.define("cordova-plugin-contacts.ContactOrganization", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,25 +19,25 @@ cordova.define("cordova-plugin-contacts.ContactOrganization", function(require, 
  *
 */
 
-/**
-* Contact organization.
-* @constructor
-* @param pref
-* @param type
-* @param name
-* @param dept
-* @param title
-*/
+    /**
+    * Contact organization.
+    * @constructor
+    * @param pref
+    * @param type
+    * @param name
+    * @param dept
+    * @param title
+    */
 
-var ContactOrganization = function(pref, type, name, dept, title) {
-    this.id = null;
-    this.pref = (typeof pref != 'undefined' ? pref : false);
-    this.type = type || null;
-    this.name = name || null;
-    this.department = dept || null;
-    this.title = title || null;
-};
+    var ContactOrganization = function (pref, type, name, dept, title) {
+        this.id = null;
+        this.pref = (typeof pref != 'undefined' ? pref : false);
+        this.type = type || null;
+        this.name = name || null;
+        this.department = dept || null;
+        this.title = title || null;
+    };
 
-module.exports = ContactOrganization;
+    module.exports = ContactOrganization;
 
 });

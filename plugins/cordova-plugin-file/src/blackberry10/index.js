@@ -22,7 +22,7 @@
 /* global PluginResult */
 
 module.exports = {
-    setSandbox : function (success, fail, args, env) {
+    setSandbox: function (success, fail, args, env) {
         require("lib/webview").setSandbox(JSON.parse(decodeURIComponent(args[0])));
         new PluginResult(args, env).ok();
     },

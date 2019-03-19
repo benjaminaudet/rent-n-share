@@ -16,76 +16,91 @@
             <label class="mdl-textfield__label" for="password">Password</label>
           </div>
           <div class="mdl-textfield mdl-js-textfield">
-            <input class="mdl-textfield__input" v-model="confirmPassword" type="password" id="confirm-password">
+            <input
+              class="mdl-textfield__input"
+              v-model="confirmPassword"
+              type="password"
+              id="confirm-password"
+            >
             <label class="mdl-textfield__label" for="password">Confirm Password</label>
           </div>
         </form>
         <div class="button">
-          <button v-on:click="signUp" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-            Sign Up
-          </button>
+          <button
+            v-on:click="signUp"
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+          >Sign Up</button>
         </div>
       </div>
-      <errorBox 
-        v-bind:active="this.error.active"
-        v-bind:message="this.error.message"
-      ></errorBox>
+      <errorBox v-bind:active="this.error.active" v-bind:message="this.error.message"></errorBox>
     </div>
   </div>
 </template>
 
 <script>
-  import _ from 'underscore';
-  import firebase from 'firebase';
-  import errorBox from './error-box.vue';
+import _ from "underscore";
+import firebase from "firebase";
+import errorBox from "./error-box.vue";
 
-  export default {
-    components: {
-      errorBox
-    },
-    methods: {
-      signUp: function() {
-        if (this.password != this.confirmPassword) {
-          this.error.active = true;
-          this.error.message = "Both password fields must match";
-          this.password = this.confirmPassword = '';
-          setTimeout(_.bind(() => {
+export default {
+  components: {
+    errorBox
+  },
+  methods: {
+    signUp: function() {
+      if (this.password != this.confirmPassword) {
+        this.error.active = true;
+        this.error.message = "Both password fields must match";
+        this.password = this.confirmPassword = "";
+        setTimeout(
+          _.bind(() => {
             this.error.active = false;
-          }, this), 3000);
-          return;
-        }
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+          }, this),
+          3000
+        );
+        return;
+      }
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then(
           user => {
             user = firebase.auth().currentUser;
-            user.updateProfile({
-              displayName: this.username,
-            }).then(function() {
-              localStorage.setItem('signedUp', true);
-            }).catch(function(error) {
-              console.error('error on display name updating')
-            });
+            user
+              .updateProfile({
+                displayName: this.username
+              })
+              .then(function() {
+                localStorage.setItem("signedUp", true);
+              })
+              .catch(function(error) {
+                console.error("error on display name updating");
+              });
           },
           error => {
             this.error.active = true;
             this.error.message = error.message;
-            setTimeout(_.bind(() => {
-              this.error.active = false;
-            }, this), 3000);
+            setTimeout(
+              _.bind(() => {
+                this.error.active = false;
+              }, this),
+              3000
+            );
           }
-        )
-      }
-    },
-    data: () => {
-      return {
-        error: {
-          active: false,
-          message: ''
-        },
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      }
+        );
     }
+  },
+  data: () => {
+    return {
+      error: {
+        active: false,
+        message: ""
+      },
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    };
   }
+};
 </script>

@@ -32,7 +32,7 @@ var IABExecs = {
         if (browserWrap) {
             browserWrap.parentNode.removeChild(browserWrap);
             browserWrap = null;
-            if (typeof (win) === 'function') win({type: 'exit'});
+            if (typeof (win) === 'function') win({ type: 'exit' });
         }
     },
 
@@ -68,7 +68,7 @@ var IABExecs = {
             }
             features[tup[0]] = tup[1];
         });
-        function updateIframeSizeNoLocation () {
+        function updateIframeSizeNoLocation() {
             browserWrap.style.width = window.innerWidth + 'px';
             browserWrap.style.height = window.innerHeight + 'px';
             browserWrap.style.zIndex = '999999999';
@@ -165,13 +165,13 @@ var IABExecs = {
                 });
             }, false);
             browserElem.addEventListener('mozbrowserloadend', function (e) {
-                win({type: 'loadstop'});
+                win({ type: 'loadstop' });
             }, false);
             browserElem.addEventListener('mozbrowsererror', function (e) {
-                win({type: 'loaderror'});
+                win({ type: 'loaderror' });
             }, false);
             browserElem.addEventListener('mozbrowserclose', function (e) {
-                win({type: 'exit'});
+                win({ type: 'exit' });
             }, false);
         } else {
             window.location = strUrl;

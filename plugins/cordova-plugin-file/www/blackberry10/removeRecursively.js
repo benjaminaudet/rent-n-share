@@ -57,6 +57,6 @@ module.exports = function (success, fail, args) {
     resolve(function (fs) {
         requestAnimationFrame(function () {
             fs.nativeEntry.removeRecursively(onSuccess, onFail);
-        }); 
+        });
     }, fail, [uri]);
 };

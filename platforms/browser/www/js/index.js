@@ -52,10 +52,10 @@ firebase.initializeApp({
 });
 
 const firestore = firebase.firestore();
-const settings = {/* your settings... */ timestampsInSnapshots: true};
+const settings = {/* your settings... */ timestampsInSnapshots: true };
 firestore.settings(settings);
 
-firebase.auth().onAuthStateChanged(function(user) {
+firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     router.push('feed');
   } else {
@@ -78,31 +78,31 @@ Vue.filter('capitalize', function (value) {
 })
 
 const app = new Vue({
-    router,
-    components: { 
-      Home,
-      Signin,
-      Signup,
-      Onboarding,
-      Feed,
-      Create,
-      Chat,
-      Navigation,
-      BackHeader,
-      Fab,
-    },
-    methods: {
-      updateCurrentPage: function(page) {
-        this.currentPage = page.label;
-        this.nav = page.nav ? page.nav : 'nav';
-      }
-    },
-    data: function() {
-      return {
-        currentPage: localStorage.getItem('signedUp') ? 'Sign In' : 'Sign Up',
-        nav: localStorage.getItem('onboardingDone') ? 'nav' : 'none'
-      }
+  router,
+  components: {
+    Home,
+    Signin,
+    Signup,
+    Onboarding,
+    Feed,
+    Create,
+    Chat,
+    Navigation,
+    BackHeader,
+    Fab,
+  },
+  methods: {
+    updateCurrentPage: function (page) {
+      this.currentPage = page.label;
+      this.nav = page.nav ? page.nav : 'nav';
     }
+  },
+  data: function () {
+    return {
+      currentPage: localStorage.getItem('signedUp') ? 'Sign In' : 'Sign Up',
+      nav: localStorage.getItem('onboardingDone') ? 'nav' : 'none'
+    }
+  }
 }).$mount('#vue-app')
 
 router.afterEach((to, from, next) => {

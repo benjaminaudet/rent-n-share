@@ -34,7 +34,7 @@ var exec = require('cordova/exec'),
  *      To read from the SD card, the file name is "sdcard/my_file.txt"
  * @constructor
  */
-var FileReader = function() {
+var FileReader = function () {
     this._readyState = 0;
     this._error = null;
     this._result = null;
@@ -49,29 +49,29 @@ var FileReader = function() {
  * (Note attempts to allocate more than a few MB of contiguous memory on the native side are likely to cause
  * OOM exceptions, while the JS engine seems to have fewer problems managing large strings or ArrayBuffers.)
  */
-FileReader.READ_CHUNK_SIZE = 256*1024;
+FileReader.READ_CHUNK_SIZE = 256 * 1024;
 
 // States
 FileReader.EMPTY = 0;
 FileReader.LOADING = 1;
 FileReader.DONE = 2;
 
-utils.defineGetter(FileReader.prototype, 'readyState', function() {
+utils.defineGetter(FileReader.prototype, 'readyState', function () {
     return this._localURL ? this._readyState : this._realReader.readyState;
 });
 
-utils.defineGetter(FileReader.prototype, 'error', function() {
-    return this._localURL ? this._error: this._realReader.error;
+utils.defineGetter(FileReader.prototype, 'error', function () {
+    return this._localURL ? this._error : this._realReader.error;
 });
 
-utils.defineGetter(FileReader.prototype, 'result', function() {
-    return this._localURL ? this._result: this._realReader.result;
+utils.defineGetter(FileReader.prototype, 'result', function () {
+    return this._localURL ? this._result : this._realReader.result;
 });
 
 function defineEvent(eventName) {
-    utils.defineGetterSetter(FileReader.prototype, eventName, function() {
+    utils.defineGetterSetter(FileReader.prototype, eventName, function () {
         return this._realReader[eventName] || null;
-    }, function(value) {
+    }, function (value) {
         this._realReader[eventName] = value;
     });
 }
@@ -85,7 +85,7 @@ defineEvent('onabort');        // When the read has been aborted. For instance, 
 function initRead(reader, file) {
     // Already loading something
     if (reader.readyState == FileReader.LOADING) {
-      throw new FileError(FileError.INVALID_STATE_ERR);
+        throw new FileError(FileError.INVALID_STATE_ERR);
     }
 
     reader._result = null;
@@ -101,7 +101,7 @@ function initRead(reader, file) {
     }
 
     if (reader.onloadstart) {
-        reader.onloadstart(new ProgressEvent("loadstart", {target:reader}));
+        reader.onloadstart(new ProgressEvent("loadstart", { target: reader }));
     }
 }
 
@@ -136,7 +136,7 @@ function readSuccessCallback(readType, encoding, offset, totalSize, accumulate, 
         this._progress = Math.min(this._progress + CHUNK_SIZE, totalSize);
 
         if (typeof this.onprogress === "function") {
-            this.onprogress(new ProgressEvent("progress", {loaded:this._progress, total:totalSize}));
+            this.onprogress(new ProgressEvent("progress", { loaded: this._progress, total: totalSize }));
         }
     }
 
@@ -156,11 +156,11 @@ function readSuccessCallback(readType, encoding, offset, totalSize, accumulate, 
         this._readyState = FileReader.DONE;
 
         if (typeof this.onload === "function") {
-            this.onload(new ProgressEvent("load", {target:this}));
+            this.onload(new ProgressEvent("load", { target: this }));
         }
 
         if (typeof this.onloadend === "function") {
-            this.onloadend(new ProgressEvent("loadend", {target:this}));
+            this.onloadend(new ProgressEvent("loadend", { target: this }));
         }
     }
 }
@@ -179,36 +179,36 @@ function readFailureCallback(e) {
     this._error = new FileError(e);
 
     if (typeof this.onerror === "function") {
-        this.onerror(new ProgressEvent("error", {target:this}));
+        this.onerror(new ProgressEvent("error", { target: this }));
     }
 
     if (typeof this.onloadend === "function") {
-        this.onloadend(new ProgressEvent("loadend", {target:this}));
+        this.onloadend(new ProgressEvent("loadend", { target: this }));
     }
 }
 
 /**
  * Abort reading file.
  */
-FileReader.prototype.abort = function() {
+FileReader.prototype.abort = function () {
     if (origFileReader && !this._localURL) {
         return this._realReader.abort();
     }
     this._result = null;
 
     if (this._readyState == FileReader.DONE || this._readyState == FileReader.EMPTY) {
-      return;
+        return;
     }
 
     this._readyState = FileReader.DONE;
 
     // If abort callback
     if (typeof this.onabort === 'function') {
-        this.onabort(new ProgressEvent('abort', {target:this}));
+        this.onabort(new ProgressEvent('abort', { target: this }));
     }
     // If load end callback
     if (typeof this.onloadend === 'function') {
-        this.onloadend(new ProgressEvent('loadend', {target:this}));
+        this.onloadend(new ProgressEvent('loadend', { target: this }));
     }
 };
 
@@ -218,7 +218,7 @@ FileReader.prototype.abort = function() {
  * @param file          {File} File object containing file properties
  * @param encoding      [Optional] (see http://www.iana.org/assignments/character-sets)
  */
-FileReader.prototype.readAsText = function(file, encoding) {
+FileReader.prototype.readAsText = function (file, encoding) {
     if (initRead(this, file)) {
         return this._realReader.readAsText(file, encoding);
     }
@@ -227,7 +227,7 @@ FileReader.prototype.readAsText = function(file, encoding) {
     var enc = encoding ? encoding : "UTF-8";
 
     var totalSize = file.end - file.start;
-    readSuccessCallback.bind(this)("readAsText", enc, file.start, totalSize, function(r) {
+    readSuccessCallback.bind(this)("readAsText", enc, file.start, totalSize, function (r) {
         if (this._progress === 0) {
             this._result = "";
         }
@@ -243,13 +243,13 @@ FileReader.prototype.readAsText = function(file, encoding) {
  *
  * @param file          {File} File object containing file properties
  */
-FileReader.prototype.readAsDataURL = function(file) {
+FileReader.prototype.readAsDataURL = function (file) {
     if (initRead(this, file)) {
         return this._realReader.readAsDataURL(file);
     }
 
     var totalSize = file.end - file.start;
-    readSuccessCallback.bind(this)("readAsDataURL", null, file.start, totalSize, function(r) {
+    readSuccessCallback.bind(this)("readAsDataURL", null, file.start, totalSize, function (r) {
         var commaIndex = r.indexOf(',');
         if (this._progress === 0) {
             this._result = r;
@@ -264,13 +264,13 @@ FileReader.prototype.readAsDataURL = function(file) {
  *
  * @param file          {File} File object containing file properties
  */
-FileReader.prototype.readAsBinaryString = function(file) {
+FileReader.prototype.readAsBinaryString = function (file) {
     if (initRead(this, file)) {
         return this._realReader.readAsBinaryString(file);
     }
 
     var totalSize = file.end - file.start;
-    readSuccessCallback.bind(this)("readAsBinaryString", null, file.start, totalSize, function(r) {
+    readSuccessCallback.bind(this)("readAsBinaryString", null, file.start, totalSize, function (r) {
         if (this._progress === 0) {
             this._result = "";
         }
@@ -283,13 +283,13 @@ FileReader.prototype.readAsBinaryString = function(file) {
  *
  * @param file          {File} File object containing file properties
  */
-FileReader.prototype.readAsArrayBuffer = function(file) {
+FileReader.prototype.readAsArrayBuffer = function (file) {
     if (initRead(this, file)) {
         return this._realReader.readAsArrayBuffer(file);
     }
 
     var totalSize = file.end - file.start;
-    readSuccessCallback.bind(this)("readAsArrayBuffer", null, file.start, totalSize, function(r) {
+    readSuccessCallback.bind(this)("readAsArrayBuffer", null, file.start, totalSize, function (r) {
         var resultArray = (this._progress === 0 ? new Uint8Array(totalSize) : new Uint8Array(this._result));
         resultArray.set(new Uint8Array(r), this._progress);
         this._result = resultArray.buffer;

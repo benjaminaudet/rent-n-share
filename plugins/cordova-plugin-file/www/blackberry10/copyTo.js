@@ -45,7 +45,7 @@ module.exports = function (success, fail, args, move) {
     function onSuccess() {
         resolve(
             function (entry) {
-                if (typeof(success) === 'function') {
+                if (typeof (success) === 'function') {
                     success(entry);
                 }
             },
@@ -54,7 +54,7 @@ module.exports = function (success, fail, args, move) {
         );
     }
     function onFail(error) {
-        if (typeof(fail) === 'function') {
+        if (typeof (fail) === 'function') {
             if (error && error.code) {
                 //set error codes expected by mobile spec
                 if (uri === destination) {
@@ -94,11 +94,11 @@ module.exports = function (success, fail, args, move) {
                         blob = new Blob([contents]);
                     resolve(function (destEntry) {
                         requestAnimationFrame(function () {
-                            destEntry.nativeEntry.getFile(fileName, {create: true}, function (fileEntry) {
+                            destEntry.nativeEntry.getFile(fileName, { create: true }, function (fileEntry) {
                                 writeFile(fileEntry, blob, entry);
                             }, onFail);
                         });
-                    }, onFail, [destination]);   
+                    }, onFail, [destination]);
                 };
                 reader.onerror = onFail;
                 reader.readAsArrayBuffer(file);
@@ -124,7 +124,7 @@ module.exports = function (success, fail, args, move) {
                     }, onFail, [destination + fileName]);
                 }, onFail);
             }
-        }, onFail, [destination]); 
+        }, onFail, [destination]);
     }
 
     if (destination + fileName === uri) {

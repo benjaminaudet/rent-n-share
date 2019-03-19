@@ -27,4 +27,4 @@ module.exports = function FileUploadResult(size, code, content) {
 	this.bytesSent = size;
 	this.responseCode = code;
 	this.response = content;
- };
+};

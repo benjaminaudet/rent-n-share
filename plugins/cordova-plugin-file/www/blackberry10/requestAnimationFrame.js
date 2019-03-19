@@ -32,7 +32,7 @@
  */
 
 var requestAnimationFrame = window.requestAnimationFrame;
-if (typeof(requestAnimationFrame) !== 'function') {
+if (typeof (requestAnimationFrame) !== 'function') {
     requestAnimationFrame = function (cb) { cb(); };
 }
 module.exports = requestAnimationFrame;
