@@ -7,16 +7,37 @@
       <h1>{{announce.title}}</h1>
       <p>{{announce.description}}</p>
       <div id="infos">
-        <span>Minimum rent time: 1 week</span>
-        <br>
-        <span>Maximum rent time: {{announce.last}} week</span>
-        <br>
-        <span>Price per week: {{announce.price}}:-</span>
-        <br>
-        <span>Guarrantee: {{announce.price}}:-</span>
-        <br>
-        <span>Meeting place: {{announce.meetingLocation}}</span>
-        <br>
+        <ul>
+          <li>
+            <span>
+              <i class="far fa-clock"></i> 1 week
+            </span>
+          </li>
+          <li>
+            <span>
+              <i class="fas fa-clock"></i>
+              {{announce.last}} week
+            </span>
+          </li>
+          <li>
+            <span>
+              <i class="fas fa-tags"></i>
+              {{announce.price}}:-
+            </span>
+          </li>
+          <li>
+            <span>
+              <i class="fas fa-life-ring"></i>
+              {{announce.price}}:-
+            </span>
+          </li>
+          <li>
+            <span>
+              <i class="fas fa-map-marker-alt"></i>
+              {{announce.meetingLocation}}
+            </span>
+          </li>
+        </ul>
       </div>
       <div v-show="announce.id" class="button">
         <button
@@ -87,3 +108,4 @@ export default {
   }
 };
 </script>
+

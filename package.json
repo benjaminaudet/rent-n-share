@@ -25,6 +25,7 @@
     }
   },
   "dependencies": {
+    "autodll-webpack-plugin": "^0.4.2",
     "cordova-ios": "~4.5.5",
     "cordova-plugin-battery-status": "~1.2.4",
     "cordova-plugin-camera": "~2.4.1",
@@ -40,13 +41,25 @@
     "cordova-plugin-network-information": "~1.3.3",
     "cordova-plugin-vibrate-intense": "^1.0.1",
     "cordova-plugin-vibration": "~2.1.5",
+    "css-loader": "^2.1.1",
     "es6-promise-plugin": "^4.2.2",
+    "expose-loader": "^0.7.5",
+    "firebase": "^5.9.2",
+    "jquery": "^3.3.1",
+    "node-sass": "^4.11.0",
     "phonegap-plugin-image-capture": "git+https://github.com/phonegap/phonegap-plugin-image-capture.git",
-    "phonegap-plugin-media-stream": "^1.2.1"
+    "phonegap-plugin-media-stream": "^1.2.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "underscore": "^1.9.1",
+    "vue": "^2.6.10",
+    "vue-loader": "^15.7.0",
+    "vue-router": "^3.0.2",
+    "vue-template-compiler": "^2.6.10"
   },
   "devDependencies": {
     "webpack": "^4.25.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.3.0"
   },
   "description": "",
   "mode": "dev",

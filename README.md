@@ -12,6 +12,16 @@ $ npm install
 $ npx webpack
 ```
 
+### Knowns problems
+## Installing packages
+
+There is a weird behavior with npm install sometimes, didn't had the time to fix it.
+If you have any problems while installing packages through `npm install`, try this, it should fix the problem.
+
+```
+npm install vue vue-loader css-loader vue-template-compiler vue-router node-sass sass-loader postcss-loader expose-loader jquery firebase autodll-webpack-plugin underscore --saveDev
+```
+
 ### Launch the application
 
 ```
