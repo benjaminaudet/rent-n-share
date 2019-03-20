@@ -4,3 +4,7 @@
 www/dist/
 
 node_modules/
+
+platforms/
+
+plugins/
