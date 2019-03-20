@@ -10,7 +10,6 @@ import QrScanner from "./libs/qr-scanner.min.js";
 export default {
   mounted: function() {
     let id = this.$route.params.id;
-    console.log("scan");
     const contentType = "image/png";
     navigator.camera.getPicture(
       onSuccess,
@@ -27,9 +26,6 @@ export default {
         window.qrcode.decode(data);
       }
       decodeImageFromBase64(imageURI, function(decodedInformation) {
-        console.log(decodedInformation);
-        console.log(id);
-        console.log(decodedInformation == id);
         if (decodedInformation.includes("error")) {
           alert(decodedInformation);
         } else if (decodedInformation == id) {

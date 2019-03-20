@@ -72,7 +72,6 @@ export default {
     },
     readFile: function(e) {
       var files = e.target.files || e.dataTransfer.files;
-      console.log(files);
       if (!files.length) return;
       if (files && files[0]) {
         var FR = new FileReader();
@@ -98,7 +97,6 @@ export default {
         })
         .then(
           _.bind(function() {
-            console.log("message sent");
             this.$router.go(-1);
           }, this)
         )

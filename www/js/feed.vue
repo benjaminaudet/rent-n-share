@@ -49,7 +49,6 @@ export default {
   },
   methods: {
     displayOrder: function(id) {
-      console.log(id);
       this.$router.push({ name: "order", params: { id: id } });
     }
   },

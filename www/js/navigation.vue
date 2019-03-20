@@ -29,11 +29,9 @@ import firebase from "firebase";
 
 export default {
   created: function() {
-    console.log("UPDATED");
     this.connected = firebase.auth().currentUser ? true : false;
   },
   updated: function() {
-    console.log("UPDATED");
     this.connected = firebase.auth().currentUser ? true : false;
   },
   props: ["currentPage"],
@@ -47,7 +45,6 @@ export default {
         .signOut()
         .then(
           _.bind(function() {
-            console.log("Signed Out !");
             this.close();
           }, this)
         );
